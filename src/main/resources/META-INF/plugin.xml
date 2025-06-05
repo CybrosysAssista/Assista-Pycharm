@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<idea-plugin>
+    <id>com.cybrosys.odoo.code</id>
+    <name>Cybrosys Assista</name>
+    <vendor>Cybrosys Technologies</vendor>
+    <description><![CDATA[
+        <h2>🚀 Odoo Helper Plugin for PyCharm</h2>
+
+        <p><em>The ultimate developer assistant for building high-quality Odoo modules faster and smarter inside PyCharm.</em></p>
+
+        <hr />
+
+        <h3>🧱 Module Template Generator</h3>
+        <img src="https://raw.githubusercontent.com/jarvis-mark2008/plugin-image/main/module_creator.gif" alt="Module Creator Demo" />
+        <p>Create ready-to-use Odoo modules with just a few clicks:</p>
+        <ul>
+          <li>📦 Basic & Advanced Odoo Module</li>
+          <li>🎨 Website Theme Module</li>
+          <li>⚙️ Basic & Advanced OWL Module</li>
+          <li>🔔 Systray Module</li>
+        </ul>
+
+        <h3>📁 Smart File Creator</h3>
+        <p>Generate Odoo boilerplate files instantly:</p>
+        <ul>
+          <li><strong>🐍 Python:</strong> <code>__init__.py</code>, <code>__manifest__.py</code>, Controller, Model</li>
+          <li><strong>📝 XML:</strong> Empty, Basic/Advanced View, Inherited View, Report, Menu, Actions, Settings, Cron Jobs</li>
+          <li><strong>🔐 Security:</strong> Groups, Rules (XML), Access Rights (CSV)</li>
+        </ul>
+
+        <h3>💡 Intelligent Code Suggestions</h3>
+        <p>Boost productivity with context-aware autocompletion:</p>
+
+        <strong>✨ Python:</strong>
+        <ul>
+          <li>Fields, Available Models</li>
+          <li>CRUD Methods (<code>create</code>, <code>write</code>, <code>unlink</code>, etc.)</li>
+          <li><code>@api.onchange</code>, <code>@api.depends</code>, <code>@api.constrains</code></li>
+          <li>Auto-imports, Class Boilerplates (3 types), Exception Templates</li>
+          <li>Return Actions, RainbowMan Effects, Sticky Notifications</li>
+        </ul>
+
+        <strong>✨ XML:</strong>
+        <ul>
+          <li>All View Types (form, tree, kanban, etc.)</li>
+          <li>Field Attributes, Buttons (normal, smart), Notebooks & Pages</li>
+          <li>Menus, Actions, Groups, Inherited Views</li>
+        </ul>
+
+        <h3>⚠️ Odoo Standards Awareness</h3>
+        <ul>
+          <li>Instant feedback on non-standard patterns & best practice violations</li>
+        </ul>
+
+        <hr />
+
+        <h3>🧪 Compatibility</h3>
+        <ul>
+          <li>✅ PyCharm 2023.2+</li>
+          <li>✅ Supports Community & Professional editions</li>
+          <li>✅ Works with Odoo 12 through Odoo 17</li>
+        </ul>
+
+        <h3>🌐 Useful Links</h3>
+        <ul>
+          <li><a href="https://github.com/yourusername/odoo-pycharm-plugin">GitHub Repository</a></li>
+          <li><a href="https://github.com/yourusername/odoo-pycharm-plugin/issues">Report an Issue</a></li>
+        </ul>
+
+        <p><strong>License:</strong> MIT – Free to use, modify, and share.</p>
+        ]]>
+    </description>
+
+
+
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.python</depends>
+    <depends>net.seesharpsoft.intellij.plugins.csv</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <completion.contributor
+                language="Python"
+                implementationClass="completion.OdooFieldCompletionContributor"/>
+        <completion.contributor language="Python"
+                                implementationClass="completion.OdooModelCompletionContributor"/>
+        <completion.contributor language="XML"
+                                implementationClass="completion.OdooXmlCompletionContributor"/>
+        <completion.contributor language="Python"
+                                implementationClass="completion.OdooRelationalFieldCompletionContributor"/>
+
+        <projectService serviceImplementation="completion.OdooModelProjectService"/>
+
+        <localInspection language="XML" implementationClass="standards.OdooXmlInspection"
+                         displayName="XML" groupBundle="messages.InspectionsBundle" enabledByDefault="true"
+                         groupKey="group.names.probable.bugs" level="WARNING"/>
+        <localInspection language="Python" implementationClass="standards.OdooPythonInspection"
+                         displayName="Python" groupBundle="messages.InspectionsBundle" enabledByDefault="true"
+                         groupKey="group.names.probable.bugs" level="WARNING"/>
+        <localInspection implementationClass="standards.OdooCSVInspection"
+                         displayName="Python" groupBundle="messages.InspectionsBundle" enabledByDefault="true"
+                         groupKey="group.names.probable.bugs" level="WARNING" language=""/>
+        <fileBasedIndex implementation="indexing.OdooModelIndex"/>
+        <fileBasedIndex implementation="indexing.OdooModelFieldIndex"/>
+    </extensions>
+
+    <actions>
+        <group id="Odoo.NewOdooFile" class="actions.OdooFileAction" text="Odoo Files" popup="true">
+            <add-to-group group-id="NewGroup" anchor="first"/>
+        </group>
+        <group id="Odoo.ModuleTemplates"
+               text="Odoo Module Templates"
+               popup="true">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
+            <action id="Odoo.CreateBasicModule"
+                    class="actions.CreateBasicModuleAction"
+                    text="Create Basic Module"
+                    description="Create a basic Odoo module"/>
+
+            <action id="Odoo.CreateAdvancedModule"
+                    class="actions.CreateAdvancedModuleAction"
+                    text="Create Advanced Module"
+                    description="Create an advanced Odoo module"/>
+
+            <action id="Odoo.CreateWebsiteThemeModule"
+                    class="actions.CreateWebsiteThemeModuleAction"
+                    text="Create Website Theme Module"
+                    description="Create an Website Theme module"/>
+
+            <action id="Odoo.CreateOwlBasicModule"
+                    class="actions.CreateBasicOwlModuleAction"
+                    text="Create Owl basic Module"
+                    description="Create an basic Owl module"/>
+
+            <action id="Odoo.CreateOwlAdvanceModule"
+                    class="actions.CreateAdvanceOwlModuleAction"
+                    text="Create Owl Advance Module"
+                    description="Create an Advance Owl module"/>
+
+            <action id="Odoo.CreateSystrayIconModule"
+                    class="actions.CreateSystrayIconModuleAction"
+                    text="Create Systray Icon Module"
+                    description="Create an Systray Icon module"/>
+        </group>
+    </actions>
+</idea-plugin>

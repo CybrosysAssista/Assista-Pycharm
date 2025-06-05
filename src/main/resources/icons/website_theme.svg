@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <!-- Browser window background -->
+    <rect x="1" y="1" width="14" height="12" rx="2" fill="#4A90E2"/>
+
+    <!-- Browser top bar -->
+    <rect x="1" y="1" width="14" height="2.5" fill="#357ABD"/>
+
+    <!-- Paintbrush bristles -->
+    <path d="M10.5 10.5L11.5 9C12.1 8.4 12.1 7.6 11.5 7L10.5 6C9.9 5.4 9.1 5.4 8.5 6L7 7.5L10.5 10.5Z" fill="#F8E71C"/>
+
+    <!-- Paintbrush handle -->
+    <path d="M10.5 10.5L8.5 13.5C8.1 14.1 7.5 14.1 7.1 13.7C6.7 13.3 6.7 12.7 7.1 12.3L9.1 9.5L10.5 10.5Z" fill="#F5A623"/>
+
+    <!-- Circle buttons on top bar -->
+    <circle cx="3" cy="2.25" r="0.6" fill="#FFF"/>
+    <circle cx="5" cy="2.25" r="0.6" fill="#FFF"/>
+    <circle cx="7" cy="2.25" r="0.6" fill="#FFF"/>
+</svg>

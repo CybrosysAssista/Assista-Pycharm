@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+    <g fill="none" stroke="#FFF" stroke-width="1" transform="translate(1 1)">
+        <!-- Background -->
+        <rect x="0" y="0" width="14" height="14" rx="3" fill="#3592C4" stroke="none"/>
+
+        <!-- Gear-like icon in center -->
+        <circle cx="7" cy="7" r="2" fill="none"/>
+        <path d="M7 3.5 V2 M7 11 V12.5 M10.6 5.4 L11.7 4.3 M3.4 8.6 L2.3 9.7 M10.6 8.6 L11.7 9.7 M3.4 5.4 L2.3 4.3" />
+    </g>
+</svg>
