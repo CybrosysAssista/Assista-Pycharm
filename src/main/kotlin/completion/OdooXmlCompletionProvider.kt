@@ -137,69 +137,61 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
 
         // Form View
         resultSet.addElement(
-                    LookupElementBuilder.create("odoo_form_view")
-                        .withPresentableText("Odoo form_view")
-                        .withTypeText("Create Form View Template")
-                        .withInsertHandler(InsertHandler { ctx, _ ->
-                            val snippet = """
-                <record id="view_model_form" model="ir.ui.view">
-                    <field name="name">model.name.form</field>
-                    <field name="model">model.name</field>
-                    <field name="arch" type="xml">
-                        <form string="Form Title">
-                            <header>
-                                <!-- Buttons and statusbar go here -->
-                            </header>
-                            <sheet>
-                                <div class="oe_title">
-                                    <h1>
-                                        <field name="name"/>
-                                    </h1>
-                                </div>
-                                <group>
-                                    <group>
-                                        <field name="field1"/>
-                                        <field name="field2"/>
-                                    </group>
-                                    <group>
-                                        <field name="field3"/>
-                                        <field name="field4"/>
-                                    </group>
-                                </group>
-                                <notebook>
-                                    <page string="Tab 1">
-                                        <field name="line_ids">
-                                            <list editable="bottom">
-                                                <field name="line_field1"/>
-                                                <field name="line_field2"/>
-                                            </list>
-                                        </field>
-                                    </page>
-                                </notebook>
-                            </sheet>
-                        </form>
-                    </field>
-                </record>
-            """.trimIndent()
+            LookupElementBuilder.create("odoo_form_view")
+                .withPresentableText("Odoo form_view")
+                .withTypeText("Create Form View Template")
+                .withInsertHandler(InsertHandler { ctx, _ ->
+                    val snippet = """
+                |<record id="model_name_view_form" model="ir.ui.view">
+                |    <field name="name">model.name.view.form</field>
+                |    <field name="model">model.name</field>
+                |    <field name="arch" type="xml">
+                |        <form string="Form Title">
+                |            <header>
+                |                <!-- Buttons and statusbar go here -->
+                |            </header>
+                |            <sheet>
+                |                <div class="oe_title">
+                |                    <h1>
+                |                        <field name="name"/>
+                |                    </h1>
+                |                </div>
+                |                <group>
+                |                    <group>
+                |                        <field name="field1"/>
+                |                        <field name="field2"/>
+                |                    </group>
+                |                    <group>
+                |                        <field name="field3"/>
+                |                        <field name="field4"/>
+                |                    </group>
+                |                </group>
+                |                <notebook>
+                |                    <field name="line_ids">
+                |                       <field name="line_field1"/>
+                |                       <field name="line_field2"/>
+                |                    </field>
+                |                </notebook>
+                |            </sheet>
+                |        </form>
+                |    </field>
+                |</record>
+            """.trimMargin()
 
-                            val project = ctx.project
-                            val document = ctx.document
-                            val startOffset = ctx.startOffset
-                            val endOffset = ctx.selectionEndOffset
+                    val project = ctx.project
+                    val document = ctx.document
+                    val startOffset = ctx.startOffset
+                    val endOffset = ctx.selectionEndOffset
 
-                            document.replaceString(startOffset, endOffset, snippet)
+                    document.replaceString(startOffset, endOffset, snippet)
+                    PsiDocumentManager.getInstance(project).commitDocument(document)
 
-                            val psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document)
-                            PsiDocumentManager.getInstance(project).commitDocument(document)
+                    // Optional: Add one extra newline to make it feel complete
+                    document.insertString(startOffset + snippet.length, "\n")
+                    ctx.editor.caretModel.moveToOffset(startOffset + snippet.length + 1)
+                })
+        )
 
-                            if (psiFile != null) {
-                                val range = TextRange(startOffset, startOffset + snippet.length)
-                                CodeStyleManager.getInstance(project).reformatText(psiFile, range.startOffset, range.endOffset)
-                            }
-                            document.insertString(startOffset + snippet.length, "\n")
-                            ctx.editor.caretModel.moveToOffset(startOffset + snippet.length + 1)
-                        })
-                )
 
 
         // List View
@@ -209,8 +201,8 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
                 .withTypeText("Create List View Template")
                 .withInsertHandler(InsertHandler { ctx, _ ->
                     val snippet = """
-                <record id="view_model_list" model="ir.ui.view">
-                    <field name="name">model.name.list</field>
+                <record id="model_name_view_list" model="ir.ui.view">
+                    <field name="name">model.name.view.list</field>
                     <field name="model">model.name</field>
                     <field name="arch" type="xml">
                         <list string="List Title" decoration-danger="state=='cancel'" decoration-success="state=='done'">
@@ -249,8 +241,8 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
                 .withTypeText("Create Search View Template")
                 .withInsertHandler(InsertHandler { ctx, _ ->
                     val snippet = """
-                <record id="view_model_search" model="ir.ui.view">
-                    <field name="name">model.name.search</field>
+                <record id="model_name_view_search" model="ir.ui.view">
+                    <field name="name">model.name.view.search</field>
                     <field name="model">model.name</field>
                     <field name="arch" type="xml">
                         <search string="Search Title">
@@ -297,7 +289,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
                 .withTypeText("Create Action Window")
                 .withInsertHandler(InsertHandler { ctx, _ ->
                     val snippet = """
-                <record id="action_model" model="ir.actions.act_window">
+                <record id="model_name_action" model="ir.actions.act_window">
                     <field name="name">Model</field>
                     <field name="res_model">model.name</field>
                     <field name="view_mode">list,form</field>
@@ -334,8 +326,8 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
                 .withTypeText("Create Inherit View")
                 .withInsertHandler(InsertHandler { ctx, _ ->
                     val snippet = """
-                <record id="model_name_view_type_views_inherit" model="ir.ui.view">
-                    <field name="name">model_name.view_type.views.inherit</field>
+                <record id="model_name_view_type_view_inherit" model="ir.ui.view">
+                    <field name="name">model_name.view_type.view.inherit</field>
                     <field name="model">model.name</field>
                     <field name="inherit_id" ref="module.original_form_view_id"/>
                     <field name="arch" type="xml">
@@ -372,8 +364,8 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
                 .withTypeText("Create Pivot View")
                 .withInsertHandler(InsertHandler { ctx, _ ->
                     val snippet = """
-                <record id="model_name_pivot_view" model="ir.ui.view">
-                    <field name="name">model_name.pivot.view</field>
+                <record id="model_name_view_pivot" model="ir.ui.view">
+                    <field name="name">model_name.view.pivot</field>
                     <field name="model">model.name</field>
                     <field name="arch" type="xml">
                         <pivot string="ModelName Pivot">
@@ -409,8 +401,8 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
                 .withTypeText("Create Calender View")
                 .withInsertHandler(InsertHandler { ctx, _ ->
                     val snippet = """
-                <record id="model_name_calender_view" model="ir.ui.view">
-                    <field name="name">model_name.calender.view</field>
+                <record id="model_name_view_calender" model="ir.ui.view">
+                    <field name="name">model_name.view.calender</field>
                     <field name="model">model.name</field>
                     <field name="arch" type="xml">
                         <calender string="ModelName Calender">

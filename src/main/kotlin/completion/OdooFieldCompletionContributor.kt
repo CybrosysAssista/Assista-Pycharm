@@ -403,15 +403,19 @@ class OdooFieldCompletionContributor : CompletionContributor() {
                             .withInsertHandler { ctx, _ ->
                                 val editor = ctx.editor
                                 val document = editor.document
-
+                                val file = ctx.file
+                                val fileName = file.name
+                                val expectedModelName = fileName.replace(".py","")
+                                val modelClassName = expectedModelName.split("_").joinToString("") { it.replaceFirstChar { c -> c.uppercase() } }
+                                val modelTechnicalName = expectedModelName.replace("_",".")
                                 val offset = ctx.startOffset
                                 val line = document.getLineNumber(offset)
                                 val startOffset = document.getLineStartOffset(line)
                                 val indent = document.charsSequence.subSequence(startOffset, offset).toString()
                                     .takeWhile { it.isWhitespace() }
 
-                                val snippet = """class NewModel(models.Model):
-${indent}    _name = 'new.model'
+                                val snippet = """class ${modelClassName}(models.Model):
+${indent}    _name = '${modelTechnicalName}'
 ${indent}    _description = 'New Model Description'
 ${indent}    _order = 'id desc'  # Default ordering
 
@@ -429,14 +433,19 @@ ${indent}    name = fields.Char()"""
                             .withInsertHandler { ctx, _ ->
                                 val editor = ctx.editor
                                 val document = editor.document
-
+                                val file = ctx.file
+                                val fileName = file.name
+                                val expectedModelName = fileName.replace(".py","")
+                                val modelClassName = expectedModelName.split("_").joinToString("") { it.replaceFirstChar { c -> c.uppercase() } }
+                                val modelTechnicalName = expectedModelName.replace("_",".")
+                                println(fileName)
                                 val offset = ctx.startOffset
                                 val line = document.getLineNumber(offset)
                                 val startOffset = document.getLineStartOffset(line)
                                 val indent = document.charsSequence.subSequence(startOffset, offset).toString()
                                     .takeWhile { it.isWhitespace() }
-                                val snippet = """class WizardName(models.TransientModel):
-${indent}    _name = 'wizard.name'
+                                val snippet = """class ${modelClassName}(models.TransientModel):
+${indent}    _name = '${modelTechnicalName}'
 ${indent}    _description = 'Wizard Description'
 
 ${indent}    name = fields.Char()"""
@@ -452,14 +461,18 @@ ${indent}    name = fields.Char()"""
                             .withInsertHandler { ctx, _ ->
                                 val editor = ctx.editor
                                 val document = editor.document
-
+                                val file = ctx.file
+                                val fileName = file.name
+                                val expectedModelName = fileName.replace(".py","")
+                                val modelClassName = expectedModelName.split("_").joinToString("") { it.replaceFirstChar { c -> c.uppercase() } }
+                                val modelTechnicalName = expectedModelName.replace("_",".")
                                 val offset = ctx.startOffset
                                 val line = document.getLineNumber(offset)
                                 val startOffset = document.getLineStartOffset(line)
                                 val indent = document.charsSequence.subSequence(startOffset, offset).toString()
                                     .takeWhile { it.isWhitespace() }
-                                val snippet = """class AbstractName(models.AbstractModel):
-${indent}    _name = 'abstract.name'
+                                val snippet = """class ${modelClassName}(models.AbstractModel):
+${indent}    _name = '${modelTechnicalName}'
 ${indent}    _description = 'Abstract Model Description'
 
 ${indent}    name = fields.Char()"""
@@ -469,23 +482,83 @@ ${indent}    name = fields.Char()"""
                     )
 
                     resultSet.addElement(
-                        LookupElementBuilder.create("odoo_object_inherit")
-                            .withPresentableText("Odoo object inherit")
-                            .withTypeText("Create Odoo object inherit")
+                        LookupElementBuilder.create("odoo_extension_inheritance")
+                            .withPresentableText("Odoo Extension Inheritance")
+                            .withTypeText("Create Odoo Extension Inheritance")
                             .withInsertHandler { ctx, _ ->
                                 val editor = ctx.editor
                                 val document = editor.document
-
+                                val file = ctx.file
+                                val fileName = file.name
+                                print(ctx)
+                                val expectedModelName = fileName.replace(".py","")
+                                val modelClassName = expectedModelName.split("_").joinToString("") { it.replaceFirstChar { c -> c.uppercase() } }
+                                val modelTechnicalName = expectedModelName.replace("_",".")
                                 val offset = ctx.startOffset
                                 val line = document.getLineNumber(offset)
                                 val startOffset = document.getLineStartOffset(line)
                                 val indent = document.charsSequence.subSequence(startOffset, offset).toString()
                                     .takeWhile { it.isWhitespace() }
-                                val snippet = """class NewModule(models.Model):
-${indent}    _name = 'module.name'
-${indent}    _inherit = 'new_module.new_module'
+                                val snippet = """class ${modelClassName}(models.Model):
+${indent}    _name = '${modelTechnicalName}'
+${indent}    _inherit = 'model.to.inherit'
 
 ${indent}    name = fields.Char()"""
+                                document.replaceString(ctx.startOffset, ctx.tailOffset, snippet)
+                                editor.caretModel.moveToOffset(ctx.startOffset + snippet.length)
+                            }
+                    )
+
+                    resultSet.addElement(
+                        LookupElementBuilder.create("odoo_classical_inheritance")
+                            .withPresentableText("Odoo Classical Inheritance")
+                            .withTypeText("Create Odoo Classical Inheritance")
+                            .withInsertHandler { ctx, _ ->
+                                val editor = ctx.editor
+                                val document = editor.document
+                                val file = ctx.file
+                                val fileName = file.name
+                                print(ctx)
+                                val expectedModelName = fileName.replace(".py","")
+                                val modelClassName = expectedModelName.split("_").joinToString("") { it.replaceFirstChar { c -> c.uppercase() } }
+                                val modelTechnicalName = expectedModelName.replace("_",".")
+                                val offset = ctx.startOffset
+                                val line = document.getLineNumber(offset)
+                                val startOffset = document.getLineStartOffset(line)
+                                val indent = document.charsSequence.subSequence(startOffset, offset).toString()
+                                    .takeWhile { it.isWhitespace() }
+                                val snippet = """class ${modelClassName}(models.Model):
+${indent}    _inherit = '${modelTechnicalName}'
+
+${indent}    new_field = fields.Char()"""
+                                document.replaceString(ctx.startOffset, ctx.tailOffset, snippet)
+                                editor.caretModel.moveToOffset(ctx.startOffset + snippet.length)
+                            }
+                    )
+
+                    resultSet.addElement(
+                        LookupElementBuilder.create("odoo_delegation_inheritance")
+                            .withPresentableText("Odoo Delegation Inheritance")
+                            .withTypeText("Create Odoo Delegation Inheritance")
+                            .withInsertHandler { ctx, _ ->
+                                val editor = ctx.editor
+                                val document = editor.document
+                                val file = ctx.file
+                                val fileName = file.name
+                                print(ctx)
+                                val expectedModelName = fileName.replace(".py","")
+                                val modelClassName = expectedModelName.split("_").joinToString("") { it.replaceFirstChar { c -> c.uppercase() } }
+                                val modelTechnicalName = expectedModelName.replace("_",".")
+                                val offset = ctx.startOffset
+                                val line = document.getLineNumber(offset)
+                                val startOffset = document.getLineStartOffset(line)
+                                val indent = document.charsSequence.subSequence(startOffset, offset).toString()
+                                    .takeWhile { it.isWhitespace() }
+                                val snippet = """class ${modelClassName}(models.Model):
+${indent}    _name = '${modelTechnicalName}'
+${indent}    _inherits = {'res.partner': 'partner_id'}
+${indent}
+${indent}    partner_id = fields.Many2one('res.partner', required=True, ondelete='cascade')"""
                                 document.replaceString(ctx.startOffset, ctx.tailOffset, snippet)
                                 editor.caretModel.moveToOffset(ctx.startOffset + snippet.length)
                             }
