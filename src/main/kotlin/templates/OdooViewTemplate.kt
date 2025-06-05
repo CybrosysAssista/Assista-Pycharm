@@ -11,7 +11,7 @@ object OdooViewTemplate {
     }
 
     fun createBasicViewFile(modelName: String): String {
-        val pureName = modelName.replace(".xml", "")
+        val pureName = extractModelNameFromFile(modelName)
         val modelDotName = pureName.replace("_", ".")
 
         return """
@@ -226,7 +226,7 @@ object OdooViewTemplate {
     }
 
     fun createInheritViewFile(modelName: String): String {
-        val pureName = modelName.replace(".xml", "")
+        val pureName = extractModelNameFromFile(modelName)
         val modelDotName = pureName.replace("_", ".")
 
         return """
@@ -293,7 +293,7 @@ object OdooViewTemplate {
     }
 
     fun createReportViewFile(modelName: String): String {
-        val pureName = modelName.replace(".xml", "")
+        val pureName = extractModelNameFromFile(modelName)
         val modelDotName = pureName.replace("_", ".")
 
         return """
@@ -386,9 +386,9 @@ object OdooViewTemplate {
     }
 
     fun createSecurityGroupsViewFile(modelName: String): String {
-        val pureName = modelName.replace(".xml", "")
+        val pureName = extractModelNameFromFile(modelName)
         val modelTitle = pureName.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }.replace("_", " ")
-        val moduleName = pureName.split("_").first() // Assuming first part is module name
+        val moduleName = pureName.removeSuffix("_groups").removeSuffix("_group")
 
         return """
         <?xml version="1.0" encoding="utf-8"?>
@@ -409,7 +409,7 @@ object OdooViewTemplate {
             </record>
             
             <!-- Sample Users Data -->
-            <record id="user_${pureName}_demo_user" model="res.users">
+            <record id="${moduleName}_group_demo_user" model="res.users">
                 <field name="name">${modelTitle} Demo User</field>
                 <field name="login">${pureName}_demo_user</field>
                 <field name="password">${pureName}_demo_user</field>
@@ -421,17 +421,17 @@ object OdooViewTemplate {
     }
 
     fun createSecurityRuleViewFile(modelName: String): String {
-        val pureName = modelName.replace(".xml", "")
+        val pureName = extractModelNameFromFile(modelName).removeSuffix("_rules")
         val modelDotName = pureName.replace("_", ".")
         val modelUnderscore = modelDotName.replace(".", "_")
-        val moduleName = pureName.split("_").first()
+        val moduleName = pureName
 
         return """
         <?xml version="1.0" encoding="utf-8"?>
         <odoo>
             <!-- Access Rights -->
             <record id="access_${pureName}_user" model="ir.model.access">
-                <field name="name">${modelDotName}.user.access</field>
+                <field name="name">${modelDotName}.user</field>
                 <field name="model_id" ref="model_${modelUnderscore}"/>
                 <field name="group_id" ref="${moduleName}_group_user"/>
                 <field name="perm_read" eval="1"/>
@@ -441,7 +441,7 @@ object OdooViewTemplate {
             </record>
             
             <record id="access_${pureName}_manager" model="ir.model.access">
-                <field name="name">${modelDotName}.manager.access</field>
+                <field name="name">${modelDotName}.manager</field>
                 <field name="model_id" ref="model_${modelUnderscore}"/>
                 <field name="group_id" ref="${moduleName}_group_manager"/>
                 <field name="perm_read" eval="1"/>
@@ -477,7 +477,7 @@ object OdooViewTemplate {
     }
 
     fun createSequenceViewFile(modelName: String): String {
-        val pureName = modelName.replace(".xml", "")
+        val pureName = extractModelNameFromFile(modelName)
         val modelDotName = pureName.replace("_", ".")
 
         return """
@@ -498,7 +498,7 @@ object OdooViewTemplate {
     }
 
     fun createSettingsViewFile(modelName: String): String {
-        val pureName = modelName.replace(".xml", "")
+        val pureName = extractModelNameFromFile(modelName)
         val modelDotName = pureName.replace("_", ".")
 
         return """

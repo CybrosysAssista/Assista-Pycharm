@@ -91,7 +91,7 @@ class OdooModelFileAction : AnAction("Odoo Model File", "Create a new Odoo model
                 _name = '${modelSnake.replace("_", ".")}'
                 _description = '$modelClass'
 
-                name = fields.Char(string='Name', required=True)
+                name = fields.Char(string='Customer Name', required=True)
                 active = fields.Boolean(default=True)
 
                 @api.model_create_multi

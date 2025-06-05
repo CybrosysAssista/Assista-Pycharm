@@ -46,17 +46,17 @@ OdooBasicModule:
             _description = 'Sample Model'
             _inherit = ['mail.thread', 'mail.activity.mixin']
             
-            name = fields.Char(string='Name', required=True)
-            description = fields.Text(string='Description')
-            age = fields.Integer(string='Age')
-            date = fields.Date(string='Date')
-            active = fields.Boolean(string='Active', default=True)
+            name = fields.Char(string='Customer Name', required=True)
+            description = fields.Text(string='Information')
+            age = fields.Integer(string='Customer Age')
+            date = fields.Date(string='Start Date')
+            active = fields.Boolean(string='Available', default=True)
             priority = fields.Selection([
                 ('0', 'Low'),
                 ('1', 'Medium'),
                 ('2', 'High'),
                 ('3', 'Highest')
-            ], string='Priority', default='1')
+            ], string='Preference', default='1')
             state = fields.Selection([
                 ('draft', 'Draft'),
                 ('confirmed', 'Confirmed'),
@@ -240,17 +240,17 @@ OdooAdvanceModule:
             _description = 'Sample Model'
             _inherit = ['mail.thread', 'mail.activity.mixin']
 
-            name = fields.Char(string='Name', required=True, default="New")
-            description = fields.Text(string='Description')
-            age = fields.Integer(string='Age')
-            date = fields.Date(string='Date')
-            active = fields.Boolean(string='Active', default=True)
+            name = fields.Char(string='Customer Name', required=True, default="New")
+            description = fields.Text(string='Information')
+            age = fields.Integer(string='Customer Age')
+            date = fields.Date(string='Start Date')
+            active = fields.Boolean(string='Available', default=True)
             priority = fields.Selection([
                 ('0', 'Low'),
                 ('1', 'Medium'),
                 ('2', 'High'),
                 ('3', 'Highest')
-            ], string='Priority', default='1')
+            ], string='Preference', default='1')
             state = fields.Selection([
                 ('draft', 'Draft'),
                 ('confirmed', 'Confirmed'),
@@ -690,17 +690,17 @@ OwlBasicModule:
             _description = 'Sample Model'
             _inherit = ['mail.thread', 'mail.activity.mixin']
         
-            name = fields.Char(string='Name', required=True)
-            description = fields.Text(string='Description')
-            age = fields.Integer(string='Age')
-            date = fields.Date(string='Date')
-            active = fields.Boolean(string='Active', default=True)
+            name = fields.Char(string='Customer Name', required=True)
+            description = fields.Text(string='Information')
+            age = fields.Integer(string='Customer Age')
+            date = fields.Date(string='Start Date')
+            active = fields.Boolean(string='Available', default=True)
             priority = fields.Selection([
                 ('0', 'Low'),
                 ('1', 'Medium'),
                 ('2', 'High'),
                 ('3', 'Highest')
-            ], string='Priority', default='1')
+            ], string='Preference', default='1')
             state = fields.Selection([
                 ('draft', 'Draft'),
                 ('confirmed', 'Confirmed'),
@@ -1023,22 +1023,22 @@ OwlAdvanceModule:
             _description = 'Sample Model'
             _inherit = ['mail.thread']
 
-            name = fields.Char(string="Name", default=lambda self: _('New'), readonly=True, copy=False,)
+            name = fields.Char(string="Sequence", default=lambda self: _('New'), readonly=True, copy=False,)
             state = fields.Selection([
                 ('draft', 'Draft'),
                 ('confirmed', 'Confirmed'),
                 ('done', 'Done')
-            ], default='draft', string="State")
-            description = fields.Text(string="Description")
-            amount = fields.Float(string="Amount")
+            ], default='draft', string="Status")
+            description = fields.Text(string="Information")
+            amount = fields.Float(string="Price")
             active = fields.Boolean(default=True)
-            date = fields.Date(string="Date", default=fields.Date.context_today)
-            company_id = fields.Many2one(comodel_name='res.company', string='Company',
+            date = fields.Date(string="Start Date", default=fields.Date.context_today)
+            company_id = fields.Many2one(comodel_name='res.company', string='Company Name',
                                          default=lambda self: self.env.company)
-            partner_id = fields.Many2one(comodel_name='res.partner', string='Partner', required=True)
+            partner_id = fields.Many2one(comodel_name='res.partner', string='Customer', required=True)
             user_id = fields.Many2one(
                 comodel_name='res.users',
-                string='User',
+                string='Assignee',
                 default=lambda self: self.env.user,
             )
 

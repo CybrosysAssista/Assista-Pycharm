@@ -12,7 +12,7 @@ object OdooModelTemplate {
             _name = '${className.replace(".", "_")}'
             _description = 'Description'
             
-            name = fields.Char(string='Name', required=True)
+            name = fields.Char(string='Customer Name', required=True)
             # Add your fields here
             
             # Add your methods here
@@ -58,7 +58,7 @@ object OdooModelTemplate {
             _name = 'module.name'
             _description = 'Model Description'
             
-            name = fields.Char(string='Name', required=True)
+            name = fields.Char(string='Customer Name', required=True)
             # Add your fields here
             
             # Add your methods here

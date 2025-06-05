@@ -149,19 +149,42 @@ class OdooXmlInspection : LocalInspectionTool() {
             }
 
             private fun checkRuleId(attribute: XmlAttribute, parent: XmlTag, id: String) {
-                val modelId = parent.subTags.firstOrNull { it.getAttribute("name")?.value == "model_id" }
-                val domainForce = parent.subTags.firstOrNull { it.getAttribute("name")?.value == "domain_force" }
 
-                modelId?.let {
-                    val modelName = it.getAttribute("ref")?.value?.replace("model_", "") ?: return
-                    val isMultiCompany = domainForce?.value?.text?.contains("company_id") == true
-                    val concernedGroup = if (isMultiCompany) "company" else "public"
-                    val expectedId = "${modelName}_rule_$concernedGroup"
-                    if (id != expectedId) {
-                        holder.registerProblem(attribute, "Rule ID should follow pattern: $expectedId")
+                val modelIdTag = parent.subTags.firstOrNull { it.getAttribute("name")?.value == "model_id" }
+                val domainForceTag = parent.subTags.firstOrNull { it.getAttribute("name")?.value == "domain_force" }
+                val groupTag = parent.subTags.firstOrNull { it.getAttribute("name")?.value == "groups" }
+
+                modelIdTag?.let {
+                    val modelRef = it.getAttribute("ref")?.value ?: return
+                    val modelName = modelRef.removePrefix("model_")
+
+                    val domainForce = domainForceTag?.value?.text ?: ""
+                    val groupRef = groupTag?.value?.text ?: ""
+
+                    val isMultiCompany = "company_id" in domainForce
+
+                    val concernedGroup = when {
+                        isMultiCompany -> "company"
+                        "base.group_system" in groupRef -> "admin"
+                        "base.group_public" in groupRef -> "public"
+                        "base.group_user" in groupRef -> "user"
+                        "base.group_portal" in groupRef -> "portal"
+                        else -> "custom"
+                    }
+
+                    val expectedId = "${modelName}_rule_${concernedGroup}"
+                    if (concernedGroup == "custom"){
+                        if (!id.startsWith("${modelName}_rule_")){
+                            holder.registerProblem(attribute, "Rule ID should follow pattern: \"${modelName}_rule_<Rule-Name>")
+                        }
+                    } else{
+                        if (id != expectedId) {
+                            holder.registerProblem(attribute, "Rule ID should follow pattern: $expectedId")
+                        }
                     }
                 }
             }
+
 
             private fun checkGroupId(attribute: XmlAttribute, id: String) {
                 val moduleName = holder.file.parent?.parent?.name ?: return
@@ -173,9 +196,11 @@ class OdooXmlInspection : LocalInspectionTool() {
 
             private fun checkWindowActionId(attribute: XmlAttribute, id: String) {
                 val label = Menu[id]
-                val modelName = id.split("_").firstOrNull() ?: ""
-                val expectedId = if (label != null) "${modelName}_action" else id
-                if (label != null && id != expectedId) {
+                val fileName = attribute.containingFile?.name ?: "Unknown"
+                val planName = fileName.replace(".xml", "")
+                val modelName = if (planName.endsWith("_views")) planName.removeSuffix("_views") else planName
+                val expectedId = "${modelName}_action"
+                if (id != expectedId) {
                     holder.registerProblem(attribute, "Window action ID should follow pattern: ${modelName}_action")
                 } else if (!id.startsWith(modelName)) {
                     holder.registerProblem(attribute, "Window action ID should start with model name: $modelName")
