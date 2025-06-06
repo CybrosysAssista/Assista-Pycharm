@@ -84,17 +84,15 @@ class OdooXmlInspection : LocalInspectionTool() {
             }
 
             private fun checkMenuItem(tag: XmlTag) {
-                val actionAttribute = tag.getAttribute("action")
                 val idAttribute = tag.getAttribute("id")
                 val name = tag.getAttribute("name")?.value?.replace(" ", "_")?.lowercase()
-
                 if (idAttribute == null) {
                     holder.registerProblem(tag, "Missing 'id' attribute for menuitem")
                 } else if (name != null) {
-                    val modelName = actionAttribute?.value?.removeSuffix("_action") ?: ""
-                    val expectedId = if (actionAttribute != null) "${modelName}_menu" else "${name}_menu"
-                    if (idAttribute.value != expectedId) {
-                        holder.registerProblem(idAttribute, "Menu ID should follow pattern: $expectedId")
+                    val currentValue = idAttribute.value ?: ""
+                    val pattern = Regex("^[a-z0-9]+(_[a-z0-9]+)*_menu(_[a-z0-9]+)*$")
+                    if (!pattern.matches(currentValue)) {
+                        holder.registerProblem(idAttribute, "Menu ID should follow pattern: model_name_menu_do_stuff")
                     }
                 }
             }

@@ -44,7 +44,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
 //
 //        val fieldList = project.service<OdooModelProjectService>().getFieldsForModel(model)
 //        for (field in fieldList) {
-//            resultSet.addElement(LookupElementBuilder.create(field).withTypeText("Model Field"))
+//            resultSet.addElement(LookupElementBuilder.create(field).withTypeText("Model Field"))-
 //
 //        }
         resultSet.addElement(
@@ -987,7 +987,6 @@ class OdooXmlFieldNameCompletionProvider : CompletionProvider<CompletionParamete
                                 val suggestions = FileBasedIndex.getInstance()
                                     .getValues(OdooModelFieldIndex.NAME, modelValue, GlobalSearchScope.allScope(project))
                                     .flatten()
-
                                 for (model in suggestions) {
                                     resultSet.addElement(
                                         LookupElementBuilder.create(model)
