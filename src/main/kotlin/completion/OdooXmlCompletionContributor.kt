@@ -2,10 +2,16 @@ package completion
 
 import com.intellij.codeInsight.completion.*
 import com.intellij.patterns.XmlPatterns
-import com.intellij.psi.xml.XmlTokenType
 import com.intellij.psi.xml.XmlToken
+import com.intellij.codeInsight.completion.*
+import com.intellij.patterns.XmlPatterns.*
+import com.intellij.psi.xml.XmlTokenType
 import com.intellij.util.ProcessingContext
 import com.intellij.lang.xml.XMLLanguage
+import com.intellij.patterns.PlatformPatterns.*
+import com.intellij.patterns.XmlPatterns.*
+import com.intellij.patterns.StandardPatterns.string
+
 
 class OdooXmlCompletionContributor : CompletionContributor() {
     init {
@@ -36,6 +42,31 @@ class OdooXmlCompletionContributor : CompletionContributor() {
                 ),
             OdooWidgetAttributeCompletionProvider()
         )
+        extend(
+            CompletionType.BASIC,
+            psiElement(XmlTokenType.XML_DATA_CHARACTERS)
+                .withLanguage(XMLLanguage.INSTANCE)
+                .inside(xmlTag().withName("field")),
+            OdooxmlModelCompletionProvider()
+        )
 
+        extend(
+            CompletionType.BASIC,
+            psiElement(XmlTokenType.XML_ATTRIBUTE_VALUE_TOKEN)
+                .withLanguage(XMLLanguage.INSTANCE)
+                .withParent(
+                    xmlAttributeValue().withParent(
+                        xmlAttribute().withName("res_model")
+                    )
+                ),
+            OdooxmlModelCompletionProvider()
+        )
+        extend(
+            CompletionType.BASIC,
+            psiElement(XmlTokenType.XML_ATTRIBUTE_VALUE_TOKEN)
+                .withLanguage(XMLLanguage.INSTANCE)
+                .inside(xmlTag().withName("record")),
+            OdooRecordModelCompletionProvider()
+        )
     }
 }

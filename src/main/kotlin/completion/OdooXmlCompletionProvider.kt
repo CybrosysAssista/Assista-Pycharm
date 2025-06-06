@@ -15,6 +15,8 @@ import com.intellij.codeInsight.completion.InsertHandler
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.codeStyle.CodeStyleManager
+import indexing.OdooModelIndex
+import com.intellij.util.indexing.FileBasedIndex
 
 
 
@@ -141,54 +143,86 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
                 .withPresentableText("Odoo form_view")
                 .withTypeText("Create Form View Template")
                 .withInsertHandler(InsertHandler { ctx, _ ->
-                    val snippet = """
-                |<record id="model_name_view_form" model="ir.ui.view">
-                |    <field name="name">model.name.view.form</field>
-                |    <field name="model">model.name</field>
-                |    <field name="arch" type="xml">
-                |        <form string="Form Title">
-                |            <header>
-                |                <!-- Buttons and statusbar go here -->
-                |            </header>
-                |            <sheet>
-                |                <div class="oe_title">
-                |                    <h1>
-                |                        <field name="name"/>
-                |                    </h1>
-                |                </div>
-                |                <group>
-                |                    <group>
-                |                        <field name="field1"/>
-                |                        <field name="field2"/>
-                |                    </group>
-                |                    <group>
-                |                        <field name="field3"/>
-                |                        <field name="field4"/>
-                |                    </group>
-                |                </group>
-                |                <notebook>
-                |                    <field name="line_ids">
-                |                       <field name="line_field1"/>
-                |                       <field name="line_field2"/>
-                |                    </field>
-                |                </notebook>
-                |            </sheet>
-                |        </form>
-                |    </field>
-                |</record>
-            """.trimMargin()
+                    val fileName = ctx.file.name
+                    val modelName = fileName.removeSuffix(".xml").removeSuffix("_views")
+                    val modelDotName = modelName.replace("_",".")
 
-                    val project = ctx.project
                     val document = ctx.document
                     val startOffset = ctx.startOffset
-                    val endOffset = ctx.selectionEndOffset
+                    val project = ctx.project
 
+                    // Find existing record tags to match their indentation
+                    val documentText = document.text
+                    var baseIndent = "    " // Default 4 spaces
+
+                    // Look for existing <record> tags to match their indentation
+                    val recordPattern = Regex("""^(\s*)<record""")
+                    documentText.lines().forEach { line ->
+                        val match = recordPattern.find(line)
+                        if (match != null) {
+                            baseIndent = match.groups[1]?.value ?: "    "
+                            return@forEach
+                        }
+                    }
+
+                    // If no existing record found, look for the <odoo> tag and add one level
+                    if (baseIndent == "    ") {
+                        val odooPattern = Regex("""^(\s*)<odoo""")
+                        documentText.lines().forEach { line ->
+                            val match = odooPattern.find(line)
+                            if (match != null) {
+                                val odooIndent = match.groups[1]?.value ?: ""
+                                baseIndent = odooIndent + "    " // Add 4 spaces for children
+                                return@forEach
+                            }
+                        }
+                    }
+
+                    val snippet = """
+                |<record id="${modelName}_view_form" model="ir.ui.view">
+                |${baseIndent}    <field name="name">${modelDotName}.view.form</field>
+                |${baseIndent}    <field name="model">${modelDotName}</field>
+                |${baseIndent}    <field name="arch" type="xml">
+                |${baseIndent}        <form string="Form Title">
+                |${baseIndent}            <header>
+                |${baseIndent}                <!-- Buttons and statusbar go here -->
+                |${baseIndent}            </header>
+                |${baseIndent}            <sheet>
+                |${baseIndent}                <div class="oe_title">
+                |${baseIndent}                    <h1>
+                |${baseIndent}                        <field name="name"/>
+                |${baseIndent}                    </h1>
+                |${baseIndent}                </div>
+                |${baseIndent}                <group>
+                |${baseIndent}                    <group>
+                |${baseIndent}                        <field name="field1"/>
+                |${baseIndent}                        <field name="field2"/>
+                |${baseIndent}                    </group>
+                |${baseIndent}                    <group>
+                |${baseIndent}                        <field name="field3"/>
+                |${baseIndent}                        <field name="field4"/>
+                |${baseIndent}                    </group>
+                |${baseIndent}                </group>
+                |${baseIndent}                <notebook>
+                |${baseIndent}                    <field name="line_ids">
+                |${baseIndent}                        <field name="line_field1"/>
+                |${baseIndent}                        <field name="line_field2"/>
+                |${baseIndent}                    </field>
+                |${baseIndent}                </notebook>
+                |${baseIndent}            </sheet>
+                |${baseIndent}        </form>
+                |${baseIndent}    </field>
+                |${baseIndent}</record>
+                """.trimMargin()
+
+                    val endOffset = ctx.selectionEndOffset
                     document.replaceString(startOffset, endOffset, snippet)
                     PsiDocumentManager.getInstance(project).commitDocument(document)
 
-                    // Optional: Add one extra newline to make it feel complete
-                    document.insertString(startOffset + snippet.length, "\n")
-                    ctx.editor.caretModel.moveToOffset(startOffset + snippet.length + 1)
+                    // Add newline and position cursor
+                    val newCaretPosition = startOffset + snippet.length
+                    document.insertString(newCaretPosition, "\n")
+                    ctx.editor.caretModel.moveToOffset(newCaretPosition + 1)
                 })
         )
 
@@ -200,10 +234,13 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
                 .withPresentableText("Odoo list view")
                 .withTypeText("Create List View Template")
                 .withInsertHandler(InsertHandler { ctx, _ ->
+                    val fileName = ctx.file.name
+                    val modelName = fileName.removeSuffix(".xml").removeSuffix("_views")
+                    val modelDotName = modelName.replace("_",".")
                     val snippet = """
-                <record id="model_name_view_list" model="ir.ui.view">
-                    <field name="name">model.name.view.list</field>
-                    <field name="model">model.name</field>
+                <record id="${modelName}_view_list" model="ir.ui.view">
+                    <field name="name">${modelDotName}.view.list</field>
+                    <field name="model">${modelDotName}</field>
                     <field name="arch" type="xml">
                         <list string="List Title" decoration-danger="state=='cancel'" decoration-success="state=='done'">
                             <field name="name"/>
@@ -240,10 +277,13 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
                 .withPresentableText("Odoo search view")
                 .withTypeText("Create Search View Template")
                 .withInsertHandler(InsertHandler { ctx, _ ->
+                    val fileName = ctx.file.name
+                    val modelName = fileName.removeSuffix(".xml").removeSuffix("_views")
+                    val modelDotName = modelName.replace("_",".")
                     val snippet = """
-                <record id="model_name_view_search" model="ir.ui.view">
-                    <field name="name">model.name.view.search</field>
-                    <field name="model">model.name</field>
+                <record id="${modelName}_view_search" model="ir.ui.view">
+                    <field name="name">${modelDotName}.view.search</field>
+                    <field name="model">${modelDotName}</field>
                     <field name="arch" type="xml">
                         <search string="Search Title">
                             <field name="name" string="Name" filter_domain="[('name','ilike',self)]"/>
@@ -288,10 +328,14 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
                 .withPresentableText("Odoo action")
                 .withTypeText("Create Action Window")
                 .withInsertHandler(InsertHandler { ctx, _ ->
+                    val fileName = ctx.file.name
+                    val modelName = fileName.removeSuffix(".xml").removeSuffix("_views")
+                    val modelDotName = modelName.replace("_",".")
+                    val modelFormalName = modelName.split('_').joinToString(" ") { it.replaceFirstChar { c -> c.uppercaseChar() } }
                     val snippet = """
-                <record id="model_name_action" model="ir.actions.act_window">
-                    <field name="name">Model</field>
-                    <field name="res_model">model.name</field>
+                <record id="${modelName}_action" model="ir.actions.act_window">
+                    <field name="name">${modelFormalName}</field>
+                    <field name="res_model">${modelDotName}</field>
                     <field name="view_mode">list,form</field>
                     <field name="context">{}</field>
                     <field name="help" type="html">
@@ -325,17 +369,23 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
                 .withPresentableText("Odoo View Inherit")
                 .withTypeText("Create Inherit View")
                 .withInsertHandler(InsertHandler { ctx, _ ->
+                    val fileName = ctx.file.name
+                    val modelName = fileName.removeSuffix(".xml").removeSuffix("_views")
+                    val modelDotName = modelName.replace("_",".")
+                    val modelFormalName = modelName.split('_').joinToString(" ") { it.replaceFirstChar { c -> c.uppercaseChar() } }
                     val snippet = """
-                <record id="model_name_view_type_view_inherit" model="ir.ui.view">
-                    <field name="name">model_name.view_type.view.inherit</field>
-                    <field name="model">model.name</field>
+                <record id="${modelName}_view_type_view_inherit" model="ir.ui.view">
+                    <field name="name">${modelDotName}.view_type.view.inherit</field>
+                    <field name="model">${modelDotName}</field>
                     <field name="inherit_id" ref="module.original_form_view_id"/>
                     <field name="arch" type="xml">
-                        <!-- Add fields to an existing group -->
-                        <xpath expr="//group[1]" position="inside">
-                            <field name="new_field1"/>
-                            <field name="new_field2"/>
-                        </xpath>
+                        <field name="arch" type="xml">
+                            <!-- Add fields to an existing group -->
+                            <xpath expr="//group[1]" position="inside">
+                                <field name="new_field1"/>
+                                <field name="new_field2"/>
+                            </xpath>
+                        </field>
                 </record>
             """.trimIndent()
 
@@ -363,12 +413,16 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
                 .withPresentableText("Odoo View Pivot")
                 .withTypeText("Create Pivot View")
                 .withInsertHandler(InsertHandler { ctx, _ ->
+                    val fileName = ctx.file.name
+                    val modelName = fileName.removeSuffix(".xml").removeSuffix("_views")
+                    val modelDotName = modelName.replace("_",".")
+                    val modelFormalName = modelName.split('_').joinToString(" ") { it.replaceFirstChar { c -> c.uppercaseChar() } }
                     val snippet = """
-                <record id="model_name_view_pivot" model="ir.ui.view">
-                    <field name="name">model_name.view.pivot</field>
-                    <field name="model">model.name</field>
+                <record id="${modelName}_view_pivot" model="ir.ui.view">
+                    <field name="name">${modelDotName}.view.pivot</field>
+                    <field name="model">$modelDotName</field>
                     <field name="arch" type="xml">
-                        <pivot string="ModelName Pivot">
+                        <pivot string="$modelFormalName Pivot">
                             <field name="name"/>
                             <field name="state"/>
                         </pivot>
@@ -400,12 +454,16 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
                 .withPresentableText("Odoo View Calender")
                 .withTypeText("Create Calender View")
                 .withInsertHandler(InsertHandler { ctx, _ ->
+                    val fileName = ctx.file.name
+                    val modelName = fileName.removeSuffix(".xml").removeSuffix("_views")
+                    val modelDotName = modelName.replace("_",".")
+                    val modelFormalName = modelName.split('_').joinToString(" ") { it.replaceFirstChar { c -> c.uppercaseChar() } }
                     val snippet = """
-                <record id="model_name_view_calender" model="ir.ui.view">
-                    <field name="name">model_name.view.calender</field>
-                    <field name="model">model.name</field>
+                <record id="${modelName}_view_calender" model="ir.ui.view">
+                    <field name="name">$modelDotName.view.calender</field>
+                    <field name="model">$modelDotName</field>
                     <field name="arch" type="xml">
-                        <calender string="ModelName Calender">
+                        <calender string="$modelFormalName Calender">
                             <field name="name"/>
                             <field name="state"/>
                         </calender>
@@ -439,7 +497,10 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
                 .withPresentableText("Odoo menu item root")
                 .withTypeText("Add Root Menu Item")
                 .withInsertHandler { ctx, _ ->
-                    val snippet = "<menuitem id=\"MODULE_NAME_root\" name=\"\" sequence=\"\"/>"
+                    val file = ctx.file
+                    val module = file.virtualFile?.parent?.parent?.name ?: "module_name"
+                    val moduleFormalName = module.split('_').joinToString(" ") { it.replaceFirstChar { c -> c.uppercaseChar() } }
+                    val snippet = "<menuitem id=\"${module}_root\" name=\"$moduleFormalName\" sequence=\"${(1..50).random()}\"/>"
                     ctx.document.replaceString(ctx.startOffset, ctx.selectionEndOffset, snippet)
                     ctx.editor.caretModel.moveToOffset(ctx.startOffset + snippet.length)
                 }
@@ -451,7 +512,10 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
                 .withPresentableText("Odoo menu item categ")
                 .withTypeText("Add Category Menu Item")
                 .withInsertHandler { ctx, _ ->
-                    val snippet = "<menuitem id=\"UNIQUE_ID_categ\" name=\"\" parent=\"\" sequence=\"\"/>"
+                    val fileName = ctx.file.name
+                    val modelName = fileName.removeSuffix(".xml").removeSuffix("_views")
+                    val modelFormalName = modelName.split('_').joinToString(" ") { it.replaceFirstChar { c -> c.uppercaseChar() } }
+                    val snippet = "<menuitem id=\"UNIQUE_ID_categ\" name=\"$modelFormalName\" parent=\"\" sequence=\"${(1..50).random()}\"/>"
                     ctx.document.replaceString(ctx.startOffset, ctx.selectionEndOffset, snippet)
                     ctx.editor.caretModel.moveToOffset(ctx.startOffset + snippet.length)
                 }
@@ -463,13 +527,15 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
                 .withPresentableText("Odoo menu item action")
                 .withTypeText("Add Action Menu Item")
                 .withInsertHandler { ctx, _ ->
-                    val snippet = "<menuitem id=\"UNIQUE_ID_categ\" name=\"\" parent=\"\" action=\"\" sequence=\"\"/>"
+                    val fileName = ctx.file.name
+                    val modelName = fileName.removeSuffix(".xml").removeSuffix("_views")
+                    val modelFormalName = modelName.split('_').joinToString(" ") { it.replaceFirstChar { c -> c.uppercaseChar() } }
+                    val snippet = "<menuitem id=\"UNIQUE_ID_categ\" name=\"$modelFormalName\" parent=\"\" action=\"\" sequence=\"${(1..50).random()}\"/>"
                     ctx.document.replaceString(ctx.startOffset, ctx.selectionEndOffset, snippet)
                     ctx.editor.caretModel.moveToOffset(ctx.startOffset + snippet.length)
                 }
         )
 
-        // Smart Button Box
         resultSet.addElement(
             LookupElementBuilder.create("odoo_button_box")
                 .withPresentableText("Odoo button box")
@@ -507,6 +573,38 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
                     }
 
                     ctx.editor.caretModel.moveToOffset(startOffset + buttonBoxXml.length)
+                })
+        )
+
+        // Smart Button Box
+        resultSet.addElement(
+            LookupElementBuilder.create("odoo_tag")
+                .withPresentableText("Odoo Tag")
+                .withTypeText("Add Odoo Tag")
+                .withInsertHandler(InsertHandler { ctx, _ ->
+                    val snippet = """
+                <?xml version="1.0" encoding="utf-8" ?>
+                <odoo>
+                    
+                </odoo>
+            """.trimIndent()
+
+                    val project = ctx.project
+                    val document = ctx.document
+                    val startOffset = ctx.startOffset
+                    val endOffset = ctx.selectionEndOffset
+
+                    document.replaceString(startOffset, endOffset, snippet)
+
+                    val psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document)
+                    PsiDocumentManager.getInstance(project).commitDocument(document)
+
+                    if (psiFile != null) {
+                        val range = TextRange(startOffset, startOffset + snippet.length)
+                        CodeStyleManager.getInstance(project).reformatText(psiFile, range.startOffset, range.endOffset)
+                    }
+
+                    ctx.editor.caretModel.moveToOffset(startOffset + snippet.length)
                 })
         )
 
@@ -770,32 +868,89 @@ class OdooWidgetAttributeCompletionProvider : CompletionProvider<CompletionParam
         context: ProcessingContext,
         resultSet: CompletionResultSet
     ) {
-        val project = parameters.position.project
-        val widgetSet = mutableSetOf<String>()
+        val widgets = listOf(
+            "char", "text", "html", "many2one", "one2many_list", "many2many_tags", "float",
+            "integer", "boolean", "selection", "statusbar", "image", "monetary", "handle",
+            "date", "datetime", "color", "radio", "progressbar", "kanban", "avatar",
+            "priority", "toggle_button", "email", "phone", "url", "percentpie",
+            "many2many_checkboxes", "field_binary", "statinfo", "rating", "slider"
+        )
 
-        widgetSet.addAll(findWidgetsInXmlFiles(project))
-
-        for (widget in widgetSet) {
-            resultSet.addElement(LookupElementBuilder.create(widget))
+        widgets.forEach {
+            resultSet.addElement(
+                LookupElementBuilder.create(it)
+                    .withPresentableText(it)
+                    .withTypeText("Odoo widget", true)
+            )
         }
-    }
-
-    private fun findWidgetsInXmlFiles(project: Project): Set<String> {
-        val widgets = mutableSetOf<String>()
-        val xmlFiles = FilenameIndex.getAllFilesByExt(project, "xml", GlobalSearchScope.projectScope(project))
-        val psiManager = PsiManager.getInstance(project)
-
-        for (file in xmlFiles) {
-            val psiFile = psiManager.findFile(file) ?: continue
-
-            val allAttributes = PsiTreeUtil.findChildrenOfType(psiFile, XmlAttribute::class.java)
-            for (attribute in allAttributes) {
-                if (attribute.name == "widget") {
-                    attribute.value?.let { widgets.add(it) }
-                }
-            }
-        }
-
-        return widgets
     }
 }
+
+class OdooxmlModelCompletionProvider : CompletionProvider<CompletionParameters>() {
+    override fun addCompletions(
+        parameters: CompletionParameters,
+        context: ProcessingContext,
+        resultSet: CompletionResultSet
+    ) {
+        val position = parameters.position
+        val xmlTag = PsiTreeUtil.getParentOfType(position, XmlTag::class.java) ?: return
+        val nameAttr = xmlTag.getAttribute("name")?.value
+
+        // Handle <field name="model"> or <field name="name">res...</field>
+        if (xmlTag.name == "field" && (nameAttr == "model" || nameAttr == "res_model")) {
+            suggestModels(parameters, resultSet)
+            return
+        }
+
+        // Handle tags with res_model attribute (e.g., <record res_model="...">)
+        val resModelAttr = xmlTag.getAttribute("res_model")?.value
+        val attrTextRange = xmlTag.getAttribute("res_model")?.valueElement?.textRange
+
+        if (resModelAttr != null && attrTextRange != null &&
+            attrTextRange.contains(position.textOffset)) {
+            suggestModels(parameters, resultSet)
+        }
+    }
+
+    private fun suggestModels(parameters: CompletionParameters, resultSet: CompletionResultSet) {
+        val project = parameters.editor.project ?: return
+        val modelNames = FileBasedIndex.getInstance().getAllKeys(OdooModelIndex.NAME, project)
+
+        for (model in modelNames) {
+            resultSet.addElement(
+                LookupElementBuilder.create(model)
+                    .withTypeText("Odoo Model", true)
+            )
+        }
+    }
+}
+
+class OdooRecordModelCompletionProvider : CompletionProvider<CompletionParameters>() {
+    override fun addCompletions(
+        parameters: CompletionParameters,
+        context: ProcessingContext,
+        resultSet: CompletionResultSet
+    ) {
+        val position = parameters.position
+        val xmlAttribute = PsiTreeUtil.getParentOfType(position, XmlAttribute::class.java) ?: return
+        val xmlTag = xmlAttribute.parent as? XmlTag ?: return
+
+        // Ensure we are in <record model="...">
+        if (xmlTag.name == "record" && xmlAttribute.name == "model") {
+            suggestModels(parameters, resultSet)
+        }
+    }
+
+    private fun suggestModels(parameters: CompletionParameters, resultSet: CompletionResultSet) {
+        val project = parameters.editor.project ?: return
+        val modelNames = FileBasedIndex.getInstance().getAllKeys(OdooModelIndex.NAME, project)
+
+        for (model in modelNames) {
+            resultSet.addElement(
+                LookupElementBuilder.create(model)
+                    .withTypeText("Odoo Model", true)
+            )
+        }
+    }
+}
+
