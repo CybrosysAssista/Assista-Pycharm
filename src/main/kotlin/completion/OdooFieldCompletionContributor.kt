@@ -565,9 +565,9 @@ ${indent}    partner_id = fields.Many2one('res.partner', required=True, ondelete
                     )
 
                     resultSet.addElement(
-                        LookupElementBuilder.create("odoo_crud_methods")
-                            .withPresentableText("Odoo crud methods")
-                            .withTypeText("Create standard CRUD methods")
+                        LookupElementBuilder.create("odoo_create_method")
+                            .withPresentableText("Odoo Create Method")
+                            .withTypeText("Create standard Create methods")
                             .withInsertHandler { ctx, _ ->
                                 // Get editor and document info
                                 val editor = ctx.editor
@@ -583,21 +583,64 @@ ${indent}    partner_id = fields.Many2one('res.partner', required=True, ondelete
                                 val snippet = """@api.model_create_multi
 ${indent}def create(self, vals):
 ${indent}    ""${'"'}Create a new record with the given values.""${'"'}
-${indent}    return super(ClassName, self).create(vals)
-
-${indent}def write(self, vals):
-${indent}    ""${'"'}Update the record with the given values.""${'"'}
-${indent}    return super(ClassName, self).write(vals)
-
-${indent}def unlink(self):
-${indent}    ""${'"'}Delete the current record.""${'"'}
-${indent}    return super(ClassName, self).unlink()"""
-
+${indent}    return super(ClassName, self).create(vals)"""
                                 // Insert the snippet and move cursor to end
                                 document.replaceString(ctx.startOffset, ctx.tailOffset, snippet)
                                 editor.caretModel.moveToOffset(ctx.startOffset + snippet.length)
                             }
                     )
+
+                    resultSet.addElement(
+                        LookupElementBuilder.create("odoo_write_method")
+                            .withPresentableText("Odoo Write Method")
+                            .withTypeText("Create standard Write method")
+                            .withInsertHandler { ctx, _ ->
+                                // Get editor and document info
+                                val editor = ctx.editor
+                                val document = editor.document
+
+                                // Calculate indentation using the document content
+                                val offset = ctx.startOffset
+                                val line = document.getLineNumber(offset)
+                                val startOffset = document.getLineStartOffset(line)
+                                val indent = document.charsSequence.subSequence(startOffset, offset).toString()
+                                    .takeWhile { it.isWhitespace() }
+
+                                val snippet = """def write(self, vals):
+${indent}    ""${'"'}Update the record with the given values.""${'"'}
+${indent}    return super(ClassName, self).write(vals)"""
+                                // Insert the snippet and move cursor to end
+                                document.replaceString(ctx.startOffset, ctx.tailOffset, snippet)
+                                editor.caretModel.moveToOffset(ctx.startOffset + snippet.length)
+                            }
+                    )
+
+                    resultSet.addElement(
+                        LookupElementBuilder.create("odoo_unlink_method")
+                            .withPresentableText("Odoo Unlink Method")
+                            .withTypeText("Create standard Unlink methods")
+                            .withInsertHandler { ctx, _ ->
+                                // Get editor and document info
+                                val editor = ctx.editor
+                                val document = editor.document
+
+                                // Calculate indentation using the document content
+                                val offset = ctx.startOffset
+                                val line = document.getLineNumber(offset)
+                                val startOffset = document.getLineStartOffset(line)
+                                val indent = document.charsSequence.subSequence(startOffset, offset).toString()
+                                    .takeWhile { it.isWhitespace() }
+
+                                val snippet = """def unlink(self):
+${indent}    ""${'"'}Delete the current record.""${'"'}
+${indent}    return super(ClassName, self).unlink()"""
+                                // Insert the snippet and move cursor to end
+                                document.replaceString(ctx.startOffset, ctx.tailOffset, snippet)
+                                editor.caretModel.moveToOffset(ctx.startOffset + snippet.length)
+                            }
+                    )
+
+
                     // Computed field method
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_computed_field")

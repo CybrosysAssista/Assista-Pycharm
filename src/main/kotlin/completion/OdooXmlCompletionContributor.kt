@@ -82,6 +82,5 @@ class OdooXmlCompletionContributor : CompletionContributor() {
                 ),
             OdooXmlFieldNameCompletionProvider()
         )
-
     }
 }
