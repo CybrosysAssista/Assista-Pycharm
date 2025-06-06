@@ -16,7 +16,11 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.codeStyle.CodeStyleManager
 import indexing.OdooModelIndex
+import indexing.OdooModelFieldIndex
 import com.intellij.util.indexing.FileBasedIndex
+import com.intellij.psi.xml.XmlAttributeValue
+
+
 
 
 
@@ -953,4 +957,58 @@ class OdooRecordModelCompletionProvider : CompletionProvider<CompletionParameter
         }
     }
 }
+
+class OdooXmlFieldNameCompletionProvider : CompletionProvider<CompletionParameters>() {
+    override fun addCompletions(
+        parameters: CompletionParameters,
+        context: ProcessingContext,
+        resultSet: CompletionResultSet
+    ) {
+        val position = parameters.position
+        val xmlAttributeValue = PsiTreeUtil.getParentOfType(position, XmlAttributeValue::class.java) ?: return
+        val xmlTag = PsiTreeUtil.getParentOfType(xmlAttributeValue, XmlTag::class.java) ?: return
+        var currentTag: XmlTag? = xmlTag
+        while (currentTag != null) {
+            val tagName = currentTag.name
+            if (tagName in listOf("form", "list","tree", "kanban", "graph", "calendar", "pivot")) {
+                var recordTag = PsiTreeUtil.getParentOfType(currentTag, XmlTag::class.java, true)
+                while (recordTag != null) {
+                    if (recordTag.name == "record") {
+                        // Found the record tag, now find the child field tag with name="model"
+                        val fieldTags = recordTag.findSubTags("field")
+
+                        for (fieldTag in fieldTags) {
+                            val nameAttribute = fieldTag.getAttributeValue("name")
+                            if (nameAttribute == "model") {
+                                val modelValue = fieldTag.value.text
+
+                                val project = currentTag.project
+
+                                val suggestions = FileBasedIndex.getInstance()
+                                    .getValues(OdooModelFieldIndex.NAME, modelValue, GlobalSearchScope.allScope(project))
+                                    .flatten()
+
+                                for (model in suggestions) {
+                                    resultSet.addElement(
+                                        LookupElementBuilder.create(model)
+                                            .withTypeText("Odoo Model", true)
+                                    )
+                                }
+
+                                return
+                            }
+                        }
+
+                        break
+                    }
+                    recordTag = PsiTreeUtil.getParentOfType(recordTag, XmlTag::class.java, true)
+                }
+                return
+            }
+            currentTag = PsiTreeUtil.getParentOfType(currentTag, XmlTag::class.java, true)
+        }
+    }
+}
+
+
 

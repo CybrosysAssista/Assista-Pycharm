@@ -68,5 +68,20 @@ class OdooXmlCompletionContributor : CompletionContributor() {
                 .inside(xmlTag().withName("record")),
             OdooRecordModelCompletionProvider()
         )
+
+        extend(
+            CompletionType.BASIC,
+            psiElement(XmlTokenType.XML_ATTRIBUTE_VALUE_TOKEN)
+                .withLanguage(XMLLanguage.INSTANCE)
+                .inside(
+                    xmlAttribute()
+                        .withName("name")
+                        .withParent(
+                            xmlTag().withName("field")
+                        )
+                ),
+            OdooXmlFieldNameCompletionProvider()
+        )
+
     }
 }
