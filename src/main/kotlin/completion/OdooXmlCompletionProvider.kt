@@ -504,7 +504,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
                     val file = ctx.file
                     val module = file.virtualFile?.parent?.parent?.name ?: "module_name"
                     val moduleFormalName = module.split('_').joinToString(" ") { it.replaceFirstChar { c -> c.uppercaseChar() } }
-                    val snippet = "<menuitem id=\"${module}_root\" name=\"$moduleFormalName\" sequence=\"${(1..50).random()}\"/>"
+                    val snippet = "<menuitem id=\"${module}_menu_root\" name=\"$moduleFormalName\" sequence=\"${(1..50).random()}\"/>"
                     ctx.document.replaceString(ctx.startOffset, ctx.selectionEndOffset, snippet)
                     ctx.editor.caretModel.moveToOffset(ctx.startOffset + snippet.length)
                 }
@@ -519,7 +519,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
                     val fileName = ctx.file.name
                     val modelName = fileName.removeSuffix(".xml").removeSuffix("_views")
                     val modelFormalName = modelName.split('_').joinToString(" ") { it.replaceFirstChar { c -> c.uppercaseChar() } }
-                    val snippet = "<menuitem id=\"UNIQUE_ID_categ\" name=\"$modelFormalName\" parent=\"\" sequence=\"${(1..50).random()}\"/>"
+                    val snippet = "<menuitem id=\"unique_id_menu_categ\" name=\"$modelFormalName\" parent=\"\" sequence=\"${(1..50).random()}\"/>"
                     ctx.document.replaceString(ctx.startOffset, ctx.selectionEndOffset, snippet)
                     ctx.editor.caretModel.moveToOffset(ctx.startOffset + snippet.length)
                 }
@@ -534,7 +534,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
                     val fileName = ctx.file.name
                     val modelName = fileName.removeSuffix(".xml").removeSuffix("_views")
                     val modelFormalName = modelName.split('_').joinToString(" ") { it.replaceFirstChar { c -> c.uppercaseChar() } }
-                    val snippet = "<menuitem id=\"UNIQUE_ID_categ\" name=\"$modelFormalName\" parent=\"\" action=\"\" sequence=\"${(1..50).random()}\"/>"
+                    val snippet = "<menuitem id=\"unique_id_menu_categ\" name=\"$modelFormalName\" parent=\"\" action=\"\" sequence=\"${(1..50).random()}\"/>"
                     ctx.document.replaceString(ctx.startOffset, ctx.selectionEndOffset, snippet)
                     ctx.editor.caretModel.moveToOffset(ctx.startOffset + snippet.length)
                 }

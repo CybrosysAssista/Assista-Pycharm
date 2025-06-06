@@ -88,8 +88,8 @@ OdooBasicModule:
         <?xml version="1.0" encoding="utf-8"?>
         <odoo>
             <!-- Sample form view -->
-            <record id="__modelName___form_view" model="ir.ui.view">
-                <field name="name">__modelTechnicalName__.form</field>
+            <record id="__modelName___view_form" model="ir.ui.view">
+                <field name="name">__modelTechnicalName__.view.form</field>
                 <field name="model">__modelTechnicalName__</field>
                 <field name="arch" type="xml">
                     <form string="Sample">
@@ -121,8 +121,8 @@ OdooBasicModule:
             </record>
 
             <!-- Sample list view -->
-            <record id="__modelName___list_view" model="ir.ui.view">
-                <field name="name">__modelTechnicalName__.list</field>
+            <record id="__modelName___view_list" model="ir.ui.view">
+                <field name="name">__modelTechnicalName__.view.list</field>
                 <field name="model">__modelTechnicalName__</field>
                 <field name="arch" type="xml">
                     <list string="Samples">
@@ -135,8 +135,8 @@ OdooBasicModule:
             </record>
 
             <!-- Kanban View -->
-            <record id="__modelName___kanban_view" model="ir.ui.view">
-                <field name="name">__modelTechnicalName__.kanban</field>
+            <record id="__modelName___view_kanban" model="ir.ui.view">
+                <field name="name">__modelTechnicalName__.view.kanban</field>
                 <field name="model">__modelTechnicalName__</field>
                 <field name="arch" type="xml">
                     <kanban>
@@ -155,8 +155,8 @@ OdooBasicModule:
             </record>
 
             <!-- Search View -->
-            <record id="__modelName___search_view" model="ir.ui.view">
-                <field name="name">__modelTechnicalName__.search</field>
+            <record id="__modelName___view_search" model="ir.ui.view">
+                <field name="name">__modelTechnicalName__.view.search</field>
                 <field name="model">__modelTechnicalName__</field>
                 <field name="arch" type="xml">
                     <search>
@@ -168,7 +168,7 @@ OdooBasicModule:
                 </field>
             </record>
             <!-- Action -->
-            <record id="action___modelName__" model="ir.actions.act_window">
+            <record id="__modelName___action" model="ir.actions.act_window">
                 <field name="name">Samples</field>
                 <field name="res_model">__modelTechnicalName__</field>
                 <field name="view_mode">list,form,kanban</field>
@@ -176,12 +176,12 @@ OdooBasicModule:
 
             <!-- Menus -->
             <menuitem name="__formalModuleName__"
-                      id="__moduleName___root"/>
+                      id="__moduleName___menu_root"/>
 
             <menuitem name="Samples"
-                      id="menu___modelName__"
-                      parent="__moduleName___root"
-                      action="action___modelName__"/>
+                      id="__modelName___menu"
+                      parent="__moduleName___menu_root"
+                      action="__modelName___action"/>
         </odoo>
     security:
       ir.model.access.csv: |
@@ -281,8 +281,8 @@ OdooAdvanceModule:
         <?xml version="1.0" encoding="utf-8"?>
         <odoo>
             <!-- form view -->
-            <record id="__moduleName___form_view" model="ir.ui.view">
-                <field name="name">__modelTechnicalName__.form</field>
+            <record id="__modelName___view_form" model="ir.ui.view">
+                <field name="name">__modelTechnicalName__.view.form</field>
                 <field name="model">__modelTechnicalName__</field>
                 <field name="arch" type="xml">
                     <form string="Sample">
@@ -314,8 +314,8 @@ OdooAdvanceModule:
             </record>
             
             <!-- Sample list view -->
-            <record id="__modelName___list_view" model="ir.ui.view">
-                <field name="name">__modelTechnicalName__.list</field>
+            <record id="__modelName___view_list" model="ir.ui.view">
+                <field name="name">__modelTechnicalName__.view.list</field>
                 <field name="model">__modelTechnicalName__</field>
                 <field name="arch" type="xml">
                     <list string="Samples">
@@ -328,8 +328,8 @@ OdooAdvanceModule:
             </record>
     
             <!-- Kanban View -->
-            <record id="__modelName___kanban_view" model="ir.ui.view">
-                <field name="name">__modelTechnicalName__.kanban</field>
+            <record id="__modelName___view_kanban" model="ir.ui.view">
+                <field name="name">__modelTechnicalName__.view.kanban</field>
                 <field name="model">__modelTechnicalName__</field>
                 <field name="arch" type="xml">
                     <kanban>
@@ -348,8 +348,8 @@ OdooAdvanceModule:
             </record>
     
             <!-- Search View -->
-            <record id="__modelName___search_view" model="ir.ui.view">
-                <field name="name">__modelTechnicalName__.search</field>
+            <record id="__modelName___view_search" model="ir.ui.view">
+                <field name="name">__modelTechnicalName__.view.search</field>
                 <field name="model">__modelTechnicalName__</field>
                 <field name="arch" type="xml">
                     <search>
@@ -362,8 +362,8 @@ OdooAdvanceModule:
             </record>
             
              <!-- Calendar view -->
-            <record id="__modelName___calendar_view" model="ir.ui.view">
-                <field name="name">__modelTechnicalName__.calendar</field>
+            <record id="__modelName___view_calendar" model="ir.ui.view">
+                <field name="name">__modelTechnicalName__.view.calendar</field>
                 <field name="model">__modelTechnicalName__</field>
                 <field name="arch" type="xml">
                     <calendar string="__formalModuleName__ Calendar" date_start="date" date_stop="date">
@@ -374,8 +374,8 @@ OdooAdvanceModule:
             </record>
 
             <!-- Pivot view -->
-            <record id="__modelName___pivot_view" model="ir.ui.view">
-                <field name="name">__modelTechnicalName__.pivot</field>
+            <record id="__modelName___view_pivot" model="ir.ui.view">
+                <field name="name">__modelTechnicalName__.view.pivot</field>
                 <field name="model">__modelTechnicalName__</field>
                 <field name="arch" type="xml">
                     <pivot string="__formalModuleName__ Pivot">
@@ -385,7 +385,7 @@ OdooAdvanceModule:
                 </field>
             </record>
 
-            <record id="action___modelName__" model="ir.actions.act_window">
+            <record id="__modelName___action" model="ir.actions.act_window">
                 <field name="name">Samples</field>
                 <field name="res_model">__modelTechnicalName__</field>
                 <field name="view_mode">list,form,kanban,calendar,pivot</field>
@@ -393,12 +393,12 @@ OdooAdvanceModule:
     
             <!-- Menus -->
             <menuitem name="__formalModuleName__"
-                      id="__moduleName___root"/>
+                      id="__moduleName___menu_root"/>
     
             <menuitem name="Samples"
-                      id="menu___modelName__"
-                      parent="__moduleName___root"
-                      action="action___modelName__"/>
+                      id="__modelName___menu"
+                      parent="__moduleName___menu_root"
+                      action="__modelName___action"/>
         </odoo>
 
       templates.xml: |
@@ -510,7 +510,7 @@ WebsiteThemeModule:
           'auto_install': False,
           'license': 'LGPL-3',
       }
-      
+
     static:
       description: {}
       src: {}
@@ -735,8 +735,8 @@ OwlBasicModule:
         <?xml version="1.0" encoding="utf-8"?>
         <odoo>
             <!-- Sample form view -->
-            <record id="__modelName___views_form" model="ir.ui.view">
-                <field name="name">__modelTechnicalName__.form</field>
+            <record id="__modelName___view_form" model="ir.ui.view">
+                <field name="name">__modelTechnicalName__.view.form</field>
                 <field name="model">__modelTechnicalName__</field>
                 <field name="arch" type="xml">
                     <form string="Sample">
@@ -767,8 +767,8 @@ OwlBasicModule:
                 </field>
             </record>
             <!-- Sample list view -->
-            <record id="__modelName___list" model="ir.ui.view">
-                <field name="name">__modelTechnicalName__.list</field>
+            <record id="__modelName___view_list" model="ir.ui.view">
+                <field name="name">__modelTechnicalName__.view.list</field>
                 <field name="model">__modelTechnicalName__</field>
                 <field name="arch" type="xml">
                     <list string="Samples">
@@ -780,8 +780,8 @@ OwlBasicModule:
                 </field>
             </record>
             <!-- Kanban View -->
-            <record id="__modelName__kanban" model="ir.ui.view">
-                <field name="name">__modelTechnicalName__.kanban</field>
+            <record id="__modelName___view_kanban" model="ir.ui.view">
+                <field name="name">__modelTechnicalName__.view.kanban</field>
                 <field name="model">__modelTechnicalName__</field>
                 <field name="arch" type="xml">
                     <kanban>
@@ -799,8 +799,8 @@ OwlBasicModule:
                 </field>
             </record>
              <!-- Calendar view -->
-            <record id="__modelName___calendar_view" model="ir.ui.view">
-                <field name="name">__modelTechnicalName__.calendar</field>
+            <record id="__modelName___view_calendar" model="ir.ui.view">
+                <field name="name">__modelTechnicalName__.view.calendar</field>
                 <field name="model">__modelTechnicalName__</field>
                 <field name="arch" type="xml">
                     <calendar string="__formalModuleName__ Calendar" date_start="date" date_stop="date">
@@ -811,8 +811,8 @@ OwlBasicModule:
             </record>
 
             <!-- Pivot view -->
-            <record id="__modelName___pivot_view" model="ir.ui.view">
-                <field name="name">__modelTechnicalName__.pivot</field>
+            <record id="__modelName___view_pivot" model="ir.ui.view">
+                <field name="name">__modelTechnicalName__.view.pivot</field>
                 <field name="model">__modelTechnicalName__</field>
                 <field name="arch" type="xml">
                     <pivot string="__formalModuleName__ Pivot">
@@ -822,8 +822,8 @@ OwlBasicModule:
                 </field>
             </record>
             <!-- Search View -->
-            <record id="__modelName___search" model="ir.ui.view">
-                <field name="name">__modelTechnicalName__.search</field>
+            <record id="__modelName___view_search" model="ir.ui.view">
+                <field name="name">__modelTechnicalName__.view.search</field>
                 <field name="model">__modelTechnicalName__</field>
                 <field name="arch" type="xml">
                     <search>
@@ -835,7 +835,7 @@ OwlBasicModule:
                 </field>
             </record>
             <!-- Action -->
-            <record id="action___modelName__" model="ir.actions.act_window">
+            <record id="__modelName___action" model="ir.actions.act_window">
                 <field name="name">Samples</field>
                 <field name="res_model">__modelTechnicalName__</field>
                 <field name="view_mode">list,form,kanban,calendar,pivot</field>
@@ -845,11 +845,11 @@ OwlBasicModule:
                 <field name="tag">__modelName__.__modelName__</field>
             </record>
     
-            <menuitem id="menu___moduleName___root" name="__formalModuleName__" action="ir_actions_client"/>
+            <menuitem id="__moduleName___menu_client" name="__formalModuleName__" action="ir_actions_client"/>
     
             <!-- Menu -->
-            <menuitem id="menu___moduleName___root" name="__formalModuleName__"/>
-            <menuitem id="menu___moduleName___main" name="Records" parent="menu___moduleName___root" action="action___modelName__"/>
+            <menuitem id="__moduleName___menu_root" name="__formalModuleName__"/>
+            <menuitem id="__moduleName___menu_main" name="Records" parent="__moduleName___menu_root" action="__modelName___action"/>
         </odoo>
     static:
       src:
@@ -1070,8 +1070,8 @@ OwlAdvanceModule:
         <?xml version="1.0" encoding="utf-8"?>
         <odoo>
             <!-- Sample form view -->
-            <record id="__modelName___views_form" model="ir.ui.view">
-                <field name="name">__modelTechnicalName__.form</field>
+            <record id="__modelName___view_form" model="ir.ui.view">
+                <field name="name">__modelTechnicalName__.view.form</field>
                 <field name="model">__modelTechnicalName__</field>
                 <field name="arch" type="xml">
                     <form string="Form">
@@ -1106,8 +1106,8 @@ OwlAdvanceModule:
                 </field>
             </record>
             <!-- Sample list view -->
-            <record id="__modelName___list" model="ir.ui.view">
-                <field name="name">__modelTechnicalName__.list</field>
+            <record id="__modelName___view_list" model="ir.ui.view">
+                <field name="name">__modelTechnicalName__.view.list</field>
                 <field name="model">__modelTechnicalName__</field>
                 <field name="arch" type="xml">
                     <list>
@@ -1119,8 +1119,8 @@ OwlAdvanceModule:
                 </field>
             </record>
             <!-- Kanban View -->
-            <record id="__modelName___kanban" model="ir.ui.view">
-                <field name="name">__modelTechnicalName__.kanban</field>
+            <record id="__modelName___view_kanban" model="ir.ui.view">
+                <field name="name">__modelTechnicalName__.view.kanban</field>
                 <field name="model">__modelTechnicalName__</field>
                 <field name="arch" type="xml">
                     <kanban>
@@ -1137,8 +1137,8 @@ OwlAdvanceModule:
                 </field>
             </record>
              <!-- Calendar view -->
-            <record id="__modelName___calendar_view" model="ir.ui.view">
-                <field name="name">__modelTechnicalName__.calendar</field>
+            <record id="__modelName___view_calendar" model="ir.ui.view">
+                <field name="name">__modelTechnicalName__.view.calendar</field>
                 <field name="model">__modelTechnicalName__</field>
                 <field name="arch" type="xml">
                     <calendar string="__formalModuleName__ Calendar" date_start="date" date_stop="date">
@@ -1149,8 +1149,8 @@ OwlAdvanceModule:
             </record>
 
             <!-- Pivot view -->
-            <record id="__modelName___pivot_view" model="ir.ui.view">
-                <field name="name">__modelTechnicalName__.pivot</field>
+            <record id="__modelName___view_pivot" model="ir.ui.view">
+                <field name="name">__modelTechnicalName__.view.pivot</field>
                 <field name="model">__modelTechnicalName__</field>
                 <field name="arch" type="xml">
                     <pivot string="__formalModuleName__ Pivot">
@@ -1160,8 +1160,8 @@ OwlAdvanceModule:
                 </field>
             </record>
             <!-- Search View -->
-            <record id="__modelName___search" model="ir.ui.view">
-                <field name="name">__modelTechnicalName__.search</field>
+            <record id="__modelName___view_search" model="ir.ui.view">
+                <field name="name">__modelTechnicalName__.view.search</field>
                 <field name="model">__modelTechnicalName__</field>
                 <field name="arch" type="xml">
                     <search>
@@ -1173,7 +1173,7 @@ OwlAdvanceModule:
                 </field>
             </record>
             <!-- Action -->
-            <record id="action___modelName__" model="ir.actions.act_window">
+            <record id="__modelName___action" model="ir.actions.act_window">
                 <field name="name">Samples</field>
                 <field name="res_model">__modelTechnicalName__</field>
                 <field name="view_mode">list,form,kanban,calendar,pivot</field>
@@ -1183,11 +1183,11 @@ OwlAdvanceModule:
                 <field name="tag">__modelName__.__modelName__</field>
             </record>
 
-            <menuitem id="menu___moduleName___root" name="__formalModuleName__" action="ir_actions_client"/>
+            <menuitem id="__moduleName___menu_client" name="__formalModuleName__" action="ir_actions_client"/>
     
             <!-- Menu -->
-            <menuitem id="menu___moduleName___root" name="__formalModuleName__"/>
-            <menuitem id="menu___moduleName___main" name="Records" parent="menu___moduleName___root" action="action___modelName__"/>
+            <menuitem id="__moduleName___menu_root" name="__formalModuleName__"/>
+            <menuitem id="__moduleName___menu_main" name="Records" parent="__moduleName___menu_root" action="__modelName___action"/>
         </odoo>
     static:
       src:
