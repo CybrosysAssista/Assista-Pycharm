@@ -88,6 +88,8 @@
                                 implementationClass="completion.OdooXmlCompletionContributor"/>
         <completion.contributor language="Python"
                                 implementationClass="completion.OdooRelationalFieldCompletionContributor"/>
+        <completion.contributor language="Python"
+                                implementationClass="completion.OdooDependsFieldCompletionContributor"/>
 
         <projectService serviceImplementation="completion.OdooModelProjectService"/>
 

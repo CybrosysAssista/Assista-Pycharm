@@ -35,24 +35,34 @@
                         if (stmt is PyAssignmentStatement) {
                             val lhs = stmt.leftHandSideExpression?.text ?: continue
 
-                            if (lhs == "_name") {
-                                modelName = (stmt.assignedValue as? PyStringLiteralExpression)?.stringValue
-                            } else {
-                                // Collect fields like name = fields.Char(...)
-                                val assignedValue = stmt.assignedValue
-                                if (assignedValue is PyCallExpression) {
-                                    val callee = assignedValue.callee?.text ?: ""
-                                    if (callee.startsWith("fields.")) {
-                                        fieldNames.add(lhs)
+                            when (lhs) {
+                                "_name" -> {
+                                    modelName = (stmt.assignedValue as? PyStringLiteralExpression)?.stringValue
+                                }
+                                "_inherit" -> {
+                                    // Use _inherit only if _name wasn't already set
+                                    if (modelName == null) {
+                                        modelName = (stmt.assignedValue as? PyStringLiteralExpression)?.stringValue
+                                    }
+                                }
+                                else -> {
+                                    val assignedValue = stmt.assignedValue
+                                    if (assignedValue is PyCallExpression) {
+                                        val callee = assignedValue.callee?.text ?: ""
+                                        if (callee.startsWith("fields.")) {
+                                            fieldNames.add(lhs)
+                                        }
                                     }
                                 }
                             }
                         }
                     }
+
                     if (modelName != null && fieldNames.isNotEmpty()) {
-                        result[modelName] = fieldNames
+                        result[modelName] = (result[modelName] ?: emptyList()) + fieldNames
                     }
                 }
+
                 return@DataIndexer result
             }
         }
