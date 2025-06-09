@@ -845,7 +845,7 @@ OwlBasicModule:
                 <field name="tag">__modelName__.__modelName__</field>
             </record>
     
-            <menuitem id="__moduleName___menu_client" name="__formalModuleName__" action="ir_actions_client"/>
+            <menuitem id="__moduleName___menu_root" name="__formalModuleName__" action="ir_actions_client"/>
     
             <!-- Menu -->
             <menuitem id="__moduleName___menu_root" name="__formalModuleName__"/>
@@ -1183,7 +1183,7 @@ OwlAdvanceModule:
                 <field name="tag">__modelName__.__modelName__</field>
             </record>
 
-            <menuitem id="__moduleName___menu_client" name="__formalModuleName__" action="ir_actions_client"/>
+            <menuitem id="__moduleName___menu_root" name="__formalModuleName__" action="ir_actions_client"/>
     
             <!-- Menu -->
             <menuitem id="__moduleName___menu_root" name="__formalModuleName__"/>
