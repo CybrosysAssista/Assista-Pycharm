@@ -835,6 +835,28 @@ ${indent}</sheet>"""
                     editor.caretModel.moveToOffset(ctx.startOffset + snippet.length)
                 }
         )
+
+        resultSet.addElement(
+            LookupElementBuilder.create("odoo_record")
+                .withPresentableText("Odoo Record")
+                .withTypeText("Add Record Tag")
+                .withInsertHandler { ctx, _ ->
+                    val editor = ctx.editor
+                    val document = editor.document
+                    val offset = ctx.startOffset
+                    val line = document.getLineNumber(offset)
+                    val startOffset = document.getLineStartOffset(line)
+                    val indent = document.charsSequence.subSequence(startOffset, offset).toString().takeWhile { it.isWhitespace() }
+
+                    val snippet = """<record id="" model="">
+${indent}
+${indent}</record>"""
+
+                    document.replaceString(ctx.startOffset, ctx.tailOffset, snippet)
+                    editor.caretModel.moveToOffset(ctx.startOffset + snippet.length)
+                }
+        )
+
         resultSet.addElement(
             LookupElementBuilder.create("odoo_kanban")
                 .withPresentableText("Odoo kanban")

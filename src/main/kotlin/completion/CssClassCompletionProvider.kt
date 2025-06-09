@@ -10,7 +10,6 @@ import com.intellij.util.indexing.FileBasedIndex
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.openapi.project.Project
 import indexing.CssClassIndex
-import indexing.OdooModelFieldIndex
 
 class CssClassCompletionProvider : CompletionProvider<CompletionParameters>() {
     override fun addCompletions(
