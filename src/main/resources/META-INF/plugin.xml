@@ -104,6 +104,7 @@
                          groupKey="group.names.probable.bugs" level="WARNING" language=""/>
         <fileBasedIndex implementation="indexing.OdooModelIndex"/>
         <fileBasedIndex implementation="indexing.OdooModelFieldIndex"/>
+        <fileBasedIndex implementation="indexing.CssClassIndex"/>
     </extensions>
 
     <actions>

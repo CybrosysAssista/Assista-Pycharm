@@ -91,5 +91,15 @@ class OdooXmlCompletionContributor : CompletionContributor() {
                 ),
             OdooXmlFieldNameCompletionProvider()
         )
+
+        extend(
+            CompletionType.BASIC,
+            psiElement(XmlTokenType.XML_ATTRIBUTE_VALUE_TOKEN)
+                .withLanguage(XMLLanguage.INSTANCE)
+                .inside(
+                    xmlAttribute()
+                        .withName("class")),
+            CssClassCompletionProvider()
+        )
     }
 }
