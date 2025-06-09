@@ -11,6 +11,15 @@ import com.intellij.lang.xml.XMLLanguage
 import com.intellij.patterns.PlatformPatterns.*
 import com.intellij.patterns.XmlPatterns.*
 import com.intellij.patterns.StandardPatterns.string
+import com.intellij.codeInsight.completion.*
+import com.intellij.codeInsight.lookup.LookupElementBuilder
+import com.intellij.psi.PsiElement
+import com.intellij.psi.search.GlobalSearchScope
+import com.intellij.psi.xml.XmlAttribute
+import com.intellij.psi.xml.XmlAttributeValue
+import com.intellij.psi.xml.XmlTag
+import com.intellij.util.indexing.FileBasedIndex
+import indexing.OdooModelFieldIndex
 
 
 class OdooXmlCompletionContributor : CompletionContributor() {

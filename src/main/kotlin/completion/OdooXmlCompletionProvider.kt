@@ -966,48 +966,56 @@ class OdooXmlFieldNameCompletionProvider : CompletionProvider<CompletionParamete
     ) {
         val position = parameters.position
         val xmlAttributeValue = PsiTreeUtil.getParentOfType(position, XmlAttributeValue::class.java) ?: return
-        val xmlTag = PsiTreeUtil.getParentOfType(xmlAttributeValue, XmlTag::class.java) ?: return
-        var currentTag: XmlTag? = xmlTag
+        val xmlAttribute = xmlAttributeValue.parent as? XmlAttribute ?: return
+
+        if (xmlAttribute.name != "name") return
+
+        val fieldTag = xmlAttribute.parent as? XmlTag ?: return
+        if (fieldTag.name != "field") return
+
+        val recordTag = findAncestorTag(fieldTag, "record") ?: return
+        val project = position.project
+
+        // Case 1: <record model="...">
+        val modelFromAttr = recordTag.getAttributeValue("model")
+        if (!modelFromAttr.isNullOrBlank()) {
+            suggestFields(modelFromAttr, project, resultSet)
+            return
+        }
+
+        // Case 2: <record><field name="model">...</field>...</record>
+        val modelFromField = recordTag.findSubTags("field")
+            .firstOrNull { it.getAttributeValue("name") == "model" }
+            ?.value?.text
+
+        if (!modelFromField.isNullOrBlank()) {
+            suggestFields(modelFromField, project, resultSet)
+        }
+    }
+
+    private fun findAncestorTag(tag: XmlTag, tagName: String): XmlTag? {
+        var currentTag: XmlTag? = tag
         while (currentTag != null) {
-            val tagName = currentTag.name
-            if (tagName in listOf("form", "list","tree", "kanban", "graph", "calendar", "pivot")) {
-                var recordTag = PsiTreeUtil.getParentOfType(currentTag, XmlTag::class.java, true)
-                while (recordTag != null) {
-                    if (recordTag.name == "record") {
-                        // Found the record tag, now find the child field tag with name="model"
-                        val fieldTags = recordTag.findSubTags("field")
-
-                        for (fieldTag in fieldTags) {
-                            val nameAttribute = fieldTag.getAttributeValue("name")
-                            if (nameAttribute == "model") {
-                                val modelValue = fieldTag.value.text
-
-                                val project = currentTag.project
-
-                                val suggestions = FileBasedIndex.getInstance()
-                                    .getValues(OdooModelFieldIndex.NAME, modelValue, GlobalSearchScope.allScope(project))
-                                    .flatten()
-                                for (model in suggestions) {
-                                    resultSet.addElement(
-                                        LookupElementBuilder.create(model)
-                                            .withTypeText("Odoo Model", true)
-                                    )
-                                }
-
-                                return
-                            }
-                        }
-
-                        break
-                    }
-                    recordTag = PsiTreeUtil.getParentOfType(recordTag, XmlTag::class.java, true)
-                }
-                return
-            }
+            if (currentTag.name == tagName) return currentTag
             currentTag = PsiTreeUtil.getParentOfType(currentTag, XmlTag::class.java, true)
+        }
+        return null
+    }
+
+    private fun suggestFields(model: String, project: Project, resultSet: CompletionResultSet) {
+        val fields = FileBasedIndex.getInstance()
+            .getValues(OdooModelFieldIndex.NAME, model, GlobalSearchScope.allScope(project))
+            .flatten()
+
+        for (field in fields) {
+            resultSet.addElement(
+                LookupElementBuilder.create(field)
+                    .withTypeText("Odoo Field", true)
+            )
         }
     }
 }
+
 
 
 
