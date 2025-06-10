@@ -97,7 +97,7 @@ class OdooModelFileAction : AnAction("Odoo Model File", "Create a new Odoo model
                 @api.model_create_multi
                 def create(self, vals):
                     ""${'"'}Override the default create method to customize record creation logic.""${'"'}
-                    return super($modelClass, self).create(vals)
+                    return super().create(vals)
         """.trimIndent()
 
         createOrUpdateFile(directory, "$baseName.py", content)

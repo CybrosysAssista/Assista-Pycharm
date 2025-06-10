@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.cybrosys"
-version = "1.2.9"
+version = "0.1.7"
 
 repositories {
     mavenCentral()

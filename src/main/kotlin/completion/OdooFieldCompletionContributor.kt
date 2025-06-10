@@ -583,7 +583,7 @@ ${indent}    partner_id = fields.Many2one('res.partner', required=True, ondelete
                                 val snippet = """@api.model_create_multi
 ${indent}def create(self, vals):
 ${indent}    ""${'"'}Create a new record with the given values.""${'"'}
-${indent}    return super(ClassName, self).create(vals)"""
+${indent}    return super().create(vals)"""
                                 // Insert the snippet and move cursor to end
                                 document.replaceString(ctx.startOffset, ctx.tailOffset, snippet)
                                 editor.caretModel.moveToOffset(ctx.startOffset + snippet.length)
@@ -608,7 +608,7 @@ ${indent}    return super(ClassName, self).create(vals)"""
 
                                 val snippet = """def write(self, vals):
 ${indent}    ""${'"'}Update the record with the given values.""${'"'}
-${indent}    return super(ClassName, self).write(vals)"""
+${indent}    return super().write(vals)"""
                                 // Insert the snippet and move cursor to end
                                 document.replaceString(ctx.startOffset, ctx.tailOffset, snippet)
                                 editor.caretModel.moveToOffset(ctx.startOffset + snippet.length)
@@ -633,7 +633,7 @@ ${indent}    return super(ClassName, self).write(vals)"""
 
                                 val snippet = """def unlink(self):
 ${indent}    ""${'"'}Delete the current record.""${'"'}
-${indent}    return super(ClassName, self).unlink()"""
+${indent}    return super().unlink()"""
                                 // Insert the snippet and move cursor to end
                                 document.replaceString(ctx.startOffset, ctx.tailOffset, snippet)
                                 editor.caretModel.moveToOffset(ctx.startOffset + snippet.length)
