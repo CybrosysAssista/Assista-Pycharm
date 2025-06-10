@@ -995,25 +995,49 @@ class OdooXmlFieldNameCompletionProvider : CompletionProvider<CompletionParamete
         val fieldTag = xmlAttribute.parent as? XmlTag ?: return
         if (fieldTag.name != "field") return
 
-        val recordTag = findAncestorTag(fieldTag, "record") ?: return
         val project = position.project
+        val viewTags = setOf("form", "tree", "list", "kanban", "pivot", "graph", "calendar", "search")
 
-        // Case 1: <record model="...">
-        val modelFromAttr = recordTag.getAttributeValue("model")
-        if (!modelFromAttr.isNullOrBlank()) {
-            suggestFields(modelFromAttr, project, resultSet)
-            return
-        }
+        var currentTag: XmlTag? = fieldTag
 
-        // Case 2: <record><field name="model">...</field>...</record>
-        val modelFromField = recordTag.findSubTags("field")
-            .firstOrNull { it.getAttributeValue("name") == "model" }
-            ?.value?.text
+        while (currentTag != null) {
+            // Case 1: Check for view-type tag
+            if (currentTag.name in viewTags) {
+                var recordTag = PsiTreeUtil.getParentOfType(currentTag, XmlTag::class.java, true)
+                while (recordTag != null) {
+                    if (recordTag.name == "record") {
+                        val fieldTags = recordTag.findSubTags("field")
 
-        if (!modelFromField.isNullOrBlank()) {
-            suggestFields(modelFromField, project, resultSet)
+                        for (fieldTag in fieldTags) {
+                            val nameAttribute = fieldTag.getAttributeValue("name")
+                            if (nameAttribute == "model") {
+                                val modelValue = fieldTag.value.text
+                                if (!modelValue.isNullOrBlank()) {
+                                    suggestFields(modelValue, project, resultSet)
+                                    return
+                                }
+                            }
+                        }
+                    }
+                    recordTag = PsiTreeUtil.getParentOfType(recordTag, XmlTag::class.java, true)
+                }
+                return
+            }
+
+            if (currentTag.name == "record") {
+                println("2entered")
+                val modelAttr = currentTag.getAttributeValue("model")
+                if (!modelAttr.isNullOrBlank()) {
+                    suggestFields(modelAttr, project, resultSet)
+                }
+                return
+            }
+
+            currentTag = PsiTreeUtil.getParentOfType(currentTag, XmlTag::class.java)
         }
     }
+
+
 
     private fun findAncestorTag(tag: XmlTag, tagName: String): XmlTag? {
         var currentTag: XmlTag? = tag
