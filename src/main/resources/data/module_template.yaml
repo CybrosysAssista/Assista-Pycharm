@@ -39,7 +39,7 @@ OdooBasicModule:
       __modelName__.py: |
         # -*- coding: utf-8 -*-
         
-        from odoo import api, fields, models, _
+        from odoo import _,api, fields, models
         
         class __modelClassName__(models.Model):
             _name = '__modelTechnicalName__'
@@ -233,7 +233,7 @@ OdooAdvanceModule:
 
       __modelName__.py: |
         # -*- coding: utf-8 -*-
-        from odoo import api, fields, models, _
+        from odoo import _,api, fields, models
 
         class __modelClassName__(models.Model):
             _name = '__modelTechnicalName__'

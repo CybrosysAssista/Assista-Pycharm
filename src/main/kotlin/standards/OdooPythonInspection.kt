@@ -377,13 +377,65 @@ class OdooPythonInspection : LocalInspectionTool() {
                         if(default is PyReferenceExpression && !default.text.startsWith("fields.Date")){
                             holder.registerProblem(default, "Use lambda to call a default function")
                         }
+
+                        // Enhanced lambda validation - replaces the simple lambda check
                         if(default is PyLambdaExpression){
                             val defaultFunction = default.children.find { elem -> elem is PyCallExpression }
                             if (defaultFunction != null){
                                 val actualFunction = defaultFunction.text.split('.').last()
                                 val ogFuncName = "_default_$fieldName()"
-                                if(actualFunction != ogFuncName){
+
+                                // Skip validation for translation functions and other built-in functions
+                                val calledFunctionName = actualFunction.removeSuffix("()")
+                                val isTranslationFunction = calledFunctionName == "_"
+                                val isBuiltInFunction = listOf("str", "int", "float", "bool", "len", "max", "min", "sum").contains(calledFunctionName)
+                                val isFieldsFunction = defaultFunction.text.startsWith("fields.")
+                                val isDateFunction = defaultFunction.text.contains("date.") || defaultFunction.text.contains("datetime.")
+                                val isUuidFunction = defaultFunction.text.contains("uuid.")
+
+                                // Only validate if it's a self method call (starts with "self.")
+                                val isSelfMethodCall = defaultFunction.text.startsWith("self.")
+
+                                if(isSelfMethodCall && actualFunction != ogFuncName){
                                     holder.registerProblem(default, "Default function name should follow Odoo standards. Function name should be $ogFuncName")
+                                }
+
+                                // Additional check: If lambda calls a self method, validate that function exists and follows standards
+                                if (isSelfMethodCall && !isTranslationFunction && !isBuiltInFunction && !isFieldsFunction && !isDateFunction && !isUuidFunction) {
+                                    // Find the actual function definition in the class
+                                    val functionDef = classObj.findMethodByName(calledFunctionName, false, null)
+
+                                    if (functionDef != null) {
+                                        // Check if the function follows Odoo naming standards
+                                        val expectedFunctionName = "_default_$fieldName"
+
+                                        if (calledFunctionName != expectedFunctionName) {
+                                            holder.registerProblem(functionDef.nameIdentifier ?: functionDef,
+                                                "Default function name should follow Odoo standards. Function name should be '$expectedFunctionName'")
+                                        }
+
+                                        // Check if function has correct signature (self parameter)
+                                        val parameters = functionDef.parameterList.parameters
+                                        if (parameters.isEmpty() || parameters[0].name != "self") {
+                                            holder.registerProblem(functionDef.parameterList,
+                                                "Default function should have 'self' as first parameter")
+                                        }
+
+                                        // Check if function has @api.model decorator (recommended Odoo pattern)
+                                        val decorators = functionDef.decoratorList?.decorators
+                                        val hasApiModelDecorator = decorators?.any { decorator ->
+                                            decorator.text.contains("api.model")
+                                        } ?: false
+
+                                        if (!hasApiModelDecorator) {
+                                            holder.registerProblem(functionDef.nameIdentifier ?: functionDef,
+                                                "Default function should have '@api.model' decorator for better performance")
+                                        }
+                                    } else {
+                                        // Function is called but not defined in this class (only for self method calls)
+                                        holder.registerProblem(defaultFunction,
+                                            "Called function '$calledFunctionName' is not defined in this class")
+                                    }
                                 }
                             }
                         }
