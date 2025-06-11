@@ -341,36 +341,47 @@ class OdooPythonInspection : LocalInspectionTool() {
                         val fieldName = node.children[0].text
                         var fieldNameString: String? = null
                         if(fieldName.endsWith("_id")){
-                            fieldNameString = fieldName.replace("_id", "").split("_").joinToString(separator = " ", transform = { it.replaceFirstChar {
+                            val transformedName = fieldName.replace("_id", "").split("_").joinToString(separator = " ", transform = { it.replaceFirstChar {
                                 if (it.isLowerCase()) it.titlecase(
                                     Locale.getDefault()
                                 ) else it.toString()
                             } })
+                            if(transformedName.isNotEmpty()) {
+                                fieldNameString = transformedName
+                            }
                         } else if(fieldName.endsWith("_ids")){
-                            fieldNameString = fieldName.replace("_ids", "").split("_").joinToString(separator = " ", transform = { it.replaceFirstChar {
+                            val transformedName = fieldName.replace("_ids", "").split("_").joinToString(separator = " ", transform = { it.replaceFirstChar {
                                 if (it.isLowerCase()) it.titlecase(
                                     Locale.getDefault()
                                 ) else it.toString()
                             } })
+                            if(transformedName.isNotEmpty()) {
+                                fieldNameString = transformedName
+                            }
                         }
                         else {
-                            fieldNameString = fieldName.split("_").joinToString(separator = " ", transform = { it.replaceFirstChar {
+                            val transformedName = fieldName.split("_").joinToString(separator = " ", transform = { it.replaceFirstChar {
                                 if (it.isLowerCase()) it.titlecase(
                                     Locale.getDefault()
                                 ) else it.toString()
                             } })
+                            if(transformedName.isNotEmpty()) {
+                                fieldNameString = transformedName
+                            }
                         }
                         if(string != null){
                             val stringText = replaceQuotes(string.text).replace("_", "")
                             if(stringText.isNotEmpty() && stringText.first().isLowerCase()){
                                 holder.registerProblem(string, "String should start with a capital letter")
                             }
-                            if(fieldNameString.equals(stringText, ignoreCase = true)){
+                            if(fieldNameString != null && fieldNameString.isNotEmpty() && fieldNameString.equals(stringText, ignoreCase = true)){
                                 holder.registerProblem(string, "String attribute is not needed since field name is same as string")
                             }
                         }
                         if (string != null && help != null){
-                            if(replaceQuotes(string.text) == replaceQuotes(help.text)){
+                            val stringText = replaceQuotes(string.text)
+                            val helpText = replaceQuotes(help.text)
+                            if(stringText.isNotEmpty() && helpText.isNotEmpty() && stringText == helpText){
                                 holder.registerProblem(help, "String and Help attribute can't be same. Either remove help or change it")
                             }
                         }
