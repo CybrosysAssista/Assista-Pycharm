@@ -29,7 +29,7 @@
                     if (!isModel) continue
 
                     var modelName: String? = null
-                    val fieldNames = mutableListOf<String>()
+                    val fieldNames = mutableMapOf<String, Map<String, String>>()
 
                     for (stmt in cls.statementList.statements) {
                         if (stmt is PyAssignmentStatement) {
@@ -50,7 +50,42 @@
                                     if (assignedValue is PyCallExpression) {
                                         val callee = assignedValue.callee?.text ?: ""
                                         if (callee.startsWith("fields.")) {
-                                            fieldNames.add(lhs)
+
+                                            // Get arguments and create dictionary
+                                            val argumentList = assignedValue.argumentList
+                                            val argumentDict = mutableMapOf<String, String>()
+
+                                            // Add field type to dictionary
+                                            argumentDict["field_type"] = callee
+
+                                            val arguments = argumentList?.arguments
+                                            arguments?.forEachIndexed { index, argument ->
+                                                when (argument) {
+                                                    is PyKeywordArgument -> {
+                                                        // Named argument: keyword=value
+                                                        val keyword = argument.keyword ?: "unknown_key_$index"
+                                                        val value = argument.valueExpression?.text ?: "null"
+                                                        argumentDict[keyword] = value
+                                                    }
+                                                    else -> {
+                                                        // Positional argument - use index as key
+                                                        val value = argument.text
+                                                        argumentDict["arg_$index"] = value
+                                                    }
+                                                }
+                                            }
+
+                                            fieldNames[lhs] = argumentDict
+
+                                            println("Field: $lhs")
+                                            println("Arguments dictionary: $argumentDict")
+
+                                            // Print in formatted way
+                                            println("Field definition:")
+                                            argumentDict.forEach { (key, value) ->
+                                                println("  $key: $value")
+                                            }
+                                            println() // Add blank line for readability
                                         }
                                     }
                                 }
@@ -59,7 +94,18 @@
                     }
 
                     if (modelName != null && fieldNames.isNotEmpty()) {
-                        result[modelName] = (result[modelName] ?: emptyList()) + fieldNames
+                        // Convert each field and its attributes to a simple string format
+                        val fieldList = fieldNames.map { (fieldName, attributes) ->
+                            // Format: fieldName|attribute1=value1|attribute2=value2
+                            val attributeString = attributes.entries.joinToString("|") { "${it.key}=${it.value}" }
+                            "field_name=$fieldName|$attributeString"
+                        }
+
+                        result[modelName] = fieldList
+
+                        println("Model: $modelName")
+                        println("Field list: $fieldList")
+                        println("=".repeat(50)) // Separator between models
                     }
                 }
 

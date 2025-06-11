@@ -19,6 +19,7 @@ import indexing.OdooModelIndex
 import indexing.OdooModelFieldIndex
 import com.intellij.util.indexing.FileBasedIndex
 import com.intellij.psi.xml.XmlAttributeValue
+import org.json.JSONObject
 
 
 
@@ -1054,8 +1055,14 @@ class OdooXmlFieldNameCompletionProvider : CompletionProvider<CompletionParamete
             .flatten()
 
         for (field in fields) {
+            val field_data = field.split("|")
+            val field_data_dict = mutableMapOf<String, String>()
+            for (attribute in field_data) {
+                val attribute_data = attribute.split("=")
+                field_data_dict[attribute_data[0]] = attribute_data[1]
+            }
             resultSet.addElement(
-                LookupElementBuilder.create(field)
+                LookupElementBuilder.create(field_data_dict["field_name"])
                     .withTypeText("Odoo Field", true)
             )
         }

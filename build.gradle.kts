@@ -31,3 +31,7 @@ tasks {
         untilBuild.set("251.*")
     }
 }
+
+dependencies {
+    implementation("org.json:json:20231013")
+}
