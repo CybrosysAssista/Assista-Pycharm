@@ -50,14 +50,14 @@ class OdooXmlInspection : LocalInspectionTool() {
             private fun checkRecordName(parentX: XmlTag) {
                 val parent = parentX.parentTag
                 val modelAttr = parent?.getAttribute("model")
-                val name = parentX.value.text
+                val name = parentX.value?.text ?: return
 
                 if (modelAttr?.value == "ir.ui.view") {
                     val model = parent.subTags.firstOrNull { it.getAttribute("name")?.value == "model" }
                     val arch = parent.subTags.firstOrNull { it.getAttribute("name")?.value == "arch" }
 
                     model?.let {
-                        val viewModelName = it.value.text + "."
+                        val viewModelName = it.value?.text?.plus(".") ?: return
                         val tagName = arch?.subTags?.firstOrNull()?.name?.takeUnless { it == "xpath" } ?: ""
                         val expectedName = "${viewModelName}view.$tagName"
                         if (tagName.isNotEmpty() && name != expectedName) {
@@ -85,7 +85,9 @@ class OdooXmlInspection : LocalInspectionTool() {
 
             private fun checkMenuItem(tag: XmlTag) {
                 val idAttribute = tag.getAttribute("id")
-                val name = tag.getAttribute("name")?.value?.replace(" ", "_")?.lowercase()
+                val nameAttr = tag.getAttribute("name")
+                val name = nameAttr?.value?.replace(" ", "_")?.lowercase()
+                
                 if (idAttribute == null) {
                     holder.registerProblem(tag, "Missing 'id' attribute for menuitem")
                 } else if (name != null) {
@@ -135,7 +137,7 @@ class OdooXmlInspection : LocalInspectionTool() {
                 val arch = parent.subTags.firstOrNull { it.getAttribute("name")?.value == "arch" }
 
                 model?.let {
-                    val viewModelName = it.value.text.replace(".", "_")
+                    val viewModelName = it.value?.text?.replace(".", "_") ?: return
                     val tagName = arch?.subTags?.firstOrNull()?.name?.takeUnless { name -> name == "xpath" } ?: ""
                     val expectedId = if (tagName.isNotEmpty()) "${viewModelName}_view_$tagName" else ""
                     if (tagName.isNotEmpty() && id != expectedId) {
@@ -147,7 +149,6 @@ class OdooXmlInspection : LocalInspectionTool() {
             }
 
             private fun checkRuleId(attribute: XmlAttribute, parent: XmlTag, id: String) {
-
                 val modelIdTag = parent.subTags.firstOrNull { it.getAttribute("name")?.value == "model_id" }
                 val domainForceTag = parent.subTags.firstOrNull { it.getAttribute("name")?.value == "domain_force" }
                 val groupTag = parent.subTags.firstOrNull { it.getAttribute("name")?.value == "groups" }
@@ -171,18 +172,17 @@ class OdooXmlInspection : LocalInspectionTool() {
                     }
 
                     val expectedId = "${modelName}_rule_${concernedGroup}"
-                    if (concernedGroup == "custom"){
-                        if (!id.startsWith("${modelName}_rule_")){
+                    if (concernedGroup == "custom") {
+                        if (!id.startsWith("${modelName}_rule_")) {
                             holder.registerProblem(attribute, "Rule ID should follow pattern: \"${modelName}_rule_<Rule-Name>")
                         }
-                    } else{
+                    } else {
                         if (id != expectedId) {
                             holder.registerProblem(attribute, "Rule ID should follow pattern: $expectedId")
                         }
                     }
                 }
             }
-
 
             private fun checkGroupId(attribute: XmlAttribute, id: String) {
                 val moduleName = holder.file.parent?.parent?.name ?: return
