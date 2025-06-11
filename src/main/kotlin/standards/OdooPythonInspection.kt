@@ -362,7 +362,7 @@ class OdooPythonInspection : LocalInspectionTool() {
                         }
                         if(string != null){
                             val stringText = replaceQuotes(string.text).replace("_", "")
-                            if(stringText.first().isLowerCase()){
+                            if(stringText.isNotEmpty() && stringText.first().isLowerCase()){
                                 holder.registerProblem(string, "String should start with a capital letter")
                             }
                             if(fieldNameString.equals(stringText, ignoreCase = true)){
