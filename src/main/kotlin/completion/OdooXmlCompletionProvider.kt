@@ -19,8 +19,7 @@ import indexing.OdooModelIndex
 import indexing.OdooModelFieldIndex
 import com.intellij.util.indexing.FileBasedIndex
 import com.intellij.psi.xml.XmlAttributeValue
-import org.json.JSONObject
-
+import utils.PluginUtils
 
 
 
@@ -152,9 +151,17 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
                     val modelName = fileName.removeSuffix(".xml").removeSuffix("_views")
                     val modelDotName = modelName.replace("_",".")
 
+                    val project = ctx.project
+
+                    val fieldNames = FileBasedIndex.getInstance()
+                        .getValues(OdooModelFieldIndex.NAME, modelDotName, GlobalSearchScope.allScope(project))
+                        .flatten()
+
+                    println(fieldNames)
+
                     val document = ctx.document
                     val startOffset = ctx.startOffset
-                    val project = ctx.project
+
 
                     // Find existing record tags to match their indentation
                     val documentText = document.text
@@ -239,26 +246,32 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
                 .withPresentableText("Odoo list view")
                 .withTypeText("Create List View Template")
                 .withInsertHandler(InsertHandler { ctx, _ ->
+                    val project = ctx.project
                     val fileName = ctx.file.name
                     val modelName = fileName.removeSuffix(".xml").removeSuffix("_views")
                     val modelDotName = modelName.replace("_",".")
+                    val fieldNames = FileBasedIndex.getInstance()
+                        .getValues(OdooModelFieldIndex.NAME, modelDotName, GlobalSearchScope.allScope(project))
+                        .flatten()
+                    var fields = """"""
+                    for (field in fieldNames.take(5)) {
+                        val fieldAttributes = PluginUtils.parseFieldAttributes(field)
+                        fields = fields + "<field name=\"${fieldAttributes["field_name"]}\"/>\n"
+                    }
+
+                    println(fields)
                     val snippet = """
                 <record id="${modelName}_view_list" model="ir.ui.view">
                     <field name="name">${modelDotName}.view.list</field>
                     <field name="model">${modelDotName}</field>
                     <field name="arch" type="xml">
                         <list string="List Title" decoration-danger="state=='cancel'" decoration-success="state=='done'">
-                            <field name="name"/>
-                            <field name="date"/>
-                            <field name="partner_id"/>
-                            <field name="amount"/>
-                            <field name="state"/>
+                            ${fields.trimIndent()}
                         </list>
                     </field>
                 </record>
             """.trimIndent()
 
-                    val project = ctx.project
                     val document = ctx.document
                     val startOffset = ctx.startOffset
                     val endOffset = ctx.selectionEndOffset
@@ -1053,18 +1066,23 @@ class OdooXmlFieldNameCompletionProvider : CompletionProvider<CompletionParamete
         val fields = FileBasedIndex.getInstance()
             .getValues(OdooModelFieldIndex.NAME, model, GlobalSearchScope.allScope(project))
             .flatten()
+            .filterNot { it.isNullOrBlank() }
 
         for (field in fields) {
-            val field_data = field.split("|")
-            val field_data_dict = mutableMapOf<String, String>()
-            for (attribute in field_data) {
-                val attribute_data = attribute.split("=")
-                field_data_dict[attribute_data[0]] = attribute_data[1]
+            val fieldAttributes = PluginUtils.parseFieldAttributes(field)
+            println(fieldAttributes)
+            val fieldName = fieldAttributes["field_name"] ?: continue
+            val fieldType = fieldAttributes["field_type"] ?: "Unknown"
+            val comodel = fieldAttributes["comodel_name"]
+
+            // Build the completion suggestion
+            var builder = LookupElementBuilder.create(fieldName)
+                .withTypeText(fieldType, true)
+            if (comodel != null) {
+                builder = builder.withTailText(" → $comodel", true)
             }
-            resultSet.addElement(
-                LookupElementBuilder.create(field_data_dict["field_name"])
-                    .withTypeText("Odoo Field", true)
-            )
+
+            resultSet.addElement(builder)
         }
     }
 }

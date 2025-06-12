@@ -13,6 +13,7 @@ import com.intellij.psi.util.elementType
 import com.jetbrains.python.PyTokenTypes
 import indexing.OdooModelFieldIndex
 import com.intellij.codeInsight.lookup.LookupElementBuilder
+import utils.PluginUtils
 
 class OdooInverseNameCompletionProvider : CompletionProvider<CompletionParameters>() {
     override fun addCompletions(
@@ -46,11 +47,23 @@ class OdooInverseNameCompletionProvider : CompletionProvider<CompletionParameter
             .getValues(OdooModelFieldIndex.NAME, relatedModelName, GlobalSearchScope.allScope(project))
             .flatten()
 
-        val relationalFields = fieldNames.filter { it.endsWith("_id") }
-        println("this: $relationalFields")
+        for (field in fieldNames) {
+            val fieldAttributes = PluginUtils.parseFieldAttributes(field)
+            println(fieldAttributes)
+            val fieldName = fieldAttributes["field_name"] ?: continue
+            if (fieldName.endsWith("_id")) {
+                val fieldType = fieldAttributes["field_type"] ?: "Unknown"
+                val comodel = fieldAttributes["comodel_name"]
 
-        for (field in relationalFields) {
-            result.addElement(LookupElementBuilder.create(field))
+                // Build the completion suggestion
+                var builder = LookupElementBuilder.create(fieldName)
+                    .withTypeText(fieldType, true)
+                if (comodel != null) {
+                    builder = builder.withTailText(" → $comodel", true)
+                }
+
+                result.addElement(builder)
+            }
         }
     }
 }

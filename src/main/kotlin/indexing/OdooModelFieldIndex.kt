@@ -76,16 +76,6 @@
                                             }
 
                                             fieldNames[lhs] = argumentDict
-
-                                            println("Field: $lhs")
-                                            println("Arguments dictionary: $argumentDict")
-
-                                            // Print in formatted way
-                                            println("Field definition:")
-                                            argumentDict.forEach { (key, value) ->
-                                                println("  $key: $value")
-                                            }
-                                            println() // Add blank line for readability
                                         }
                                     }
                                 }
@@ -102,10 +92,6 @@
                         }
 
                         result[modelName] = fieldList
-
-                        println("Model: $modelName")
-                        println("Field list: $fieldList")
-                        println("=".repeat(50)) // Separator between models
                     }
                 }
 

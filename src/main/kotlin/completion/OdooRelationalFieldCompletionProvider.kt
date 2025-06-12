@@ -11,6 +11,7 @@ import com.intellij.util.indexing.FileBasedIndex
 import com.jetbrains.python.psi.*
 import indexing.OdooModelFieldIndex
 import indexing.OdooModelIndex
+import utils.PluginUtils
 
 class OdooRelationalFieldCompletionProvider : CompletionProvider<CompletionParameters>() {
     override fun addCompletions(
@@ -45,8 +46,20 @@ class OdooRelationalFieldCompletionProvider : CompletionProvider<CompletionParam
             .getValues(OdooModelFieldIndex.NAME, targetModel, GlobalSearchScope.allScope(project))
             .flatten()
 
-        suggestions.forEach {
-            result.addElement(LookupElementBuilder.create(it))
+        for (field in suggestions) {
+            val fieldAttributes = PluginUtils.parseFieldAttributes(field)
+            val fieldName = fieldAttributes["field_name"] ?: continue
+            val fieldType = fieldAttributes["field_type"] ?: "Unknown"
+            val comodel = fieldAttributes["comodel_name"]
+
+            // Build the completion suggestion
+            var builder = LookupElementBuilder.create(fieldName)
+                .withTypeText(fieldType, true)
+            if (comodel != null) {
+                builder = builder.withTailText(" → $comodel", true)
+            }
+
+            result.addElement(builder)
         }
     }
 
