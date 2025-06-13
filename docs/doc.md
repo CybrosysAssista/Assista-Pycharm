@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<img src="banner.png" alt="Assista Plugin" width="70">
+<img src="https://github.com/user-attachments/assets/b8ef422e-3efa-4bf1-a726-63c9f94cc354" alt="Assista Plugin" width="70">
 
 [![PyCharm Plugin](https://img.shields.io/badge/PyCharm-Plugin-green)](https://plugins.jetbrains.com)
 [![Odoo Development](https://img.shields.io/badge/Odoo-Development-blue)](https://www.odoo.com)
@@ -67,7 +67,15 @@ To quickly create a new Odoo module using the template generator:
 
 The generator will instantly create a structured Odoo module with all necessary files and directories.
 
-![Using the Module Template Generator](module-generator-menu.png)
+---
+<div align="center">
+  
+![module_creator_menu](https://github.com/user-attachments/assets/98bc9ae9-b2bb-4e1b-a9b1-d13f8e343cbb)
+
+
+</div>
+
+---
 
 
 ### Odoo Module Templates Overview
@@ -85,11 +93,11 @@ The generator will instantly create a structured Odoo module with all necessary 
 
 ---
 
-<p align="center">
-  <img src="odoo_advance.png" width="30%" style="margin: 1%;">
-  <img src="owl_advance.png" width="30%" style="margin: 1%;">
-  <img src="website_theme.png" width="30%" style="margin: 1%;">
-</p>
+<div align="center">
+  
+![Using the Module Template Generator](https://github.com/user-attachments/assets/5d897efd-b6ae-4c0e-88ff-b3fd624d795d)
+
+</div>
 
 ---
 
@@ -109,7 +117,11 @@ Creating new Odoo files is quick and effortless with the Module Template Generat
 The generator will instantly create the file with predefined, Odoo-specific content—saving you time and ensuring consistency across your module.
 
 ---
-![Using the Module Template Generator](file_creator_menu.png)
+<div align="center">
+  
+![file_creator_menu](https://github.com/user-attachments/assets/760f8929-e3a7-43ba-873b-b1d91035b2ec)
+
+</div>
 
 ---
 
@@ -147,11 +159,11 @@ The generator will instantly create the file with predefined, Odoo-specific cont
 
 ---
 
-<p align="center">
-  <img src="python_file_generator.png" width="30%" style="margin: 1%;">
-  <img src="xml_file_generator.png" width="30%" style="margin: 1%;">
-  <img src="access_file_generator.png" width="30%" style="margin: 1%;">
-</p>
+<div align="center">
+  
+![file_creator](https://github.com/user-attachments/assets/b0868440-1b12-4adb-af59-19210f5a7e23)
+
+</div>
 
 ---
 
@@ -846,10 +858,31 @@ required="action == 'exist'"
 </odoo>
 ```
 
+---
+
+<div align="center">
+  
+![code_snippet](https://github.com/user-attachments/assets/cf6f6cfc-59db-4af4-9daa-689d34b9cf93)
+
+</div>
+
+---
+
 
 ## Smart Suggetion
 
 This plugin provides intelligent, context-aware suggestions to streamline Odoo development. It offers completions for model names, fields, and class names in various scenarios. In Python, it supports parameters like comodel_name, inverse_name, and decorators such as @api.depends and @api.onchange, as well as model attributes like _name and _inherit. In XML, it suggests values for attributes like model in <record>, name in <field>, and more. These features help improve productivity and reduce coding errors.
+
+---
+
+<div align="center">
+  
+![suggestion](https://github.com/user-attachments/assets/d27000dc-ee09-4b34-a37d-89ce086049ad)
+
+
+</div>
+
+---
 
 
 ## Odoo Standard inspection
@@ -859,8 +892,13 @@ This plugin includes built-in inspection features to detect and highlight violat
 ---
 
 <div align="center">
-<img src="code_inspection.png" alt="Assista Plugin" width="97%">
+  
+![standard](https://github.com/user-attachments/assets/780e899e-757e-4a3d-b994-2818acc2b135)
+
 </div>
+
+---
+
 
 ### Facing Issues with Plugin?
 
@@ -876,7 +914,7 @@ If you're experiencing problems with code suggestions or inspections, try the fo
    Right-click your project root folder and select **"Synchronize"** to ensure all files are indexed.
 6. **Update IDE** – Make sure you're using the latest version of the IDE, as updates often resolve plugin compatibility issues.
 
-Still having trouble? Don't hesitate to [contact support](https://assista.cybrosys.com/contact-us) — we're here to help!
+Still having trouble? Don't hesitate to [contact support](https://assista.cybrosys.com/support) — we're here to help!
 
 
 ---
