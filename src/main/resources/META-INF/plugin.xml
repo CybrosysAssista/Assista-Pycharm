@@ -1,136 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <idea-plugin>
     <id>com.cybrosys.odoo.code</id>
-    <name>cybrosys assista : odoo helper</name>
-    <vendor>Cybrosys Technologies</vendor>
+    <name>Cybrosys Assista: Odoo Helper</name>
+    <vendor>Cybrosys Technologies: Odoo Official Partner</vendor>
     <description><![CDATA[
-<h2>cybrosys assista - Intelligent Odoo Development Assistant</h2>
+<p><b>Cybrosys Assista - Odoo Development Assistant for PyCharm</b></p>
 
-<p><strong>Accelerate your Odoo development with smart code completion, templates, and best practices enforcement.</strong></p>
+<p>Accelerate your Odoo development with intelligent code completion, smart file generation, and Odoo best practices enforcement — all directly within PyCharm.</p>
 
-<p>Assista is a comprehensive PyCharm plugin designed specifically for Odoo developers. It provides intelligent code suggestions, automated module generation, and development best practices to streamline your Odoo project workflow.</p>
-
-<h3>Key Features</h3>
-
-<h3>Module Template Generator</h3>
+<p><b>Key Features:</b><br>
 <ul>
-<li><strong>Instant Module Creation:</strong> Generate complete Odoo modules with proper structure and boilerplate code</li>
-<li><strong>Multiple Templates:</strong> Choose from Basic, Advanced, Theme, OWL Basic/Advanced, and Systray modules</li>
-<li><strong>Ready-to-Use Structure:</strong> Includes models, views, security, manifest, and initialization files</li>
+  <li><b>Module Template Generator</b> – Generate complete Odoo modules instantly</li>
+  <li><b>Smart File Creator</b> – Boilerplate files for models, controllers, views, menus, reports, and more</li>
+  <li><b>Code Snippet Assistant</b> – 100+ Python/XML snippets with best practices</li>
+  <li><b>Context-Aware Suggestions</b> – Autocompletion for fields, models, decorators, and view elements</li>
+  <li><b>Odoo Standards Inspection</b> – Real-time detection of code quality and structure issues</li>
 </ul>
+</p>
 
-<img src="https://github.com/user-attachments/assets/98bc9ae9-b2bb-4e1b-a9b1-d13f8e343cbb" alt="Module Creator Menu">
+<p><b>Supported File Types:</b><br>
+- Python (.py): Models, Controllers, Wizards<br>
+- XML (.xml): Views, Actions, Menus, Reports<br>
+- CSV (.csv): Security and data files
+</p>
 
-<p><strong>Available Module Templates:</strong></p>
-<table>
-<tr><th>Template</th><th>Description</th></tr>
-<tr><td>Basic Odoo Module</td><td>Minimal module with essential files, simple model, basic views, and security</td></tr>
-<tr><td>Advanced Odoo Module</td><td>Complex models, multiple view types, enhanced security, demo data, and documentation</td></tr>
-<tr><td>Theme Module</td><td>Website theme with custom templates, CSS/JS assets, and design components</td></tr>
-<tr><td>OWL Basic Module</td><td>Minimal OWL JavaScript components with templates and integration</td></tr>
-<tr><td>OWL Advanced Module</td><td>Complex OWL modules with state management, controllers, and rich interactions</td></tr>
-<tr><td>Systray Module</td><td>Custom systray icons and menus for the Odoo web client top bar</td></tr>
-</table>
+<p><b>Compatibility:</b><br>
+- PyCharm 2023.2+ (Community & Professional)<br>
+- Odoo versions 12 to 17
+</p>
 
-<img src="https://github.com/user-attachments/assets/5d897efd-b6ae-4c0e-88ff-b3fd624d795d" alt="Module Template Generator in Action">
+<p><b>Quick Access:</b><br>
+<a href="https://assista.cybrosys.com">Website</a> •
+<a href="https://github.com/CybrosysAssista/Assista-Pycharm">GitHub</a> •
+<a href="https://github.com/CybrosysAssista/Assista-Pycharm/issues">Report Issue</a>
+</p>
 
-<h3>Smart File Creator</h3>
-<ul>
-<li><strong>Python Files:</strong> Generate __init__.py, __manifest__.py, Models, and Controllers with proper imports</li>
-<li><strong>XML Files:</strong> Create Views, Menus, Actions, Reports, Security, Settings, and Cron jobs</li>
-<li><strong>CSV Files:</strong> Generate security access files with proper structure</li>
-<li><strong>Pre-filled Content:</strong> All files come with context-aware, Odoo-specific boilerplate</li>
-</ul>
-
-<img src="https://github.com/user-attachments/assets/760f8929-e3a7-43ba-873b-b1d91035b2ec" alt="File Creator Menu">
-
-<p><strong>Python File Templates:</strong></p>
-<ul>
-<li><code>__init__.py</code> - Module initialization with encoding and imports</li>
-<li><code>__manifest__.py</code> - Complete manifest with metadata and dependencies</li>
-<li><strong>Odoo Model</strong> - Model class with fields and basic methods</li>
-<li><strong>Odoo Controller</strong> - Web controller with HTTP routes</li>
-</ul>
-
-<p><strong>XML File Templates:</strong></p>
-<ul>
-<li><strong>Basic/Advanced Views</strong> - Form and tree views with proper structure</li>
-<li><strong>Inherited Views</strong> - XPath-based view extensions</li>
-<li><strong>Reports</strong> - Printable report templates and actions</li>
-<li><strong>Menus & Actions</strong> - Navigation and window actions</li>
-<li><strong>Security</strong> - Access control rules and group definitions</li>
-</ul>
-
-<img src="https://github.com/user-attachments/assets/b0868440-1b12-4adb-af59-19210f5a7e23" alt="File Creator Dialog">
-
-<h3>Code Snippet Assistant</h3>
-<ul>
-<li><strong>100+ Snippets:</strong> Extensive collection of Python and XML code snippets</li>
-<li><strong>Keyword Activation:</strong> Type "odoo" to access field definitions, API decorators, view templates, and more</li>
-<li><strong>Context-Aware:</strong> Automatically detects model context and fills in appropriate names and IDs</li>
-<li><strong>Best Practices:</strong> Follows Odoo development standards and conventions</li>
-</ul>
-
-<p>Visit the <a href="https://assista.cybrosys.com/pycharm-plugin/snippets" target="_blank">official site</a> to Access CheatSheet</p>
-
-
-<img src="https://github.com/user-attachments/assets/cf6f6cfc-59db-4af4-9daa-689d34b9cf93" alt="Code Snippet Assistant" >
-
-<h3>Smart Suggestions</h3>
-<ul>
-<li><strong>Intelligent Completions:</strong> Context-aware suggestions for model names, fields, and class names</li>
-<li><strong>Python Support:</strong> Completions for comodel_name, inverse_name, @api.depends, @api.onchange, _name, _inherit</li>
-<li><strong>XML Support:</strong> Smart suggestions for model attributes, field names, and record structures</li>
-<li><strong>Reduced Errors:</strong> Helps prevent common coding mistakes</li>
-</ul>
-
-<img src="https://github.com/user-attachments/assets/d27000dc-ee09-4b34-a37d-89ce086049ad" alt="Smart Suggestions">
-
-<h3>Odoo Standards Inspection</h3>
-<ul>
-<li><strong>Code Quality:</strong> Built-in inspections for Python, XML, and CSV files</li>
-<li><strong>Standards Compliance:</strong> Detects violations of Odoo development best practices</li>
-<li><strong>Real-time Feedback:</strong> Highlights issues in model definitions, field parameters, and XML structures</li>
-<li><strong>Consistent Code:</strong> Ensures adherence to Odoo coding standards across projects</li>
-</ul>
-
-<h3>Perfect For</h3>
-<ul>
-<li>Odoo developers of all skill levels</li>
-<li>Teams working on Odoo customizations and modules</li>
-<li>Anyone looking to speed up Odoo development workflow</li>
-<li>Developers who want to follow Odoo best practices</li>
-</ul>
-
-<h3>Supported File Types</h3>
-<ul>
-<li><strong>Python (.py)</strong> - Models, Controllers, Wizards</li>
-<li><strong>XML (.xml)</strong> - Views, Actions, Menus, Security, Reports</li>
-<li><strong>CSV (.csv)</strong> - Security definitions and data files</li>
-</ul>
-
-<h3>What You Get</h3>
-<ul>
-<li>6 different module templates for various use cases</li>
-<li>12+ file creation templates with smart content</li>
-<li>100+ code snippets for common Odoo patterns</li>
-<li>Intelligent auto-completion for Odoo-specific code</li>
-<li>Real-time code quality inspections</li>
-<li>Context-aware suggestions and error prevention</li>
-</ul>
-
-<h3>Quick Start</h3>
-<ol>
-<li><strong>Create Module:</strong> Right-click project folder → Odoo Module Templates → Select template</li>
-<li><strong>Add Files:</strong> Right-click folder → New → New Odoo File → Choose type and template</li>
-<li><strong>Use Snippets:</strong> Type "odoo" in Python/XML files to see available snippets</li>
-<li><strong>Get Suggestions:</strong> Enjoy intelligent completions while coding</li>
-</ol>
-
-<p><strong>Save hours of development time and write better Odoo code with Assista!</strong></p>
-
-<p>Created by <a href="https://www.cybrosys.com">Cybrosys Technologies</a> | <a href="https://assista.cybrosys.com">Official Website</a> | <a href="https://github.com/CybrosysAssista/Assista-Pycharm">GitHub</a></p>
+<p><i>Built with ❤️ by <a href="https://www.cybrosys.com" target="_blank">Cybrosys Technologies</a></i></p>
 ]]></description>
+
 
 
 
@@ -138,7 +45,6 @@
 
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.python</depends>
-    <depends>net.seesharpsoft.intellij.plugins.csv</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <completion.contributor
