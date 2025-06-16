@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.cybrosys"
-version = "1.3.1"
+version = "1.3.2"
 
 repositories {
     mavenCentral()
@@ -14,7 +14,7 @@ repositories {
 intellij {
     version.set("2024.2")
     type.set("PC")
-    plugins.set(listOf("PythonCore", "python-ce", "net.seesharpsoft.intellij.plugins.csv:4.0.1"))
+    plugins.set(listOf("PythonCore", "python-ce"))
 }
 
 tasks {

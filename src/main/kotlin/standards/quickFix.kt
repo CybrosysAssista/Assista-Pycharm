@@ -7,7 +7,6 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.xml.XmlTag
 import com.jetbrains.python.psi.*
-import net.seesharpsoft.intellij.plugins.csv.psi.CsvField
 
 open class ManifestQuickFix : LocalQuickFix {
 
@@ -127,18 +126,6 @@ public fun buildXmlQuickFix(elem: PsiElement, newValue: PsiElement, mode: String
                 val firstElem = elem.firstChild
                 elem.addBefore(newValue, firstElem)
             }
-        }
-    }
-}
-
-public fun buildCsvReplaceQuickFix(elem: CsvField, newValue: String):LocalQuickFix {
-    return object: ReplaceQuickFix(){
-        override fun getFamilyName(): String {
-            return "Replace"
-        }
-        override fun applyFix(p0: Project, p1: ProblemDescriptor) {
-            val newElem = PsiFileFactory.getInstance(p0).createFileFromText("dummy.csv", newValue)
-            elem.replace(newElem.firstChild)
         }
     }
 }
