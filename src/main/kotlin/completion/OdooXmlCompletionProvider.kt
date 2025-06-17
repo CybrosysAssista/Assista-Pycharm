@@ -289,6 +289,62 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
                 })
         )
 
+        resultSet.addElement(
+            LookupElementBuilder.create("odoo_kanban_view")
+                .withPresentableText("Odoo kanban view")
+                .withTypeText("Create Kanban View Template")
+                .withInsertHandler(InsertHandler { ctx, _ ->
+                    val project = ctx.project
+                    val fileName = ctx.file.name
+                    val modelName = fileName.removeSuffix(".xml").removeSuffix("_views")
+                    val modelDotName = modelName.replace("_",".")
+                    val fieldNames = FileBasedIndex.getInstance()
+                        .getValues(OdooModelFieldIndex.NAME, modelDotName, GlobalSearchScope.allScope(project))
+                        .flatten()
+                    var fields = """"""
+                    for (field in fieldNames.take(5)) {
+                        val fieldAttributes = PluginUtils.parseFieldAttributes(field)
+                        fields = fields + "<field name=\"${fieldAttributes["field_name"]}\"/>\n"
+                    }
+
+                    println(fields)
+                    val snippet = """
+                <record id="${modelName}_view_kanban" model="ir.ui.view">
+                    <field name="name">${modelDotName}.view.kanban</field>
+                    <field name="model">${modelDotName}</field>
+                    <field name="arch" type="xml">
+                        <kanban class="o_kanban_example">
+                            <field name="name"/>
+                            <templates>
+                                <t t-name="kanban-box">
+                                     <div class="oe_kanban_global_click">
+                                        <strong><field name="name"/></strong>
+                                        <div><field name="description"/></div>
+                                     </div>
+                                </t>
+                        </templates>
+                        </kanban>
+                    </field>
+                </record>
+            """.trimIndent()
+
+                    val document = ctx.document
+                    val startOffset = ctx.startOffset
+                    val endOffset = ctx.selectionEndOffset
+
+                    document.replaceString(startOffset, endOffset, snippet)
+
+                    val psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document)
+                    PsiDocumentManager.getInstance(project).commitDocument(document)
+
+                    if (psiFile != null) {
+                        val range = TextRange(startOffset, startOffset + snippet.length)
+                        CodeStyleManager.getInstance(project).reformatText(psiFile, range.startOffset, range.endOffset)
+                    }
+                    ctx.editor.caretModel.moveToOffset(startOffset + snippet.length)
+                })
+        )
+
         // Search View
         resultSet.addElement(
             LookupElementBuilder.create("odoo_search_view")
@@ -781,6 +837,31 @@ ${indent}</xpath>"""
                     editor.caretModel.moveToOffset(ctx.startOffset + snippet.length)
                 }
         )
+
+        resultSet.addElement(
+            LookupElementBuilder.create("odoo_group_tag")
+                .withPresentableText("Odoo group Tag")
+                .withTypeText("Add Group Tag")
+                .withInsertHandler { ctx, _ ->
+                    // Get editor and document info
+                    val editor = ctx.editor
+                    val document = editor.document
+
+                    val offset = ctx.startOffset
+                    val line = document.getLineNumber(offset)
+                    val startOffset = document.getLineStartOffset(line)
+                    val indent = document.charsSequence.subSequence(startOffset, offset).toString()
+                        .takeWhile { it.isWhitespace() }
+
+                    val snippet = """<group string="">
+${indent}    <field name="name"/>
+${indent}</group>"""
+
+                    document.replaceString(ctx.startOffset, ctx.tailOffset, snippet)
+                    editor.caretModel.moveToOffset(ctx.startOffset + snippet.length)
+                }
+        )
+
         resultSet.addElement(
             LookupElementBuilder.create("odoo_page")
                 .withPresentableText("Odoo page")
@@ -865,35 +946,6 @@ ${indent}</sheet>"""
                     val snippet = """<record id="" model="">
 ${indent}
 ${indent}</record>"""
-
-                    document.replaceString(ctx.startOffset, ctx.tailOffset, snippet)
-                    editor.caretModel.moveToOffset(ctx.startOffset + snippet.length)
-                }
-        )
-
-        resultSet.addElement(
-            LookupElementBuilder.create("odoo_kanban")
-                .withPresentableText("Odoo kanban")
-                .withTypeText("Add Kanban View Template")
-                .withInsertHandler { ctx, _ ->
-                    val editor = ctx.editor
-                    val document = editor.document
-                    val offset = ctx.startOffset
-                    val line = document.getLineNumber(offset)
-                    val startOffset = document.getLineStartOffset(line)
-                    val indent = document.charsSequence.subSequence(startOffset, offset).toString().takeWhile { it.isWhitespace() }
-
-                    val snippet = """<kanban class="o_kanban_example">
-${indent}    <field name="name"/>
-${indent}    <templates>
-${indent}        <t t-name="kanban-box">
-${indent}            <div class="oe_kanban_global_click">
-${indent}                <strong><field name="name"/></strong>
-${indent}                <div><field name="description"/></div>
-${indent}            </div>
-${indent}        </t>
-${indent}    </templates>
-${indent}</kanban>"""
 
                     document.replaceString(ctx.startOffset, ctx.tailOffset, snippet)
                     editor.caretModel.moveToOffset(ctx.startOffset + snippet.length)
