@@ -6,16 +6,726 @@
     <description><![CDATA[
 <p><b>Cybrosys Assista - Odoo Development Assistant for PyCharm</b></p>
 
-<p>Accelerate your Odoo development with intelligent code completion, smart file generation, and Odoo best practices enforcement — all directly within PyCharm.</p>
+<p>Accelerate your Odoo development with intelligent code completion, smart file generation, and Odoo best practices enforcement — all directly within PyCharm. Assista is a comprehensive plugin that enhances productivity by providing context-aware completions for views, fields, menus, and actions, making it easier to write and maintain Odoo code.</p>
 
 <p><b>Key Features:</b><br>
 <ul>
-  <li><b>Module Template Generator</b> – Generate complete Odoo modules instantly</li>
-  <li><b>Smart File Creator</b> – Boilerplate files for models, controllers, views, menus, reports, and more</li>
-  <li><b>Code Snippet Assistant</b> – 100+ Python/XML snippets with best practices</li>
-  <li><b>Context-Aware Suggestions</b> – Autocompletion for fields, models, decorators, and view elements</li>
-  <li><b>Odoo Standards Inspection</b> – Real-time detection of code quality and structure issues</li>
+  <li><b>Module Template Generator</b> – Generate complete Odoo modules instantly with 6 different templates including Basic, Advanced, Theme, OWL Basic, OWL Advanced, and Systray modules</li>
+  <li><b>Smart File Creator</b> – Create boilerplate files for models, controllers, views, menus, reports, and more with pre-filled, context-aware content</li>
+  <li><b>Code Snippet Assistant</b> – 100+ Python/XML snippets with best practices, accessible through simple keywords</li>
+  <li><b>Context-Aware Smart Suggestions</b> – Intelligent autocompletion for model names, fields, decorators, and view elements</li>
+  <li><b>Odoo Standards Inspection</b> – Real-time detection of code quality and structure issues across Python, XML, and CSV files</li>
 </ul>
+</p>
+
+<p><b>Module Templates Available:</b><br>
+- <b>Basic Odoo Module:</b> Minimal module with essential files and simple model structure<br>
+- <b>Advanced Odoo Module:</b> Production-ready module with complex models, multiple views, and enhanced security<br>
+- <b>Theme Module:</b> Website theme scaffolding with custom design support and asset bundles<br>
+- <b>OWL Basic Module:</b> Simple OWL components for modern JavaScript widgets<br>
+- <b>OWL Advanced Module:</b> Complex OWL module with state management and interactive dashboards<br>
+- <b>Systray Module:</b> Custom systray components for notifications and quick actions
+</p>
+
+<p><b>File Creation Support:</b><br>
+<ul>
+  <li><b>Python Files:</b> __init__.py, __manifest__.py, Odoo Models, Controllers</li>
+  <li><b>XML Files:</b> Basic/Advanced Views, Inherited Views, Reports, Menus, Actions, Settings, Cron Jobs, Security</li>
+  <li><b>CSV Files:</b> Security and access control definitions</li>
+</ul>
+</p>
+
+<p><b>Python Code Snippets Available:</b></p>
+
+<p><b>Fields:</b></p>
+<ul>
+  <li>
+    <b>odoo_field_boolean</b>: Create Boolean field
+    <pre>fields.Boolean(string='Active')</pre>
+  </li>
+
+  <li>
+    <b>odoo_field_char</b>: Create Char field
+    <pre>fields.Char(string='Name')</pre>
+  </li>
+
+  <li>
+    <b>odoo_field_text</b>: Create Text field
+    <pre>fields.Text(string='Description')</pre>
+  </li>
+
+  <li>
+    <b>odoo_field_float</b>: Create Float field
+    <pre>fields.Float(string='Amount', digits=(16, 2))</pre>
+  </li>
+
+  <li>
+    <b>odoo_field_integer</b>: Create Integer field
+    <pre>fields.Integer(string='Quantity')</pre>
+  </li>
+
+  <li>
+    <b>odoo_field_selection</b>: Create Selection field
+    <pre>fields.Selection([
+    ('draft', 'Draft'),
+    ('done', 'Done')
+], string='Status', default='draft')</pre>
+  </li>
+
+  <li>
+    <b>odoo_field_date</b>: Create Date field
+    <pre>fields.Date(string='Start Date')</pre>
+  </li>
+
+  <li>
+    <b>odoo_field_datetime</b>: Create Datetime field
+    <pre>fields.Datetime(string='Timestamp')</pre>
+  </li>
+
+  <li>
+    <b>odoo_field_many2one</b>: Create Many2one field
+    <pre>fields.Many2one('model.name', string='Partner', ondelete='restrict')</pre>
+  </li>
+
+  <li>
+    <b>odoo_field_one2many</b>: Create One2many field
+    <pre>fields.One2many('model.name', 'inverse_field_name', string='Order Lines')</pre>
+  </li>
+
+  <li>
+    <b>odoo_field_many2many</b>: Create Many2many field
+    <pre>fields.Many2many('model.name', string='Tags')</pre>
+  </li>
+
+  <li>
+    <b>odoo_field_html</b>: Create HTML field
+    <pre>fields.Html(sanitize=True, string='Content')</pre>
+  </li>
+
+  <li>
+    <b>odoo_field_binary</b>: Create Binary field
+    <pre>fields.Binary(attachment=True, string='File')</pre>
+  </li>
+</ul>
+
+<p><b>API Decorators:</b></p>
+<ul>
+  <li>
+    <b>odoo_api_create_multi</b>: Add model_create_multi decorator
+    <pre>@api.model_create_multi</pre>
+  </li>
+
+  <li>
+    <b>odoo_api_depends</b>: Add depends decorator
+    <pre>@api.depends('field_name')</pre>
+  </li>
+
+  <li>
+    <b>odoo_api_onchange</b>: Add onchange decorator
+    <pre>@api.onchange('field_name')</pre>
+  </li>
+
+  <li>
+    <b>odoo_api_constrains</b>: Add constrains decorator
+    <pre>@api.constrains('field_name')</pre>
+  </li>
+
+  <li>
+    <b>odoo_api_returns</b>: Add returns decorator
+    <pre>@api.returns('model.name')</pre>
+  </li>
+</ul>
+
+<p><b>Imports:</b></p>
+<ul>
+  <li>
+    <b>odoo_import_fields</b>: Import fields
+    <pre>from odoo import fields</pre>
+  </li>
+
+  <li>
+    <b>odoo_import_models</b>: Import models
+    <pre>from odoo import models</pre>
+  </li>
+
+  <li>
+    <b>odoo_import_api</b>: Import API
+    <pre>from odoo import api</pre>
+  </li>
+
+  <li>
+    <b>odoo_import_tools</b>: Import tools
+    <pre>from odoo import tools</pre>
+  </li>
+
+  <li>
+    <b>odoo_import_config</b>: Import config
+    <pre>from odoo.tools import config</pre>
+  </li>
+
+  <li>
+    <b>odoo_import_date_utils</b>: Import date_utils
+    <pre>from odoo.tools import date_utils</pre>
+  </li>
+
+  <li>
+    <b>odoo_import_common</b>: Import common modules
+    <pre>from odoo import api, fields, models</pre>
+  </li>
+
+  <li>
+    <b>odoo_import_exceptions</b>: Import exceptions
+    <pre>from odoo.exceptions import UserError, ValidationError, AccessError, MissingError</pre>
+  </li>
+</ul>
+
+<p><b>Exceptions:</b></p>
+<ul>
+  <li>
+    <b>odoo_user_error</b>: Raise UserError
+    <pre>raise UserError(_('Error message'))</pre>
+  </li>
+
+  <li>
+    <b>odoo_validation_error</b>: Raise ValidationError
+    <pre>raise ValidationError(_('Validation error message'))</pre>
+  </li>
+
+  <li>
+    <b>odoo_access_error</b>: Raise AccessError
+    <pre>raise AccessError(_('Access error message'))</pre>
+  </li>
+
+  <li>
+    <b>odoo_missing_error</b>: Raise MissingError
+    <pre>raise MissingError(_('Record not found'))</pre>
+  </li>
+
+  <li>
+    <b>odoo_redirect_warning</b>: Raise RedirectWarning
+    <pre>raise RedirectWarning(_('Warning message'), action_id, _('Button text'))</pre>
+  </li>
+</ul>
+
+<p><b>Model Classes:</b></p>
+<ul>
+  <li>
+    <b>odoo_class</b>: Create new Odoo Model class
+    <pre>class ModelName(models.Model):
+    _name = 'model.name'
+    _description = 'New Model Description'
+    _order = 'id desc'
+
+    name = fields.Char()</pre>
+  </li>
+
+  <li>
+    <b>odoo_transient_class</b>: Create TransientModel class
+    <pre>class ModelName(models.TransientModel):
+    _name = 'model.name'
+    _description = 'Wizard Description'
+
+    name = fields.Char()</pre>
+  </li>
+
+  <li>
+    <b>odoo_abstract_class</b>: Create AbstractModel class
+    <pre>class ModelName(models.AbstractModel):
+    _name = 'model.name'
+    _description = 'Abstract Model Description'
+
+    name = fields.Char()</pre>
+  </li>
+
+  <li>
+    <b>odoo_extension_inheritance</b>: Create extension inheritance
+    <pre>class ModelName(models.Model):
+    _name = 'model.name'
+    _inherit = 'model.to.inherit'
+
+    name = fields.Char()</pre>
+  </li>
+
+  <li>
+    <b>odoo_classical_inheritance</b>: Create classical inheritance
+    <pre>class ModelName(models.Model):
+    _inherit = 'model.name'
+
+    new_field = fields.Char()</pre>
+  </li>
+
+  <li>
+    <b>odoo_delegation_inheritance</b>: Create delegation inheritance
+    <pre>class ModelName(models.Model):
+    _name = 'model.name'
+    _inherits = {'res.partner': 'partner_id'}
+
+    partner_id = fields.Many2one('res.partner', required=True, ondelete='cascade')</pre>
+  </li>
+</ul>
+
+<p><b>Methods:</b></p>
+<ul>
+  <li>
+    <b>odoo_create_method</b>: Create standard create method
+    <pre>@api.model_create_multi
+def create(self, vals):
+    """Create a new record with the given values."""
+    return super().create(vals)</pre>
+  </li>
+
+  <li>
+    <b>odoo_write_method</b>: Create standard write method
+    <pre>def write(self, vals):
+    """Update the record with the given values."""
+    return super().write(vals)</pre>
+  </li>
+
+  <li>
+    <b>odoo_unlink_method</b>: Create standard unlink method
+    <pre>def unlink(self):
+    """Delete the current record."""
+    return super().unlink()</pre>
+  </li>
+
+  <li>
+    <b>odoo_computed_field</b>: Create computed field with method
+    <pre>computed_field = fields.Float(string='Computed Field', compute='_compute_computed_field', store=True)
+
+@api.depends('dependency_field')
+def _compute_computed_field(self):
+    """Compute the value of the field computed_field."""
+    for record in self:
+        record.computed_field = 0.0</pre>
+  </li>
+
+  <li>
+    <b>odoo_onchange_method</b>: Create onchange method
+    <pre>@api.onchange('field_name')
+def _onchange_field_name(self):
+    """Triggered when the field_name changes to update related values."""
+    if self.field_name:
+        self.another_field = self.field_name</pre>
+  </li>
+</ul>
+
+<p><b>Actions & Notifications:</b></p>
+<ul>
+  <li>
+    <b>odoo_return_action</b>: Create return action
+    <pre>return {
+    'type': 'ir.actions.act_window',
+    'name': 'Window Title',
+    'res_model': 'model.name',
+    'view_mode': 'list,form',
+    'target': 'current/new',
+    'domain': [('field_name', '>', value)],
+    'context': {'default_field_name': field_value},
+}</pre>
+  </li>
+
+  <li>
+    <b>odoo_rainbow_man_notification</b>: Create rainbow man notification
+    <pre>return {
+    'effect': {
+        'fadeout': 'slow',
+        'message': f'Message to Display',
+        'type': 'rainbow_man',
+    }
+}</pre>
+  </li>
+
+  <li>
+    <b>odoo_warning_notification</b>: Create warning notification
+    <pre>return {
+    'type': 'ir.actions.client',
+    'tag': 'display_notification',
+    'params': {
+        'title': _("Warning head"),
+        'type': 'warning',
+        'message': _("This is the detailed warning"),
+        'sticky': True,
+    },
+}</pre>
+  </li>
+
+  <li>
+    <b>odoo_success_notification</b>: Create success notification
+    <pre>return {
+    'type': 'ir.actions.client',
+    'tag': 'display_notification',
+    'params': {
+        'title': _("Success"),
+        'type': 'success',
+        'message': _("Operation completed successfully"),
+        'sticky': True,
+    },
+}</pre>
+  </li>
+
+  <li>
+    <b>odoo_info_notification</b>: Create info notification
+    <pre>return {
+    'type': 'ir.actions.client',
+    'tag': 'display_notification',
+    'params': {
+        'title': _("Information"),
+        'type': 'info',
+        'message': _("This is informational message"),
+        'sticky': True,
+    },
+}</pre>
+  </li>
+</ul>
+
+<p><b>XML Code Snippets Available:</b></p>
+
+<p><b>Buttons & Actions:</b></p>
+- odoo_btn_object : Add Object Button
+<ul>
+  <li>
+    <b>odoo_btn_object</b>: Add Object Button
+    <pre>&lt;button name="button_method_name" type="object" string="Button Label" class="btn-primary"/&gt;</pre>
+  </li>
+
+  <li>
+    <b>odoo_btn_action</b>: Add Action Button
+    <pre>&lt;button name="%(action_id)d" type="action" string="Action Button" class="btn-secondary"/&gt;</pre>
+  </li>
+
+  <li>
+    <b>odoo_button_smart</b>: Add Smart Button
+    <pre>&lt;button name="Button Action"
+        class="oe_stat_button"
+        icon="fa-bars"
+        type="object"
+        invisible=""
+        groups=""&gt;
+    &lt;div class="o_stat_info"&gt;
+        &lt;field name="" class="o_stat_value"/&gt;
+        &lt;span class="o_stat_text"/&gt;
+    &lt;/div&gt;
+&lt;/button&gt;</pre>
+  </li>
+
+  <li>
+    <b>odoo_button_box</b>: Add Button Box
+    <pre>&lt;div class="oe_button_box" name="button_box"&gt;
+    &lt;button name="Button Action"
+            class="oe_stat_button"
+            icon="fa-bars"
+            type="object"
+            invisible=""
+            groups=""&gt;
+        &lt;div class="o_stat_info"&gt;
+            &lt;field name="" class="o_stat_value"/&gt;
+            &lt;span class="o_stat_text"&gt;&lt;/span&gt;
+        &lt;/div&gt;
+    &lt;/button&gt;
+&lt;/div&gt;</pre>
+  </li>
+</ul>
+
+<p><b>Field Attributes:</b></p>
+<ul>
+  <li>
+    <b>odoo_domain</b>: Add Domain to Field
+    <pre>domain="[('field_name', '=', value)]"</pre>
+  </li>
+
+  <li>
+    <b>odoo_options</b>: Add Options to Field
+    <pre>options="{'currency_field': 'currency_id'}"</pre>
+  </li>
+
+  <li>
+    <b>odoo_groups</b>: Add Groups Restriction
+    <pre>groups="base.group_user"</pre>
+  </li>
+
+  <li>
+    <b>odoo_field_widget</b>: Add Widget in Fields
+    <pre>widget=""</pre>
+  </li>
+
+  <li>
+    <b>odoo_field_invisible</b>: Add Invisible Condition
+    <pre>invisible="state != 'done'"</pre>
+  </li>
+
+  <li>
+    <b>odoo_field_readonly</b>: Add Readonly Condition
+    <pre>readonly="not can_edit"</pre>
+  </li>
+
+  <li>
+    <b>odoo_field_required</b>: Add Required Condition
+    <pre>required="action == 'exist'"</pre>
+  </li>
+</ul>
+
+<p><b>View Elements:</b></p>
+<ul>
+  <li>
+    <b>odoo_field</b>: Add Field in Form/View
+    <pre>&lt;field name="field_name" string="Field Label" required="True"/&gt;</pre>
+  </li>
+
+  <li>
+    <b>odoo_label</b>: Add Label
+    <pre>&lt;label for="field_name" string="Label Text"/&gt;</pre>
+  </li>
+
+  <li>
+    <b>odoo_separator</b>: Add Separator
+    <pre>&lt;separator string="Section Title"/&gt;</pre>
+  </li>
+
+  <li>
+    <b>odoo_chatter</b>: Add Chatter In Form
+    <pre>&lt;chatter/&gt;</pre>
+  </li>
+
+  <li>
+    <b>odoo_notebook</b>: Add Notebook Block
+    <pre>&lt;notebook&gt;
+    &lt;page string="New Page"&gt;
+        &lt;!-- Page content goes here --&gt;
+    &lt;/page&gt;
+&lt;/notebook&gt;</pre>
+  </li>
+
+  <li>
+    <b>odoo_xpath</b>: Add Xpath Block
+    <pre>&lt;xpath expr="//div" position="inside"&gt;
+    &lt;field name="name"/&gt;
+&lt;/xpath&gt;</pre>
+  </li>
+
+  <li>
+    <b>odoo_page</b>: Add Page Element
+    <pre>&lt;page string=""&gt;
+    &lt;!-- Page content goes here --&gt;
+&lt;/page&gt;</pre>
+  </li>
+
+  <li>
+    <b>odoo_header</b>: Add Header with Button + Statusbar
+    <pre>&lt;header&gt;
+    &lt;button name="" string="" class="oe_highlight" states="" type=""/&gt;
+    &lt;field name="state" widget="statusbar" statusbar_visible="" statusbar_colors="{'draft':'blue','done':'green'}"/&gt;
+&lt;/header&gt;</pre>
+  </li>
+
+  <li>
+    <b>odoo_sheet</b>: Add Sheet with Group and Field
+    <pre>&lt;sheet&gt;
+    &lt;group&gt;
+        &lt;field name="name"/&gt;
+        &lt;field name="description"/&gt;
+    &lt;/group&gt;
+&lt;/sheet&gt;</pre>
+  </li>
+
+  <li>
+    <b>odoo_record</b>: Add Record Tag
+    <pre>&lt;record id="" model=""&gt;
+&lt;/record&gt;</pre>
+  </li>
+</ul>
+
+<p><b>View Templates:</b></p>
+<ul>
+  <li>
+    <b>odoo_form_view</b>: Create Form View Template
+    <pre>&lt;record id="model_name_view_form" model="ir.ui.view"&gt;
+    &lt;field name="name"&gt;model.name.view.form&lt;/field&gt;
+    &lt;field name="model"&gt;model.name&lt;/field&gt;
+    &lt;field name="arch" type="xml"&gt;
+        &lt;form string="Form Title"&gt;
+            &lt;header&gt;
+                &lt;!-- Buttons and statusbar go here --&gt;
+            &lt;/header&gt;
+            &lt;sheet&gt;
+                &lt;div class="oe_title"&gt;
+                    &lt;h1&gt;
+                        &lt;field name="name"/&gt;
+                    &lt;/h1&gt;
+                &lt;/div&gt;
+                &lt;group&gt;
+                    &lt;group&gt;
+                        &lt;field name="field1"/&gt;
+                        &lt;field name="field2"/&gt;
+                    &lt;/group&gt;
+                    &lt;group&gt;
+                        &lt;field name="field3"/&gt;
+                        &lt;field name="field4"/&gt;
+                    &lt;/group&gt;
+                &lt;/group&gt;
+                &lt;notebook&gt;
+                    &lt;field name="line_ids"&gt;
+                        &lt;field name="line_field1"/&gt;
+                        &lt;field name="line_field2"/&gt;
+                    &lt;/field&gt;
+                &lt;/notebook&gt;
+            &lt;/sheet&gt;
+        &lt;/form&gt;
+    &lt;/field&gt;
+&lt;/record&gt;</pre>
+  </li>
+
+  <li>
+    <b>odoo_list_view</b>: Create List View Template
+    <pre>&lt;record id="model_name_view_list" model="ir.ui.view"&gt;
+    &lt;field name="name"&gt;model.name.view.list&lt;/field&gt;
+    &lt;field name="model"&gt;model.name&lt;/field&gt;
+    &lt;field name="arch" type="xml"&gt;
+        &lt;list string="List Title" decoration-danger="state=='cancel'" decoration-success="state=='done'"&gt;
+            &lt;field name="name"/&gt;
+            &lt;field name="date"/&gt;
+            &lt;field name="partner_id"/&gt;
+            &lt;field name="amount"/&gt;
+            &lt;field name="state"/&gt;
+        &lt;/list&gt;
+    &lt;/field&gt;
+&lt;/record&gt;</pre>
+  </li>
+
+  <li>
+    <b>odoo_search_view</b>: Create Search View Template
+    <pre>&lt;record id="model_name_view_search" model="ir.ui.view"&gt;
+    &lt;field name="name"&gt;model.name.view.search&lt;/field&gt;
+    &lt;field name="model"&gt;model.name&lt;/field&gt;
+    &lt;field name="arch" type="xml"&gt;
+        &lt;search string="Search Title"&gt;
+            &lt;field name="name" string="Name" filter_domain="[('name','ilike',self)]"/&gt;
+            &lt;field name="partner_id"/&gt;
+            &lt;field name="date"/&gt;
+            &lt;filter string="Draft" name="draft" domain="[('state','=','draft')]"/&gt;
+            &lt;filter string="Done" name="done" domain="[('state','=','done')]"/&gt;
+            &lt;separator/&gt;
+            &lt;filter string="My Records" name="my_records" domain="[('user_id','=',uid)]"/&gt;
+            &lt;group expand="0" string="Group By"&gt;
+                &lt;filter string="Partner" name="partner" context="{'group_by':'partner_id'}"/&gt;
+                &lt;filter string="Month" name="month" context="{'group_by':'date:month'}"/&gt;
+                &lt;filter string="Status" name="status" context="{'group_by':'state'}"/&gt;
+            &lt;/group&gt;
+        &lt;/search&gt;
+    &lt;/field&gt;
+&lt;/record&gt;</pre>
+  </li>
+
+  <li>
+    <b>odoo_kanban</b>: Add Kanban View Template
+    <pre>&lt;kanban class="o_kanban_example"&gt;
+    &lt;field name="name"/&gt;
+    &lt;templates&gt;
+        &lt;t t-name="kanban-box"&gt;
+            &lt;div class="oe_kanban_global_click"&gt;
+                &lt;strong&gt;&lt;field name="name"/&gt;&lt;/strong&gt;
+                &lt;div&gt;&lt;field name="description"/&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/t&gt;
+    &lt;/templates&gt;
+&lt;/kanban&gt;</pre>
+  </li>
+
+  <li>
+    <b>odoo_pivot_view</b>: Create Pivot View
+    <pre>&lt;record id="model_name_view_pivot" model="ir.ui.view"&gt;
+    &lt;field name="name"&gt;model.name.view.pivot&lt;/field&gt;
+    &lt;field name="model"&gt;model.name&lt;/field&gt;
+    &lt;field name="arch" type="xml"&gt;
+        &lt;pivot string="Model Name Pivot"&gt;
+            &lt;field name="name"/&gt;
+            &lt;field name="state"/&gt;
+        &lt;/pivot&gt;
+    &lt;/field&gt;
+&lt;/record&gt;</pre>
+  </li>
+
+  <li>
+    <b>odoo_calender_view</b>: Create Calendar View
+    <pre>&lt;record id="model_name_view_calender" model="ir.ui.view"&gt;
+    &lt;field name="name"&gt;model.name.view.calender&lt;/field&gt;
+    &lt;field name="model"&gt;model.name&lt;/field&gt;
+    &lt;field name="arch" type="xml"&gt;
+        &lt;calender string="Model Name Calender"&gt;
+            &lt;field name="name"/&gt;
+            &lt;field name="state"/&gt;
+        &lt;/calender&gt;
+    &lt;/field&gt;
+&lt;/record&gt;</pre>
+  </li>
+</ul>
+
+<p><b>Menu Items:</b></p>
+<ul>
+  <li>
+    <b>odoo_menu_item_root</b>: Add Root Menu Item
+    <pre>&lt;menuitem id="module_name_menu_root" name="Module Name" sequence="10"/&gt;</pre>
+  </li>
+
+  <li>
+    <b>odoo_menu_item_categ</b>: Add Category Menu Item
+    <pre>&lt;menuitem id="unique_id_menu_categ" name="Model Name" parent="" sequence="10"/&gt;</pre>
+  </li>
+
+  <li>
+    <b>odoo_menu_item_action</b>: Add Action Menu Item
+    <pre>&lt;menuitem id="unique_id_menu_categ" name="Model Name" parent="" action="" sequence="10"/&gt;</pre>
+  </li>
+</ul>
+
+<p><b>Actions:</b></p>
+<ul>
+  <li>
+    <b>odoo_action</b>: Create Action Window
+    <pre>&lt;record id="model_name_action" model="ir.actions.act_window"&gt;
+    &lt;field name="name"&gt;Model Name&lt;/field&gt;
+    &lt;field name="res_model"&gt;model.name&lt;/field&gt;
+    &lt;field name="view_mode"&gt;list,form&lt;/field&gt;
+    &lt;field name="context"&gt;{}&lt;/field&gt;
+    &lt;field name="help" type="html"&gt;
+        &lt;p class="o_view_nocontent_smiling_face"&gt;
+            Create your first record
+        &lt;/p&gt;
+    &lt;/field&gt;
+&lt;/record&gt;</pre>
+  </li>
+
+  <li>
+    <b>odoo_inherit_view</b>: Create Inherit View
+    <pre>&lt;record id="model_name_view_type_view_inherit" model="ir.ui.view"&gt;
+    &lt;field name="name"&gt;model.name.view.type.view.inherit&lt;/field&gt;
+    &lt;field name="model"&gt;model.name&lt;/field&gt;
+    &lt;field name="inherit_id" ref="module.original_form_view_id"/&gt;
+    &lt;field name="arch" type="xml"&gt;
+        &lt;field name="arch" type="xml"&gt;
+            &lt;xpath expr="//group[1]" position="inside"&gt;
+                &lt;field name="new_field1"/&gt;
+                &lt;field name="new_field2"/&gt;
+            &lt;/xpath&gt;
+        &lt;/field&gt;
+&lt;/record&gt;</pre>
+  </li>
+
+  <li>
+    <b>odoo_tag</b>: Add Odoo Tag
+    <pre>&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;odoo&gt;
+
+&lt;/odoo&gt;</pre>
+  </li>
+</ul>
+
+<p><b>Smart Features:</b><br>
+- Context-aware model name suggestions<br>
+- Automatic field and class name completion<br>
+- Intelligent parameter suggestions for decorators<br>
+- Model attribute completion (_name, _inherit, etc.)<br>
+- XML attribute value suggestions<br>
+- Real-time code quality inspection and validation
 </p>
 
 <p><b>Supported File Types:</b><br>
@@ -29,10 +739,22 @@
 - Odoo versions 12 to 17
 </p>
 
+<p><b>Getting Started:</b><br>
+1. Right-click on your project folder to access Module Template Generator<br>
+2. Use "New Odoo File" from the context menu for quick file creation<br>
+3. Type "odoo" in Python or XML files to access code snippets<br>
+4. Enjoy intelligent suggestions and real-time code inspection
+</p>
+
+<p><b>Troubleshooting:</b><br>
+If you experience issues with suggestions or inspections, try restarting the IDE, invalidating caches (File → Invalidate Caches / Restart), or synchronizing project files. The plugin automatically detects your model context and provides relevant suggestions.
+</p>
+
 <p><b>Quick Access:</b><br>
 <a href="https://assista.cybrosys.com">Website</a> •
 <a href="https://github.com/CybrosysAssista/Assista-Pycharm">GitHub</a> •
-<a href="https://github.com/CybrosysAssista/Assista-Pycharm/issues">Report Issue</a>
+<a href="https://github.com/CybrosysAssista/Assista-Pycharm/issues">Report Issue</a> •
+<a href="mailto:assista@cybrosys.com">Support</a>
 </p>
 
 <p><i>Built with ❤️ by <a href="https://www.cybrosys.com" target="_blank">Cybrosys Technologies</a></i></p>

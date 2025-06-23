@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.cybrosys"
-version = "1.3.2"
+version = "1.3.5"
 
 repositories {
     mavenCentral()
@@ -13,7 +13,7 @@ repositories {
 
 intellij {
     version.set("2024.2")
-    type.set("PC")
+    type.set("PY")
     plugins.set(listOf("PythonCore", "python-ce"))
 }
 
