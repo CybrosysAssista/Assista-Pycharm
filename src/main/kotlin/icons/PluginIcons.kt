@@ -28,4 +28,5 @@ object SuggestionIcons {
     val ODOO_XML_FIELD_ATTRIBUTES = IconLoader.getIcon("/icons/suggestion_icon_pack/xml_field_attribute.svg", PluginIcons::class.java)
     val ODOO_XML_VIEW_ELEMENTS = IconLoader.getIcon("/icons/suggestion_icon_pack/xml_view_elements.svg", PluginIcons::class.java)
     val ODOO_XML_VIEW_TEMPLATE = IconLoader.getIcon("/icons/suggestion_icon_pack/xml_view_templates.svg", PluginIcons::class.java)
+    val ODOO_XML_FIELD_WIDGET = IconLoader.getIcon("/icons/suggestion_icon_pack/xml_field_widget.svg", PluginIcons::class.java)
 }

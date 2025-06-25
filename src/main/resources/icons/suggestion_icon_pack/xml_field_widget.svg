@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
+    <!-- Background -->
+    <rect x="2" y="2" width="20" height="20" rx="5" fill="#ECEAFB" stroke="#7C4DFF" stroke-width="1.4"/>
+
+    <!-- Widget layout -->
+    <rect x="6" y="6.5" width="12" height="3" rx="1" fill="#00E5FF"/>
+    <circle cx="8.5" cy="12.5" r="1.8" fill="#18FFFF"/>
+    <rect x="12" y="11" width="6" height="3" rx="1" fill="#80D8FF"/>
+</svg>

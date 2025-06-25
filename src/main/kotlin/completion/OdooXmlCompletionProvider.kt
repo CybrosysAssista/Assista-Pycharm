@@ -942,6 +942,7 @@ ${indent}</record>
 
         resultSet.addElement(
             LookupElementBuilder.create("odoo_group_tag")
+                .withIcon(SuggestionIcons.ODOO_XML_VIEW_ELEMENTS)
                 .withPresentableText("Odoo group Tag")
                 .withTypeText("Add Group Tag")
                 .withInsertHandler { ctx, _ ->
@@ -974,19 +975,63 @@ class OdooWidgetAttributeCompletionProvider : CompletionProvider<CompletionParam
         context: ProcessingContext,
         resultSet: CompletionResultSet
     ) {
-        val widgets = listOf(
-            "char", "text", "html", "many2one", "one2many_list", "many2many_tags", "float",
-            "integer", "boolean", "selection", "statusbar", "image", "monetary", "handle",
-            "date", "datetime", "color", "radio", "progressbar", "kanban", "avatar",
-            "priority", "toggle_button", "email", "phone", "url", "percentpie",
-            "many2many_checkboxes", "field_binary", "statinfo", "rating", "slider"
+        val odooWidgets: Map<String, String> = mapOf(
+            "Search..." to "Search...",
+            "badge" to "Badge",
+            "CopyClipboardChar" to "Copy Text to Clipboard",
+            "CopyClipboardURL" to "Copy URL to Clipboard",
+            "email" to "Email",
+            "image_url" to "Image",
+            "sms_widget" to "Multiline Text",
+            "text_emojis" to "Multiline Text",
+            "text" to "Multiline Text",
+            "phone" to "Phone",
+            "reference" to "Reference",
+            "statinfo" to "Stat Info",
+            "char_emojis" to "Text",
+            "char" to "Text",
+            "url" to "URL",
+            "ace" to "Ace Editor",
+            "handle" to "Handle",
+            "integer" to "Integer",
+            "monetary" to "Monetary",
+            "percentage" to "Percentage",
+            "percentpie" to "PercentPie",
+            "progressbar" to "Progress Bar",
+            "float" to "Float",
+            "date" to "Date",
+            "daterange" to "Date Range",
+            "remaining_days" to "Remaining Days",
+            "datetime" to "Date & Time",
+            "boolean_icon" to "Boolean Icon",
+            "boolean" to "Checkbox",
+            "boolean_favorite" to "Favorite",
+            "boolean_toggle" to "Toggle",
+            "selection_badge" to "Badges",
+            "state_selection" to "Label Selection",
+            "priority" to "Priority",
+            "radio" to "Radio",
+            "selection" to "Selection",
+            "statusbar" to "Status",
+            "binary" to "File",
+            "image" to "Image",
+            "pdf_viewer" to "PDF Viewer",
+            "many2many" to "Relational table (many2many)",
+            "one2many" to "Relational table (one2many)",
+            "many2many_tags" to "Tags",
+            "many2one" to "Many2one",
+            "signature" to "Signature",
+            "html" to "Html",
+            "float_time" to "Time"
         )
 
-        widgets.forEach {
+
+        odooWidgets.forEach { (technicalName, displayName) ->
             resultSet.addElement(
-                LookupElementBuilder.create(it)
-                    .withPresentableText(it)
-                    .withTypeText("Odoo widget", true)
+                LookupElementBuilder.create(technicalName)
+                    .withIcon(SuggestionIcons.ODOO_XML_FIELD_WIDGET)
+                    .withPresentableText(technicalName)
+                    .withTypeText(displayName, true)
             )
         }
     }
