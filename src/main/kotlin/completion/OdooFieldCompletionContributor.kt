@@ -5,8 +5,19 @@ import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.util.ProcessingContext
 import com.jetbrains.python.PythonLanguage
+import javax.swing.Icon
+import icons.SuggestionIcons
 
 class OdooFieldCompletionContributor : CompletionContributor() {
+    val categoryIcon: Map<String, Icon> = mapOf(
+        "odoo_py_field"    to SuggestionIcons.ODOO_PY_FIELD,
+        "odoo_py_api_decorators"    to SuggestionIcons.ODOO_PY_API_DECORATORS,
+        "odoo_py_import"    to SuggestionIcons.ODOO_PY_IMPORT,
+        "odoo_py_exception" to SuggestionIcons.ODOO_PY_EXCEPTIONS,
+        "odoo_py_class" to SuggestionIcons.ODOO_PY_CLASS,
+        "odoo_py_function" to   SuggestionIcons.ODOO_PY_FUNCTION,
+        "odoo_py_notification" to SuggestionIcons.ODOO_PY_NOTIFICATION
+    )
     init {
         extend(
             CompletionType.BASIC,
@@ -29,53 +40,68 @@ class OdooFieldCompletionContributor : CompletionContributor() {
                 }
 
                 private fun addFieldCompletions(resultSet: CompletionResultSet) {
-                    fun addField(keyword: String, label: String, description: String, codeSnippet: String) {
-                        resultSet.addElement(
-                            LookupElementBuilder.create(keyword)
-                                .withPresentableText(label)
-                                .withTypeText(description)
-                                .withInsertHandler { ctx, _ ->
-                                    ctx.document.replaceString(ctx.startOffset, ctx.selectionEndOffset, codeSnippet)
-                                    val newOffset = ctx.startOffset + codeSnippet.length
-                                    ctx.document.insertString(newOffset, "\n")
-                                    ctx.editor.caretModel.moveToOffset(newOffset + 1)
-                                }
-                        )
+                    fun addField(
+                        keyword: String,
+                        label: String,
+                        description: String,
+                        codeSnippet: String,
+                        category: String? = null
+                    ) {
+                        var builder = LookupElementBuilder.create(keyword)
+                            .withPresentableText(label)
+                            .withTypeText(description)
+                            .withInsertHandler { ctx, _ ->
+                                ctx.document.replaceString(ctx.startOffset, ctx.selectionEndOffset, codeSnippet)
+                                val newOffset = ctx.startOffset + codeSnippet.length
+                                ctx.document.insertString(newOffset, "\n")
+                                ctx.editor.caretModel.moveToOffset(newOffset + 1)
+                            }
+
+                        if (category in categoryIcon) {
+                            builder = builder.withIcon(categoryIcon[category])
+                        }
+
+                        resultSet.addElement(builder)
                     }
 
                     addField(
-                        "odoo_field_boolean",
+                        "odoo field boolean",
                         "Boolean Field",
                         "Insert Boolean field",
-                        "fields.Boolean(string='Active')"
+                        "fields.Boolean(string='Active')",
+                        "odoo_py_field"
                     )
 
                     addField(
                         "odoo_field_char",
                         "Char Field",
                         "Insert Char field",
-                        "fields.Char(string='Name')"
+                        "fields.Char(string='Name')",
+                        "odoo_py_field"
                     )
 
                     addField(
                         "odoo_field_text",
                         "Text Field",
                         "Insert Text field",
-                        "fields.Text(string='Description')"
+                        "fields.Text(string='Description')",
+                        "odoo_py_field"
                     )
 
                     addField(
                         "odoo_field_float",
                         "Float Field",
                         "Insert Float field",
-                        "fields.Float(string='Amount', digits=(16, 2))"
+                        "fields.Float(string='Amount', digits=(16, 2))",
+                        "odoo_py_field"
                     )
 
                     addField(
                         "odoo_field_integer",
                         "Integer Field",
                         "Insert Integer field",
-                        "fields.Integer(string='Quantity')"
+                        "fields.Integer(string='Quantity')",
+                        "odoo_py_field"
                     )
 
                     addField(
@@ -87,75 +113,87 @@ class OdooFieldCompletionContributor : CompletionContributor() {
                                     |           ('draft', 'Draft'),
                                     |           ('done', 'Done')
                                     |      ], string='Status', default='draft')
-                                    """.trimMargin()
+                                    """.trimMargin(),
+                        "odoo_py_field"
                     )
 
                     addField(
                         "odoo_field_date",
                         "Date Field",
                         "Insert Date field",
-                        "fields.Date(string='Start Date')"
+                        "fields.Date(string='Start Date')",
+                        "odoo_py_field"
                     )
 
                     addField(
                         "odoo_field_datetime",
                         "Datetime Field",
                         "Insert Datetime field",
-                        "fields.Datetime(string='Timestamp')"
+                        "fields.Datetime(string='Timestamp')",
+                        "odoo_py_field"
                     )
 
                     addField(
                         "odoo_field_many2one",
                         "Many2one Field",
                         "Insert Many2one field",
-                        "fields.Many2one('model.name', string='Partner', ondelete='restrict')"
+                        "fields.Many2one('model.name', string='Partner', ondelete='restrict')",
+                        "odoo_py_field"
                     )
 
                     addField(
                         "odoo_field_one2many",
                         "One2many Field",
                         "Insert One2many field",
-                        "fields.One2many('model.name', 'inverse_field_name', string='Order Lines')"
+                        "fields.One2many('model.name', 'inverse_field_name', string='Order Lines')",
+                        "odoo_py_field"
                     )
 
                     addField(
                         "odoo_field_many2many",
                         "Many2many Field",
                         "Insert Many2many field",
-                        "fields.Many2many('model.name', string='Tags')"
+                        "fields.Many2many('model.name', string='Tags')",
+                        "odoo_py_field"
                     )
 
                     addField(
                         "odoo_field_html",
                         "HTML Field",
                         "Insert Html field",
-                        "fields.Html(sanitize=True, string='Content')"
+                        "fields.Html(sanitize=True, string='Content')",
+                        "odoo_py_field"
                     )
 
                     addField(
                         "odoo_field_binary",
                         "Binary Field",
                         "Insert Binary field",
-                        "fields.Binary(attachment=True, string='File')"
+                        "fields.Binary(attachment=True, string='File')",
+                        "odoo_py_field"
                     )
                 }
 
                 private fun addApiDecoratorCompletions(resultSet: CompletionResultSet) {
+                    val category = "odoo_py_api_decorators"
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_api_create_multi")
                             .withPresentableText("Odoo api create multi")
                             .withTypeText("Add @api.model_create_multi decorator")
+                            .withIcon(categoryIcon[category])
                             .withInsertHandler { ctx, _ ->
                                 val text = "@api.model_create_multi"
                                 ctx.document.replaceString(ctx.startOffset, ctx.selectionEndOffset, text)
                                 ctx.editor.caretModel.moveToOffset(ctx.startOffset + text.length)
                             }
+
                     )
 
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_api_depends")
                             .withPresentableText("Odoo api depends")
                             .withTypeText("Add @api.depends decorator")
+                            .withIcon(categoryIcon[category])
                             .withInsertHandler { ctx, _ ->
                                 val text = "@api.depends('field_name')"
                                 ctx.document.replaceString(ctx.startOffset, ctx.selectionEndOffset, text)
@@ -166,6 +204,7 @@ class OdooFieldCompletionContributor : CompletionContributor() {
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_api_onchange")
                             .withPresentableText("Odoo api onchange")
+                            .withIcon(categoryIcon[category])
                             .withTypeText("Add @api.onchange decorator")
                             .withInsertHandler { ctx, _ ->
                                 val text = "@api.onchange('field_name')"
@@ -177,6 +216,7 @@ class OdooFieldCompletionContributor : CompletionContributor() {
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_api_constrains")
                             .withPresentableText("Odoo api constrains")
+                            .withIcon(categoryIcon[category])
                             .withTypeText("Add @api.constrains decorator")
                             .withInsertHandler { ctx, _ ->
                                 val text = "@api.constrains('field_name')"
@@ -188,6 +228,7 @@ class OdooFieldCompletionContributor : CompletionContributor() {
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_api_returns")
                             .withPresentableText("Odoo api returns")
+                            .withIcon(categoryIcon[category])
                             .withTypeText("Add @api.returns decorator")
                             .withInsertHandler { ctx, _ ->
                                 val text = "@api.returns('model.name')"
@@ -198,10 +239,12 @@ class OdooFieldCompletionContributor : CompletionContributor() {
                 }
 
                 private fun addImportCompletions(resultSet: CompletionResultSet) {
+                    val category = "odoo_py_import"
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_import_fields")
                             .withPresentableText("Odoo import fields")
                             .withTypeText("Import Odoo fields")
+                            .withIcon(categoryIcon[category])
                             .withInsertHandler { ctx, _ ->
                                 ctx.document.replaceString(
                                     ctx.startOffset,
@@ -214,6 +257,7 @@ class OdooFieldCompletionContributor : CompletionContributor() {
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_import_models")
                             .withPresentableText("Odoo import models")
+                            .withIcon(categoryIcon[category])
                             .withTypeText("Import Odoo models")
                             .withInsertHandler { ctx, _ ->
                                 ctx.document.replaceString(
@@ -227,6 +271,7 @@ class OdooFieldCompletionContributor : CompletionContributor() {
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_import_api")
                             .withPresentableText("Odoo import api")
+                            .withIcon(categoryIcon[category])
                             .withTypeText("Import Odoo API")
                             .withInsertHandler { ctx, _ ->
                                 ctx.document.replaceString(
@@ -240,6 +285,7 @@ class OdooFieldCompletionContributor : CompletionContributor() {
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_import_tools")
                             .withPresentableText("Odoo import tools")
+                            .withIcon(categoryIcon[category])
                             .withTypeText("Import Odoo tools")
                             .withInsertHandler { ctx, _ ->
                                 ctx.document.replaceString(
@@ -253,6 +299,7 @@ class OdooFieldCompletionContributor : CompletionContributor() {
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_import_config")
                             .withPresentableText("Odoo import config")
+                            .withIcon(categoryIcon[category])
                             .withTypeText("Import Odoo config")
                             .withInsertHandler { ctx, _ ->
                                 ctx.document.replaceString(
@@ -266,6 +313,7 @@ class OdooFieldCompletionContributor : CompletionContributor() {
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_import_date_utils")
                             .withPresentableText("Odoo import date utils")
+                            .withIcon(categoryIcon[category])
                             .withTypeText("Import Odoo date_utils")
                             .withInsertHandler { ctx, _ ->
                                 ctx.document.replaceString(
@@ -279,6 +327,7 @@ class OdooFieldCompletionContributor : CompletionContributor() {
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_import_common")
                             .withPresentableText("Odoo import common")
+                            .withIcon(categoryIcon[category])
                             .withTypeText("Import common Odoo modules")
                             .withInsertHandler { ctx, _ ->
                                 ctx.document.replaceString(
@@ -288,12 +337,11 @@ class OdooFieldCompletionContributor : CompletionContributor() {
                                 )
                             }
                     )
-                }
 
-                private fun addExceptionCompletions(resultSet: CompletionResultSet) {
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_import_exceptions")
                             .withPresentableText("Odoo import exceptions")
+                            .withIcon(categoryIcon[category])
                             .withTypeText("Import Odoo exceptions")
                             .withInsertHandler { ctx, _ ->
                                 val editor = ctx.editor
@@ -307,10 +355,16 @@ class OdooFieldCompletionContributor : CompletionContributor() {
                                 editor.caretModel.moveToOffset(newOffset)
                             }
                     )
+                }
 
+
+
+                private fun addExceptionCompletions(resultSet: CompletionResultSet) {
+                    val category = "odoo_py_exception"
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_user_error")
                             .withPresentableText("Odoo user error")
+                            .withIcon(categoryIcon[category])
                             .withTypeText("Raise UserError")
                             .withInsertHandler { ctx, _ ->
                                 val editor = ctx.editor
@@ -328,6 +382,7 @@ class OdooFieldCompletionContributor : CompletionContributor() {
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_validation_error")
                             .withPresentableText("Odoo validation error")
+                            .withIcon(categoryIcon[category])
                             .withTypeText("Raise ValidationError")
                             .withInsertHandler { ctx, _ ->
                                 val editor = ctx.editor
@@ -345,6 +400,7 @@ class OdooFieldCompletionContributor : CompletionContributor() {
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_access_error")
                             .withPresentableText("Odoo access error")
+                            .withIcon(categoryIcon[category])
                             .withTypeText("Raise AccessError")
                             .withInsertHandler { ctx, _ ->
                                 val editor = ctx.editor
@@ -362,6 +418,7 @@ class OdooFieldCompletionContributor : CompletionContributor() {
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_missing_error")
                             .withPresentableText("Odoo missing error")
+                            .withIcon(categoryIcon[category])
                             .withTypeText("Raise MissingError")
                             .withInsertHandler { ctx, _ ->
                                 val editor = ctx.editor
@@ -379,6 +436,7 @@ class OdooFieldCompletionContributor : CompletionContributor() {
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_redirect_warning")
                             .withPresentableText("Odoo redirect warning")
+                            .withIcon(categoryIcon[category])
                             .withTypeText("Raise RedirectWarning")
                             .withInsertHandler { ctx, _ ->
                                 val editor = ctx.editor
@@ -396,9 +454,11 @@ class OdooFieldCompletionContributor : CompletionContributor() {
                 }
 
                 private fun addClassTemplateCompletions(resultSet: CompletionResultSet) {
+                    var category = "odoo_py_class"
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_class")
                             .withPresentableText("Odoo class")
+                            .withIcon(categoryIcon[category])
                             .withTypeText("Create New Odoo Model Class")
                             .withInsertHandler { ctx, _ ->
                                 val editor = ctx.editor
@@ -429,6 +489,7 @@ ${indent}    name = fields.Char()"""
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_transient_class")
                             .withPresentableText("Odoo transient class")
+                            .withIcon(categoryIcon[category])
                             .withTypeText("Create New Odoo TransientModel Class")
                             .withInsertHandler { ctx, _ ->
                                 val editor = ctx.editor
@@ -457,6 +518,7 @@ ${indent}    name = fields.Char()"""
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_abstract_class")
                             .withPresentableText("Odoo abstract class")
+                            .withIcon(categoryIcon[category])
                             .withTypeText("Create New Odoo AbstractModel Class")
                             .withInsertHandler { ctx, _ ->
                                 val editor = ctx.editor
@@ -483,6 +545,7 @@ ${indent}    name = fields.Char()"""
 
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_extension_inheritance")
+                            .withIcon(categoryIcon[category])
                             .withPresentableText("Odoo Extension Inheritance")
                             .withTypeText("Create Odoo Extension Inheritance")
                             .withInsertHandler { ctx, _ ->
@@ -511,6 +574,7 @@ ${indent}    name = fields.Char()"""
 
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_classical_inheritance")
+                            .withIcon(categoryIcon[category])
                             .withPresentableText("Odoo Classical Inheritance")
                             .withTypeText("Create Odoo Classical Inheritance")
                             .withInsertHandler { ctx, _ ->
@@ -538,6 +602,7 @@ ${indent}    new_field = fields.Char()"""
 
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_delegation_inheritance")
+                            .withIcon(categoryIcon[category])
                             .withPresentableText("Odoo Delegation Inheritance")
                             .withTypeText("Create Odoo Delegation Inheritance")
                             .withInsertHandler { ctx, _ ->
@@ -564,9 +629,12 @@ ${indent}    partner_id = fields.Many2one('res.partner', required=True, ondelete
                             }
                     )
 
+                    category = "odoo_py_function"
+
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_create_method")
                             .withPresentableText("Odoo Create Method")
+                            .withIcon(categoryIcon[category])
                             .withTypeText("Create standard Create methods")
                             .withInsertHandler { ctx, _ ->
                                 // Get editor and document info
@@ -593,6 +661,7 @@ ${indent}    return super().create(vals)"""
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_write_method")
                             .withPresentableText("Odoo Write Method")
+                            .withIcon(categoryIcon[category])
                             .withTypeText("Create standard Write method")
                             .withInsertHandler { ctx, _ ->
                                 // Get editor and document info
@@ -618,6 +687,7 @@ ${indent}    return super().write(vals)"""
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_unlink_method")
                             .withPresentableText("Odoo Unlink Method")
+                            .withIcon(categoryIcon[category])
                             .withTypeText("Create standard Unlink methods")
                             .withInsertHandler { ctx, _ ->
                                 // Get editor and document info
@@ -646,6 +716,7 @@ ${indent}    return super().unlink()"""
                         LookupElementBuilder.create("odoo_computed_field")
                             .withPresentableText("Odoo computed field")
                             .withTypeText("Create computed field with method")
+                            .withIcon(categoryIcon[category])
                             .withInsertHandler { ctx, _ ->
                                 // Get editor and document info
                                 val editor = ctx.editor
@@ -673,6 +744,7 @@ ${indent}        record.computed_field = 0.0  # Your computation here"""
                     // onchange method
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_onchange_method")
+                            .withIcon(categoryIcon[category])
                             .withPresentableText("Odoo onchange method")
                             .withTypeText("Create onchange method")
                             .withInsertHandler { ctx, _ ->
@@ -697,8 +769,11 @@ ${indent}        self.another_field = self.field_name"""
                             }
                     )
 
+                    category = "odoo_py_notification"
+
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_return_action")
+                            .withIcon(categoryIcon[category])
                             .withPresentableText("Odoo Return Action")
                             .withTypeText("Create Return Action")
                             .withInsertHandler { ctx, _ ->
@@ -729,6 +804,7 @@ ${indent}}
 
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_rainbow_man_notification")
+                            .withIcon(categoryIcon[category])
                             .withPresentableText("Odoo Rainbow Man Notification")
                             .withTypeText("Create Rainbow Man Notification")
                             .withInsertHandler { ctx, _ ->
@@ -757,6 +833,7 @@ ${indent}    }
 
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_warning_notification")
+                            .withIcon(categoryIcon[category])
                             .withPresentableText("Odoo Warning Notification")
                             .withTypeText("Create Warning Notification(Sticky)")
                             .withInsertHandler { ctx, _ ->
@@ -788,6 +865,7 @@ ${indent}}
 
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_success_notification")
+                            .withIcon(categoryIcon[category])
                             .withPresentableText("Odoo Success Notification")
                             .withTypeText("Create Success Notification(Sticky)")
                             .withInsertHandler { ctx, _ ->
@@ -819,6 +897,7 @@ ${indent}}
 
                     resultSet.addElement(
                         LookupElementBuilder.create("odoo_info_notification")
+                            .withIcon(categoryIcon[category])
                             .withPresentableText("Odoo Info Notification")
                             .withTypeText("Create Info Notification(Sticky)")
                             .withInsertHandler { ctx, _ ->

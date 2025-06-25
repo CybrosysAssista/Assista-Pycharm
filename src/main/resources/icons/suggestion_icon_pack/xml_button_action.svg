@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
+    <!-- Background -->
+    <rect x="2" y="2" width="20" height="20" rx="5" fill="#ECEFF1" stroke="#5C6BC0" stroke-width="1.5"/>
+
+    <!-- Button base -->
+    <rect x="7" y="9" width="10" height="6" rx="2" fill="#7E57C2"/>
+
+    <!-- Inner glow/highlight -->
+    <rect x="8" y="10" width="8" height="4" rx="1" fill="#B39DDB"/>
+</svg>

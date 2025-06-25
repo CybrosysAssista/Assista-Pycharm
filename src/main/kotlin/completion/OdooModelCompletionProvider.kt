@@ -19,6 +19,7 @@ import com.intellij.icons.AllIcons
 import com.intellij.util.indexing.FileBasedIndex
 import indexing.OdooModelIndex
 import com.intellij.util.Processor
+import icons.SuggestionIcons.ODOO_PY_MODEL_SUGGESTION
 
 class OdooModelCompletionProvider : CompletionProvider<CompletionParameters>() {
 
@@ -47,7 +48,7 @@ class OdooModelCompletionProvider : CompletionProvider<CompletionParameters>() {
                 logger.info("Adding model: $model")
 
                 val element = LookupElementBuilder.create(model)
-                    .withIcon(AllIcons.Nodes.Class)
+                    .withIcon(ODOO_PY_MODEL_SUGGESTION)
                     .withTypeText("Odoo Model")
                     .withInsertHandler { context, item ->
                         val editor = context.editor

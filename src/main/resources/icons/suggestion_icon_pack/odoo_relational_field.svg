@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
+    <!-- Background -->
+    <rect x="2" y="2" width="20" height="20" rx="5" fill="#F3F7FA" stroke="#37474F" stroke-width="1.4"/>
+
+    <!-- Circles at ends -->
+    <circle cx="6" cy="12" r="2" fill="#00838F"/>
+    <circle cx="18" cy="12" r="2" fill="#00838F"/>
+
+    <!-- Connecting line -->
+    <line x1="8" y1="12" x2="16" y2="12" stroke="#00838F" stroke-width="2" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
+    <!-- Circular background -->
+    <circle cx="12" cy="12" r="9" fill="#EDE7F6" stroke="#7E57C2" stroke-width="1.5"/>
+
+    <!-- Window or form block (symbolizes UI action) -->
+    <rect x="8" y="7.5" width="8" height="5" rx="1" fill="#D1C4E9"/>
+
+    <!-- Curved return arrow -->
+    <path d="M8 16c0-1.5 2-2 4-2h4" stroke="#7E57C2" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    <path d="M15 12l1.8 1.8L15 15.5" stroke="#7E57C2" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

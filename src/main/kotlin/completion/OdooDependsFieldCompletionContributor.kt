@@ -7,6 +7,7 @@ import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.ProcessingContext
 import com.intellij.util.indexing.FileBasedIndex
 import com.intellij.psi.search.GlobalSearchScope
+import icons.SuggestionIcons
 
 import com.jetbrains.python.psi.*
 import com.jetbrains.python.psi.resolve.PyResolveContext
@@ -40,10 +41,12 @@ class OdooDependsFieldCompletionContributor : CompletionContributor() {
                         modelName,
                         GlobalSearchScope.allScope(project)
                     )
-
+                    val icon = SuggestionIcons.ODOO_PY_API_DECORATOR_FIELD
+                    println(icon)
                     val allFields = indexValues.flatten().distinct()
                     for (field in allFields) {
-                        resultSet.addElement(LookupElementBuilder.create(field))
+                        resultSet.addElement(LookupElementBuilder.create(field)
+                            .withIcon(SuggestionIcons.ODOO_PY_API_DECORATOR_FIELD))
                     }
                 }
             }

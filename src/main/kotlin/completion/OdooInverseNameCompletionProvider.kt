@@ -13,6 +13,7 @@ import com.intellij.psi.util.elementType
 import com.jetbrains.python.PyTokenTypes
 import indexing.OdooModelFieldIndex
 import com.intellij.codeInsight.lookup.LookupElementBuilder
+import icons.SuggestionIcons.ODOO_PY_INVERSE_NAME
 
 class OdooInverseNameCompletionProvider : CompletionProvider<CompletionParameters>() {
     override fun addCompletions(
@@ -47,10 +48,10 @@ class OdooInverseNameCompletionProvider : CompletionProvider<CompletionParameter
             .flatten()
 
         val relationalFields = fieldNames.filter { it.endsWith("_id") }
-        println("this: $relationalFields")
 
         for (field in relationalFields) {
-            result.addElement(LookupElementBuilder.create(field))
+            result.addElement(LookupElementBuilder.create(field)
+                .withIcon(ODOO_PY_INVERSE_NAME))
         }
     }
 }

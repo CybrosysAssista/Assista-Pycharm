@@ -11,6 +11,7 @@ import com.intellij.util.indexing.FileBasedIndex
 import com.jetbrains.python.psi.*
 import indexing.OdooModelFieldIndex
 import indexing.OdooModelIndex
+import icons.SuggestionIcons.ODOO_PY_RELATIONAL_FIELD
 
 class OdooRelationalFieldCompletionProvider : CompletionProvider<CompletionParameters>() {
     override fun addCompletions(
@@ -46,7 +47,8 @@ class OdooRelationalFieldCompletionProvider : CompletionProvider<CompletionParam
             .flatten()
 
         suggestions.forEach {
-            result.addElement(LookupElementBuilder.create(it))
+            result.addElement(LookupElementBuilder.create(it)
+                .withIcon(ODOO_PY_RELATIONAL_FIELD))
         }
     }
 

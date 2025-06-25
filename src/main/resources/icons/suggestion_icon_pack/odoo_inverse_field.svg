@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
+    <!-- Background with soft amber tone -->
+    <rect x="2" y="2" width="20" height="20" rx="5" fill="#FFF3E0" stroke="#FB8C00" stroke-width="1.6"/>
+
+    <!-- Accent shapes -->
+    <rect x="6" y="6.5" width="4" height="4" rx="1" fill="#F4511E"/>         <!-- Deep Coral -->
+    <rect x="14" y="13.5" width="4" height="4" rx="1" fill="#FF7043"/>       <!-- Sunset Orange -->
+    <circle cx="10" cy="15" r="1.8" fill="#FFB300"/>                         <!-- Amber Dot -->
+    <circle cx="15" cy="8" r="1.2" fill="#E64A19"/>                          <!-- Bright Red -->
+</svg>

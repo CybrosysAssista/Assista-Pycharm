@@ -10,6 +10,7 @@ import com.intellij.util.indexing.FileBasedIndex
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.openapi.project.Project
 import indexing.CssClassIndex
+import icons.SuggestionIcons
 
 class CssClassCompletionProvider : CompletionProvider<CompletionParameters>() {
     override fun addCompletions(
@@ -27,6 +28,7 @@ class CssClassCompletionProvider : CompletionProvider<CompletionParameters>() {
             resultSet.addElement(
                 LookupElementBuilder.create(className)
                     .withTypeText("CSS Class", true)
+                    .withIcon(SuggestionIcons.ODOO_CSS_CLASS)
                     .withInsertHandler { ctx, _ ->
                         val tailOffset = ctx.tailOffset
                         ctx.document.insertString(tailOffset, " ")

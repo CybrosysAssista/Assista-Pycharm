@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
+    <!-- Circular background -->
+    <circle cx="12" cy="12" r="9" fill="#F3E5F5" stroke="#7E57C2" stroke-width="1.5"/>
+
+    <!-- 'fn' text in center -->
+    <text x="12" y="16" text-anchor="middle" font-size="10.5" font-family="Arial, sans-serif" fill="#7E57C2">fn</text>
+</svg>

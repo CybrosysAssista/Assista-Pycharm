@@ -19,9 +19,8 @@ import indexing.OdooModelIndex
 import indexing.OdooModelFieldIndex
 import com.intellij.util.indexing.FileBasedIndex
 import com.intellij.psi.xml.XmlAttributeValue
-
-
-
+import icons.SuggestionIcons
+import javax.swing.Icon
 
 
 class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
@@ -49,6 +48,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
 //        }
         resultSet.addElement(
             LookupElementBuilder.create("odoo_btn_object")
+                .withIcon(SuggestionIcons.ODOO_XML_BUTTON_ACTION)
                 .withPresentableText("Odoo btn object")
                 .withTypeText("Add Object Button")
                 .withInsertHandler { ctx, _ ->
@@ -61,6 +61,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
         // Action Button
         resultSet.addElement(
             LookupElementBuilder.create("odoo_btn_action")
+                .withIcon(SuggestionIcons.ODOO_XML_BUTTON_ACTION)
                 .withPresentableText("Odoo btn action")
                 .withTypeText("Add Action Button")
                 .withInsertHandler { ctx, _ ->
@@ -73,6 +74,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
         // Domain
         resultSet.addElement(
             LookupElementBuilder.create("odoo_domain")
+                .withIcon(SuggestionIcons.ODOO_XML_FIELD_ATTRIBUTES)
                 .withPresentableText("Odoo domain")
                 .withTypeText("Add Domain to Field")
                 .withInsertHandler { ctx, _ ->
@@ -84,6 +86,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
         // Options
         resultSet.addElement(
             LookupElementBuilder.create("odoo_options")
+                .withIcon(SuggestionIcons.ODOO_XML_FIELD_ATTRIBUTES)
                 .withPresentableText("Odoo Options")
                 .withTypeText("Add Options to Field")
                 .withInsertHandler { ctx, _ ->
@@ -96,6 +99,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
         // Field
         resultSet.addElement(
             LookupElementBuilder.create("odoo_field")
+                .withIcon(SuggestionIcons.ODOO_XML_VIEW_ELEMENTS)
                 .withPresentableText("Odoo field")
                 .withTypeText("Add Field in Form/View")
                 .withInsertHandler { ctx, _ ->
@@ -108,6 +112,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
         // Groups
         resultSet.addElement(
             LookupElementBuilder.create("odoo_groups")
+                .withIcon(SuggestionIcons.ODOO_XML_FIELD_ATTRIBUTES)
                 .withPresentableText("Odoo groups")
                 .withTypeText("Add Groups Restriction")
                 .withInsertHandler { ctx, _ ->
@@ -120,6 +125,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
         // Label
         resultSet.addElement(
             LookupElementBuilder.create("odoo_label")
+                .withIcon(SuggestionIcons.ODOO_XML_VIEW_ELEMENTS)
                 .withPresentableText("Odoo label")
                 .withTypeText("Add Label")
                 .withInsertHandler { ctx, _ ->
@@ -132,6 +138,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
         // Separator
         resultSet.addElement(
             LookupElementBuilder.create("odoo_separator")
+                .withIcon(SuggestionIcons.ODOO_XML_VIEW_ELEMENTS)
                 .withPresentableText("Odoo separator")
                 .withTypeText("Add Separator")
                 .withInsertHandler { ctx, _ ->
@@ -144,6 +151,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
         // Form View
         resultSet.addElement(
             LookupElementBuilder.create("odoo_form_view")
+                .withIcon(SuggestionIcons.ODOO_XML_VIEW_TEMPLATE)
                 .withPresentableText("Odoo form_view")
                 .withTypeText("Create Form View Template")
                 .withInsertHandler(InsertHandler { ctx, _ ->
@@ -235,6 +243,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
         // List View
         resultSet.addElement(
             LookupElementBuilder.create("odoo_list_view")
+                .withIcon(SuggestionIcons.ODOO_XML_VIEW_TEMPLATE)
                 .withPresentableText("Odoo list view")
                 .withTypeText("Create List View Template")
                 .withInsertHandler(InsertHandler { ctx, _ ->
@@ -278,6 +287,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
         // Search View
         resultSet.addElement(
             LookupElementBuilder.create("odoo_search_view")
+                .withIcon(SuggestionIcons.ODOO_XML_VIEW_TEMPLATE)
                 .withPresentableText("Odoo search view")
                 .withTypeText("Create Search View Template")
                 .withInsertHandler(InsertHandler { ctx, _ ->
@@ -329,6 +339,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
         // Action Window
         resultSet.addElement(
             LookupElementBuilder.create("odoo_action")
+                .withIcon(SuggestionIcons.ODOO_XML_VIEW_TEMPLATE)
                 .withPresentableText("Odoo action")
                 .withTypeText("Create Action Window")
                 .withInsertHandler(InsertHandler { ctx, _ ->
@@ -370,6 +381,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
         )
         resultSet.addElement(
             LookupElementBuilder.create("odoo_inherit_view")
+                .withIcon(SuggestionIcons.ODOO_XML_VIEW_TEMPLATE)
                 .withPresentableText("Odoo View Inherit")
                 .withTypeText("Create Inherit View")
                 .withInsertHandler(InsertHandler { ctx, _ ->
@@ -414,6 +426,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
 
         resultSet.addElement(
             LookupElementBuilder.create("odoo_pivot_view")
+                .withIcon(SuggestionIcons.ODOO_XML_VIEW_TEMPLATE)
                 .withPresentableText("Odoo View Pivot")
                 .withTypeText("Create Pivot View")
                 .withInsertHandler(InsertHandler { ctx, _ ->
@@ -455,6 +468,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
 
         resultSet.addElement(
             LookupElementBuilder.create("odoo_calender_view")
+                .withIcon(SuggestionIcons.ODOO_XML_VIEW_TEMPLATE)
                 .withPresentableText("Odoo View Calender")
                 .withTypeText("Create Calender View")
                 .withInsertHandler(InsertHandler { ctx, _ ->
@@ -498,6 +512,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
         // Menu Item Root
         resultSet.addElement(
             LookupElementBuilder.create("odoo_menu_item_root")
+                .withIcon(SuggestionIcons.ODOO_XML_VIEW_TEMPLATE)
                 .withPresentableText("Odoo menu item root")
                 .withTypeText("Add Root Menu Item")
                 .withInsertHandler { ctx, _ ->
@@ -513,6 +528,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
         // Menu Item Category
         resultSet.addElement(
             LookupElementBuilder.create("odoo_menu_item_categ")
+                .withIcon(SuggestionIcons.ODOO_XML_VIEW_TEMPLATE)
                 .withPresentableText("Odoo menu item categ")
                 .withTypeText("Add Category Menu Item")
                 .withInsertHandler { ctx, _ ->
@@ -528,6 +544,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
         // Menu Item Action
         resultSet.addElement(
             LookupElementBuilder.create("odoo_menu_item_action")
+                .withIcon(SuggestionIcons.ODOO_XML_VIEW_TEMPLATE)
                 .withPresentableText("Odoo menu item action")
                 .withTypeText("Add Action Menu Item")
                 .withInsertHandler { ctx, _ ->
@@ -543,6 +560,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
         resultSet.addElement(
             LookupElementBuilder.create("odoo_button_box")
                 .withPresentableText("Odoo button box")
+                .withIcon(SuggestionIcons.ODOO_XML_BUTTON_ACTION)
                 .withTypeText("Add Button Box")
                 .withInsertHandler(InsertHandler { ctx, _ ->
                     val buttonBoxXml = """
@@ -580,9 +598,9 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
                 })
         )
 
-        // Smart Button Box
         resultSet.addElement(
             LookupElementBuilder.create("odoo_tag")
+                .withIcon(SuggestionIcons.ODOO_XML_VIEW_TEMPLATE)
                 .withPresentableText("Odoo Tag")
                 .withTypeText("Add Odoo Tag")
                 .withInsertHandler(InsertHandler { ctx, _ ->
@@ -616,6 +634,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
         resultSet.addElement(
             LookupElementBuilder.create("odoo_button_smart")
                 .withPresentableText("Odoo button smart")
+                .withIcon(SuggestionIcons.ODOO_XML_BUTTON_ACTION)
                 .withTypeText("Add Smart Button")
                 .withInsertHandler(InsertHandler { ctx, _ ->
                     val snippet = """
@@ -654,6 +673,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
         // Status Bar State
         resultSet.addElement(
             LookupElementBuilder.create("odoo_field_state")
+                .withIcon(SuggestionIcons.ODOO_XML_VIEW_ELEMENTS)
                 .withPresentableText("Odoo field state")
                 .withTypeText("Add 'state' Field in Status Bar")
                 .withInsertHandler { ctx, _ ->
@@ -666,6 +686,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
         // Field Widget
         resultSet.addElement(
             LookupElementBuilder.create("odoo_field_widget")
+                .withIcon(SuggestionIcons.ODOO_XML_FIELD_ATTRIBUTES)
                 .withPresentableText("Odoo field widget")
                 .withTypeText("Add Widget in Fields")
                 .withInsertHandler { ctx, _ ->
@@ -677,6 +698,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
 
         resultSet.addElement(
             LookupElementBuilder.create("odoo_field_invisible")
+                .withIcon(SuggestionIcons.ODOO_XML_FIELD_ATTRIBUTES)
                 .withPresentableText("Odoo field invisible")
                 .withTypeText("Add Invisible Condition in Fields")
                 .withInsertHandler { ctx, _ ->
@@ -688,6 +710,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
 
         resultSet.addElement(
             LookupElementBuilder.create("odoo_field_readonly")
+                .withIcon(SuggestionIcons.ODOO_XML_FIELD_ATTRIBUTES)
                 .withPresentableText("Odoo field readonly")
                 .withTypeText("Add Readonly Condition in Fields")
                 .withInsertHandler { ctx, _ ->
@@ -699,6 +722,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
 
         resultSet.addElement(
             LookupElementBuilder.create("odoo_field_required")
+                .withIcon(SuggestionIcons.ODOO_XML_FIELD_ATTRIBUTES)
                 .withPresentableText("Odoo field required")
                 .withTypeText("Add Required Condition in Fields")
                 .withInsertHandler { ctx, _ ->
@@ -711,6 +735,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
         // Chatter
         resultSet.addElement(
             LookupElementBuilder.create("odoo_chatter")
+                .withIcon(SuggestionIcons.ODOO_XML_VIEW_ELEMENTS)
                 .withPresentableText("Odoo chatter")
                 .withTypeText("Add Chatter In Form")
                 .withInsertHandler { ctx, _ ->
@@ -721,6 +746,7 @@ class OdooXmlCompletionProvider : CompletionProvider<CompletionParameters>() {
         )
         resultSet.addElement(
             LookupElementBuilder.create("odoo_notebook")
+                .withIcon(SuggestionIcons.ODOO_XML_VIEW_ELEMENTS)
                 .withPresentableText("Odoo notebook")
                 .withTypeText("Add Notebook Block")
                 .withInsertHandler { ctx, _ ->
@@ -746,6 +772,7 @@ ${indent}</notebook>"""
         )
         resultSet.addElement(
             LookupElementBuilder.create("odoo_xpath")
+                .withIcon(SuggestionIcons.ODOO_XML_VIEW_ELEMENTS)
                 .withPresentableText("Odoo xpath")
                 .withTypeText("Add Xpath Block")
                 .withInsertHandler { ctx, _ ->
@@ -769,6 +796,7 @@ ${indent}</xpath>"""
         )
         resultSet.addElement(
             LookupElementBuilder.create("odoo_page")
+                .withIcon(SuggestionIcons.ODOO_XML_VIEW_ELEMENTS)
                 .withPresentableText("Odoo page")
                 .withTypeText("Add Page Element")
                 .withInsertHandler { ctx, _ ->
@@ -792,6 +820,7 @@ ${indent}</page>"""
 
         resultSet.addElement(
             LookupElementBuilder.create("odoo_header")
+                .withIcon(SuggestionIcons.ODOO_XML_VIEW_ELEMENTS)
                 .withPresentableText("Odoo header")
                 .withTypeText("Add Header with Button + Statusbar")
                 .withInsertHandler { ctx, _ ->
@@ -814,6 +843,7 @@ ${indent}</header>"""
 
         resultSet.addElement(
             LookupElementBuilder.create("odoo_sheet")
+                .withIcon(SuggestionIcons.ODOO_XML_VIEW_ELEMENTS)
                 .withPresentableText("Odoo sheet")
                 .withTypeText("Add <sheet> with <group> and <field>")
                 .withInsertHandler { ctx, _ ->
@@ -838,6 +868,7 @@ ${indent}</sheet>"""
 
         resultSet.addElement(
             LookupElementBuilder.create("odoo_record")
+                .withIcon(SuggestionIcons.ODOO_XML_VIEW_ELEMENTS)
                 .withPresentableText("Odoo Record")
                 .withTypeText("Add Record Tag")
                 .withInsertHandler { ctx, _ ->
@@ -859,6 +890,7 @@ ${indent}</record>"""
 
         resultSet.addElement(
             LookupElementBuilder.create("odoo_kanban_view")
+                .withIcon(SuggestionIcons.ODOO_XML_VIEW_TEMPLATE)
                 .withPresentableText("Odoo kanban view")
                 .withTypeText("Create Kanban View Template")
                 .withInsertHandler(InsertHandler { ctx, _ ->

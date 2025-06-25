@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
+    <!-- Outer container -->
+    <rect x="2" y="2" width="20" height="20" rx="4" fill="#EDE7F6" stroke="#5E35B1" stroke-width="1.5"/>
+
+    <!-- Abstract "UI layout" shapes -->
+    <rect x="5" y="5" width="6" height="5" rx="1" fill="#9575CD"/>
+    <rect x="13" y="5" width="6" height="5" rx="1" fill="#7E57C2"/>
+    <rect x="5" y="13" width="14" height="4" rx="1" fill="#D1C4E9"/>
+</svg>

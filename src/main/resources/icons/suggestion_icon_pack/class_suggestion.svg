@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
+    <!-- Background (optional, helps with dark themes) -->
+    <rect x="2" y="2" width="20" height="20" rx="4" fill="#FFFFFF" stroke="#37474F" stroke-width="1.2"/>
+
+    <!-- Class dots (centered vertically) -->
+    <circle cx="7" cy="8" r="2" fill="#42A5F5"/> <!-- Blue -->
+    <circle cx="7" cy="12" r="2" fill="#AB47BC"/> <!-- Purple -->
+    <circle cx="7" cy="16" r="2" fill="#26A69A"/> <!-- Teal -->
+
+    <!-- Class lines (thicker and closer to dot) -->
+    <rect x="10" y="7" width="8" height="2" rx="1" fill="#42A5F5"/>
+    <rect x="10" y="11" width="8" height="2" rx="1" fill="#AB47BC"/>
+    <rect x="10" y="15" width="8" height="2" rx="1" fill="#26A69A"/>
+</svg>

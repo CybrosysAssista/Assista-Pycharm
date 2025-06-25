@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
+    <!-- Outer background -->
+    <rect x="2" y="2" width="20" height="20" rx="5" fill="#E3F2FD" stroke="#0D47A1" stroke-width="1.5"/>
+
+    <!-- Model box -->
+    <rect x="7" y="7" width="10" height="10" rx="2" fill="#1976D2"/>
+
+    <!-- Field lines -->
+    <line x1="9" y1="9" x2="15" y2="9" stroke="#FFFFFF" stroke-width="1.5"/>
+    <line x1="9" y1="12" x2="15" y2="12" stroke="#FFFFFF" stroke-width="1.5"/>
+    <line x1="9" y1="15" x2="15" y2="15" stroke="#FFFFFF" stroke-width="1.5"/>
+</svg>
