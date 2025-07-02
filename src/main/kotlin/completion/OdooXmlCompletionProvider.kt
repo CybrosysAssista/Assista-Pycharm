@@ -1071,6 +1071,7 @@ class OdooxmlModelCompletionProvider : CompletionProvider<CompletionParameters>(
             resultSet.addElement(
                 LookupElementBuilder.create(model)
                     .withTypeText("Odoo Model", true)
+                    .withIcon(SuggestionIcons.ODOO_PY_MODEL_SUGGESTION)
             )
         }
     }
@@ -1100,6 +1101,7 @@ class OdooRecordModelCompletionProvider : CompletionProvider<CompletionParameter
             resultSet.addElement(
                 LookupElementBuilder.create(model)
                     .withTypeText("Odoo Model", true)
+                    .withIcon(SuggestionIcons.ODOO_PY_MODEL_SUGGESTION)
             )
         }
     }
@@ -1150,7 +1152,6 @@ class OdooXmlFieldNameCompletionProvider : CompletionProvider<CompletionParamete
             }
 
             if (currentTag.name == "record") {
-                println("2entered")
                 val modelAttr = currentTag.getAttributeValue("model")
                 if (!modelAttr.isNullOrBlank()) {
                     suggestFields(modelAttr, project, resultSet)

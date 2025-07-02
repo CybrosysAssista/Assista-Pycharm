@@ -26,7 +26,50 @@
 - <b>OWL Advanced Module:</b> Complex OWL module with state management and interactive dashboards<br>
 - <b>Systray Module:</b> Custom systray components for notifications and quick actions
 </p>
-
+<br/><br/>
+<p><b>Available Shortcuts:</b></p>
+<table border="1" cellspacing="0" cellpadding="6">
+  <thead>
+    <tr>
+      <th>Action Name</th>
+      <th>Default Shortcut</th>
+      <th>Mac OS X Shortcut</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Create Basic Module</td>
+      <td>Ctrl + Shift + B</td>
+      <td>⌘ + Shift + B</td>
+    </tr>
+    <tr>
+      <td>Create Advanced Module</td>
+      <td>Ctrl + Shift + D</td>
+      <td>⌘ + Shift + D</td>
+    </tr>
+    <tr>
+      <td>Create Website Theme Module</td>
+      <td>Ctrl + Shift + W</td>
+      <td>⌘ + Shift + W</td>
+    </tr>
+    <tr>
+      <td>Create Owl Basic Module</td>
+      <td>Ctrl + Shift + O</td>
+      <td>⌘ + Shift + O</td>
+    </tr>
+    <tr>
+      <td>Create Owl Advanced Module</td>
+      <td>Ctrl + Shift + L</td>
+      <td>⌘ + Shift + L</td>
+    </tr>
+    <tr>
+      <td>Create Systray Icon Module</td>
+      <td>Ctrl + Shift + S</td>
+      <td>⌘ + Shift + S</td>
+    </tr>
+  </tbody>
+</table>
+<br/><br/>
 <p><b>File Creation Support:</b><br>
 <ul>
   <li><b>Python Files:</b> __init__.py, __manifest__.py, Odoo Models, Controllers</li>
@@ -734,6 +777,8 @@ def _onchange_field_name(self):
 - CSV (.csv): Security and data files
 </p>
 
+
+
 <p><b>Compatibility:</b><br>
 - PyCharm 2023.2+ (Community & Professional)<br>
 - Odoo versions 12 to 17
@@ -760,6 +805,75 @@ If you experience issues with suggestions or inspections, try restarting the IDE
 <p><i>Built with ❤️ by <a href="https://www.cybrosys.com" target="_blank">Cybrosys Technologies</a></i></p>
 ]]></description>
 
+    <change-notes>
+        <![CDATA[
+  <ul>
+    <li>
+      <b>Inspection Control</b>: You can now enable or disable individual inspections for Odoo standards.
+      To configure inspection settings, navigate to:
+      <i>Settings → Editor → Inspections → Cybrosys Assista</i>. The following inspection options are available:
+      <ul>
+        <li><b>Assista Py-Inspection</b> – Enables/disables Python standard inspections.</li>
+        <li><b>Assista XML-Inspection</b> – Enables/disables XML standard inspections.</li>
+        <li><b>Assista CSV-Inspection</b> – Enables/disables CSV standard inspections.</li>
+      </ul>
+    </li>
+    <li><b>New Icon Pack</b>: Added custom icons in suggestion popups to enhance visual clarity and improve the developer experience.</li>
+    <li><b>Keymap Support for Module Creation</b>: Use shortcuts to launch the module creator directly—no need to navigate menus.
+        <br/><br/>
+        <p><b>Available Shortcuts:</b></p>
+        <table border="1" cellspacing="0" cellpadding="6">
+          <thead>
+            <tr>
+              <th>Action Name</th>
+              <th>Default Shortcut</th>
+              <th>Mac OS X Shortcut</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Create Basic Module</td>
+              <td>Ctrl + Shift + B</td>
+              <td>⌘ + Shift + B</td>
+            </tr>
+            <tr>
+              <td>Create Advanced Module</td>
+              <td>Ctrl + Shift + D</td>
+              <td>⌘ + Shift + D</td>
+            </tr>
+            <tr>
+              <td>Create Website Theme Module</td>
+              <td>Ctrl + Shift + W</td>
+              <td>⌘ + Shift + W</td>
+            </tr>
+            <tr>
+              <td>Create Owl Basic Module</td>
+              <td>Ctrl + Shift + O</td>
+              <td>⌘ + Shift + O</td>
+            </tr>
+            <tr>
+              <td>Create Owl Advanced Module</td>
+              <td>Ctrl + Shift + L</td>
+              <td>⌘ + Shift + L</td>
+            </tr>
+            <tr>
+              <td>Create Systray Icon Module</td>
+              <td>Ctrl + Shift + S</td>
+              <td>⌘ + Shift + S</td>
+            </tr>
+          </tbody>
+        </table>
+        <br/>
+    </li>
+    <li><b>Bug Fixes</b>: General stability improvements and minor issue resolutions.</li>
+  </ul>
+
+  For more information, visit
+  <a href="https://assista.cybrosys.com/pycharm-plugin/" target="_blank">https://assista.cybrosys.com/pycharm-plugin</a>.
+  ]]>
+    </change-notes>
+
+
 
 
 
@@ -784,14 +898,14 @@ If you experience issues with suggestions or inspections, try restarting the IDE
         <projectService serviceImplementation="completion.OdooModelProjectService"/>
 
         <localInspection language="XML" implementationClass="standards.OdooXmlInspection"
-                         displayName="XML" groupBundle="messages.InspectionsBundle" enabledByDefault="true"
-                         groupKey="group.names.probable.bugs" level="WARNING"/>
+                         displayName="Assista XML-Inspection" groupBundle="messages.InspectionsBundle" enabledByDefault="true"
+                         groupKey="group.names.cybro.assista" level="WARNING"/>
         <localInspection language="Python" implementationClass="standards.OdooPythonInspection"
-                         displayName="Python" groupBundle="messages.InspectionsBundle" enabledByDefault="true"
-                         groupKey="group.names.probable.bugs" level="WARNING"/>
+                         displayName="Assista Py-Inspection" groupBundle="messages.InspectionsBundle" enabledByDefault="true"
+                         groupKey="group.names.cybro.assista" level="WARNING"/>
         <localInspection implementationClass="standards.OdooCSVInspection"
-                         displayName="Python" groupBundle="messages.InspectionsBundle" enabledByDefault="true"
-                         groupKey="group.names.probable.bugs" level="WARNING" language=""/>
+                         displayName="Assista CSV-Inspection" groupBundle="messages.InspectionsBundle" enabledByDefault="true"
+                         groupKey="group.names.cybro.assista" level="WARNING" language=""/>
         <fileBasedIndex implementation="indexing.OdooModelIndex"/>
         <fileBasedIndex implementation="indexing.OdooModelFieldIndex"/>
         <fileBasedIndex implementation="indexing.CssClassIndex"/>
@@ -808,32 +922,50 @@ If you experience issues with suggestions or inspections, try restarting the IDE
             <action id="Odoo.CreateBasicModule"
                     class="actions.CreateBasicModuleAction"
                     text="Create Basic Module"
-                    description="Create a basic Odoo module"/>
+                    description="Create a basic Odoo module">
+                <keyboard-shortcut keymap="$default" first-keystroke="ctrl shift B"/>
+                <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta shift B"/>
+            </action>
 
             <action id="Odoo.CreateAdvancedModule"
                     class="actions.CreateAdvancedModuleAction"
                     text="Create Advanced Module"
-                    description="Create an advanced Odoo module"/>
+                    description="Create an advanced Odoo module">
+                <keyboard-shortcut keymap="$default" first-keystroke="ctrl shift D"/>
+                <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta shift D"/>
+            </action>
 
             <action id="Odoo.CreateWebsiteThemeModule"
                     class="actions.CreateWebsiteThemeModuleAction"
                     text="Create Website Theme Module"
-                    description="Create an Website Theme module"/>
+                    description="Create an Website Theme module">
+                <keyboard-shortcut keymap="$default" first-keystroke="ctrl shift W"/>
+                <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta shift W"/>
+            </action>
 
             <action id="Odoo.CreateOwlBasicModule"
                     class="actions.CreateBasicOwlModuleAction"
                     text="Create Owl basic Module"
-                    description="Create an basic Owl module"/>
+                    description="Create an basic Owl module">
+                <keyboard-shortcut keymap="$default" first-keystroke="ctrl shift O"/>
+                <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta shift O"/>
+            </action>
 
             <action id="Odoo.CreateOwlAdvanceModule"
                     class="actions.CreateAdvanceOwlModuleAction"
                     text="Create Owl Advance Module"
-                    description="Create an Advance Owl module"/>
+                    description="Create an Advance Owl module">
+                <keyboard-shortcut keymap="$default" first-keystroke="ctrl shift L"/>
+                <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta shift L"/>
+            </action>
 
             <action id="Odoo.CreateSystrayIconModule"
                     class="actions.CreateSystrayIconModuleAction"
                     text="Create Systray Icon Module"
-                    description="Create an Systray Icon module"/>
+                    description="Create an Systray Icon module">
+                <keyboard-shortcut keymap="$default" first-keystroke="ctrl shift S"/>
+                <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta shift S"/>
+            </action>
         </group>
     </actions>
 </idea-plugin>
